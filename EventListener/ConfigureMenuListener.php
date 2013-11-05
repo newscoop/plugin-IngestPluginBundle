@@ -6,7 +6,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-namespace Newscoop\ExamplePluginBundle\EventListener;
+namespace Newscoop\IngestPluginBundle\EventListener;
 
 use Newscoop\NewscoopBundle\Event\ConfigureMenuEvent;
 
@@ -20,7 +20,7 @@ class ConfigureMenuListener
         $menu = $event->getMenu();
 
         $menu[getGS('Plugins')]->addChild(
-        	'Ingest Plugin',
+        	'Ingest Manager',
         	array('uri' => $event->getRouter()->generate('newscoop_ingestplugin_default_admin'))
         );
     }
