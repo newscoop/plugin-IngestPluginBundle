@@ -1,0 +1,23 @@
+services:
+    newscoop_ingest_plugin.lifecyclesubscriber:
+        class: Newscoop\IngestPluginBundle\EventListener\LifecycleSubscriber
+        arguments:
+            - @em
+        tags:
+            - { name: kernel.event_subscriber}
+
+    newscoop_ingest_plugin.configure_menu_listener:
+        class: Newscoop\IngestPluginBundle\EventListener\ConfigureMenuListener
+        tags:
+          - { name: kernel.event_listener, event: newscoop_newscoop.menu_configure, method: onMenuConfigure }
+
+    newscoop_ingest_plugin.hooks.listener:
+        class:     "Newscoop\IngestPluginBundle\EventListener\HooksListener"
+        arguments: ["@service_container"]
+        tags:
+          - { name: kernel.event_listener, event: newscoop_admin.interface.article.edit.sidebar, method: sidebar }
+
+    # Publisher service
+    #  provides hooks for providers
+
+    # Ingest service

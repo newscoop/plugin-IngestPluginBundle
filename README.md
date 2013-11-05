@@ -1,0 +1,4 @@
+IngestPluginBundle
+===================
+
+Newscoop IngestPluginBundle
