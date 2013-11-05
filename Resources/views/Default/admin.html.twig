@@ -3,4 +3,14 @@
 {% block admin_title %}Ingest interface{% endblock %}
 {% block admin_page_title_content %}Ingest Plugin{% endblock %}
 
-{% block admin_content %}Functionality... wip.{% endblock %}
+{% block admin_content %}
+
+<div class="content">
+    <ul>
+        {% for feed in feeds %}
+        <li id="feed_{{ feed.id }}">{{ feed.title }}</li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}

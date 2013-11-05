@@ -5,16 +5,16 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-namespace Newscoop\IngestPluginBundle\Entity\Ingest\Feed;
+namespace Newscoop\IngestPluginBundle\Entity\Feed;
 
 use Doctrine\ORM\Mapping AS ORM;
-use Newscoop\Entity\Ingest\Feed;
-use Newscoop\Ingest\Parser;
+use Newscoop\IngestPluginBundle\Entity\Feed;
+use Newscoop\IngestPluginBundle\Parser;
 
 
 // TODO: Think about what is really needed here... check with NewsML
 /**
- * @ORM\Entity(repositoryClass="Newscoop\IngestPluginBundle\Entity\Repository\Ingest\Feed\EntryRepository")
+ * @ORM\Entity(repositoryClass="Newscoop\IngestPluginBundle\Entity\Repository\Ingest\EntryRepository")
  * @ORM\Table(name="plugin_ingest_feed_entry")
  */
 class Entry
@@ -27,8 +27,8 @@ class Entry
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Newscoop\IngestPluginBundle\Entity\Ingest\Feed", inversedBy="entries")
-     * @var Newscoop\IngestPluginBundle\Entity\Ingest\Feed
+     * @ORM\ManyToOne(targetEntity="Newscoop\IngestPluginBundle\Entity\Feed", inversedBy="entries")
+     * @var Newscoop\IngestPluginBundle\Entity\Feed
      */
     private $feed;
 
@@ -162,7 +162,7 @@ class Entry
      * Set published
      *
      * @param DateTime $published
-     * @return Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry
+     * @return Newscoop\IngestPluginBundle\Entity\Feed\Entry
      */
     public function setPublished(\DateTime $published)
     {
@@ -223,7 +223,7 @@ class Entry
     /**
      * Get feed
      *
-     * @return Newscoop\IngestPluginBundle\Entity\Ingest\Feed
+     * @return Newscoop\IngestPluginBundle\Ingest\Feed
      */
     public function getFeed()
     {
@@ -233,8 +233,8 @@ class Entry
     /**
      * Set feed
      *
-     * @param Newscoop\IngestPluginBundle\Entity\Ingest\Feed $feed
-     * @return Newscoop\IngestPluginBundle\Entity\Ingest\Feed
+     * @param Newscoop\IngestPluginBundle\Ingest\Feed $feed
+     * @return Newscoop\IngestPluginBundle\Ingest\Feed
      */
     public function setFeed(Feed $feed)
     {
@@ -446,7 +446,7 @@ class Entry
      * Set article number
      *
      * @param int $articleNumber
-     * @return Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry
+     * @return Newscoop\IngestPluginBundle\Entity\Feed\Entry
      */
     public function setArticleNumber($articleNumber)
     {
@@ -467,8 +467,8 @@ class Entry
     /**
      * Update entry
      *
-     * @param Newscoop\IngestPluginBundle\Ingest\Parser $parser
-     * @return Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry
+     * @param Newscoop\IngestPluginBundle\Parser $parser
+     * @return Newscoop\IngestPluginBundle\Entity\Feed\Entry
      */
     public function update(Parser $parser)
     {
@@ -488,7 +488,7 @@ class Entry
      * Entry factory
      *
      * @param Newscoop\IngestPluginBundle\Ingest\Parser $parser
-     * @return Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry
+     * @return Newscoop\IngestPluginBundle\Entity\Feed\Entry
      */
     public static function create(Parser $parser)
     {
@@ -509,7 +509,7 @@ class Entry
     /**
      * Set entry attributes
      *
-     * @param Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry $entry
+     * @param Newscoop\IngestPluginBundle\Entity\Ingest\Entry $entry
      * @param Newscoop\IngestPluginBundle\Ingest\Parser $parser
      */
     private static function setAttributes(self $entry, Parser $parser)
@@ -533,7 +533,7 @@ class Entry
     /**
      * Set entry images
      *
-     * @param Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry $entry
+     * @param Newscoop\IngestPluginBundle\Entity\Ingest\Entry $entry
      * @param Newscoop\IngestPluginBundle\Ingest\Parser $parser
      */
     private static function setImages(self $entry, Parser $parser)

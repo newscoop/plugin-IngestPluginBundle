@@ -19,6 +19,14 @@ class DefaultController extends Controller
      */
     public function adminAction(Request $request)
     {
-    	return array();
+        $em = $this->container->get('em');
+        $feeds = $em->getRepository('Newscoop\IngestPluginBundle\Entity\Feed')
+            ->createQueryBuilder('p')
+            ->getQuery()
+            ->getResult();
+
+        return array(
+            'feeds' => $feeds
+        );
     }
 }

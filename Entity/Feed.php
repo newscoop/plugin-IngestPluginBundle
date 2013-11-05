@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-namespace Newscoop\IngestPluginBundle\Entity\Ingest;
+namespace Newscoop\IngestPluginBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
@@ -42,6 +42,12 @@ class Feed
     private $mode;
 
     /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    private $parser;
+
+    /**
      * @param string $title
      */
     public function __construct($title)
@@ -74,7 +80,7 @@ class Feed
      * Set mode (manual|automatic)
      *
      * @param string $mode
-     * @return Newscoop\IngestPluginBundle\Entity\Ingest\Feed
+     * @return Newscoop\IngestPluginBundle\Entity\Feed
      */
     public function setMode($mode)
     {
@@ -101,7 +107,7 @@ class Feed
      * Set updated
      *
      * @param DateTime $updated
-     * @return Newscoop\IngestPluginBundle\Entity\Ingest\Feed
+     * @return Newscoop\IngestPluginBundle\Entity\Feed
      */
     public function setUpdated(\DateTime $updated)
     {

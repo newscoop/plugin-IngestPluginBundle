@@ -5,13 +5,13 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-namespace Newscoop\IngestPluginBundle\Entity\Repository\Ingest\Feed;
+namespace Newscoop\IngestPluginBundle\Entity\Repository\Feed;
 
 use DateTime;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Ingest/Feed/Entry repository
+ * Feed/Entry repository
  */
 class EntryRepository extends EntityRepository
 {
