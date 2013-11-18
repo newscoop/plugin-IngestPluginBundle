@@ -1,0 +1,15 @@
+{% extends 'NewscoopIngestPluginBundle:Admin:index.html.twig' %}
+
+{% block admin_content %}
+    {% set parsersActive = 'active' %}
+
+    {{ parent() }}
+
+    {% if form %}
+        {{ form(form) }}
+    {% else %}
+        <p>{{ 'plugin.ingest.parsers.nonew'|trans }}</p>
+    {% endif %}
+
+
+{% endblock %}

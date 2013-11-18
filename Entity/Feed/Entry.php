@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping AS ORM;
 use Newscoop\IngestPluginBundle\Entity\Feed;
 use Newscoop\IngestPluginBundle\Parser;
 
-
 // TODO: Think about what is really needed here... check with NewsML
 /**
  * @ORM\Entity(repositoryClass="Newscoop\IngestPluginBundle\Entity\Repository\Ingest\EntryRepository")
@@ -28,6 +27,7 @@ class Entry
 
     /**
      * @ORM\ManyToOne(targetEntity="Newscoop\IngestPluginBundle\Entity\Feed", inversedBy="entries")
+     * @ORM\JoinColumn(name="feed_id", referencedColumnName="id")
      * @var Newscoop\IngestPluginBundle\Entity\Feed
      */
     private $feed;
@@ -162,7 +162,7 @@ class Entry
      * Set published
      *
      * @param DateTime $published
-     * @return Newscoop\IngestPluginBundle\Entity\Feed\Entry
+     * @return self
      */
     public function setPublished(\DateTime $published)
     {
@@ -234,9 +234,9 @@ class Entry
      * Set feed
      *
      * @param Newscoop\IngestPluginBundle\Ingest\Feed $feed
-     * @return Newscoop\IngestPluginBundle\Ingest\Feed
+     * @return self
      */
-    public function setFeed(Feed $feed)
+    public function setFeed(\Newscoop\IngestPluginBundle\Ingest\Feed $feed)
     {
         $this->feed = $feed;
         return $this;
@@ -468,9 +468,9 @@ class Entry
      * Update entry
      *
      * @param Newscoop\IngestPluginBundle\Parser $parser
-     * @return Newscoop\IngestPluginBundle\Entity\Feed\Entry
+     * @return self
      */
-    public function update(Parser $parser)
+    public function update(\Newscoop\IngestPluginBundle\Parser $parser)
     {
         $this->updated = $parser->getUpdated();
         $this->title = $parser->getTitle();
@@ -487,10 +487,10 @@ class Entry
     /**
      * Entry factory
      *
-     * @param Newscoop\IngestPluginBundle\Ingest\Parser $parser
+     * @param Newscoop\IngestPluginBundle\Parser $parser
      * @return Newscoop\IngestPluginBundle\Entity\Feed\Entry
      */
-    public static function create(Parser $parser)
+    public static function create(Newscoop\IngestPluginBundle\Parser $parser)
     {
         $entry = new self($parser->getTitle(), $parser->getContent());
         $entry->created = $parser->getCreated() ?: $entry->created;
@@ -533,8 +533,8 @@ class Entry
     /**
      * Set entry images
      *
-     * @param Newscoop\IngestPluginBundle\Entity\Ingest\Entry $entry
-     * @param Newscoop\IngestPluginBundle\Ingest\Parser $parser
+     * @param Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     * @param Newscoop\IngestPluginBundle\Parser $parser
      */
     private static function setImages(self $entry, Parser $parser)
     {

@@ -9,9 +9,11 @@ namespace Newscoop\IngestPluginBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
+use Newscoop\IngestPluginBundle\Entity\Feed\Entry;
+use Newscoop\IngestPluginBundle\Entity\Parser;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Newscoop\IngestPluginBundle\Entity\Repository\FeedRepository")
  * @ORM\Table(name="plugin_ingest_feed")
  */
 class Feed
@@ -27,7 +29,22 @@ class Feed
      * @ORM\Column(type="string")
      * @var string
      */
-    private $title;
+    private $name;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    private $url;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Newscoop\Entity\Section")
+     * @ORM\JoinTable(name="feeds_sections",
+     *      joinColumns={@ORM\JoinColumn(name="feed_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="section_id", referencedColumnName="id", unique=true)}
+     *      )
+     **/
+    private $sections;
 
     /**
      * @ORM\Column(type="datetime", nullable=True)
@@ -42,18 +59,27 @@ class Feed
     private $mode;
 
     /**
-     * @ORM\Column(type="string")
-     * @var string
+     * @ORM\ManyToOne(targetEntity="Newscoop\IngestPluginBundle\Entity\Parser", inversedBy="feeds")
+     * @ORM\JoinColumn(name="parser_id", referencedColumnName="id")
+     * @var Newscoop\IngestPluginBundle\Entity\Parser
      */
     private $parser;
 
     /**
+     * @ORM\OneToMany(targetEntity="Newscoop\IngestPluginBundle\Entity\Feed\Entry", mappedBy="feed")
+     * @var Doctrine\Common\Collections\ArrayCollection
+     */
+    private $entries;
+
+    /**
      * @param string $title
      */
-    public function __construct($title)
+    public function __construct($name='New Feed')
     {
-        $this->title = $title;
+        $this->name = $name;
         $this->mode = "manual";
+        $this->entries = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     /**
@@ -67,20 +93,98 @@ class Feed
     }
 
     /**
-     * Get title
+     * Get name
      *
      * @return string
      */
-    public function getTitle()
+    public function getName()
     {
         return $this->title;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Getter for url
+     *
+     * @return mixed
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Setter for url
+     *
+     * @param mixed $url Value to set
+     * @return self
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * Getter for sections
+     *
+     * @return mixed
+     */
+    public function getSections()
+    {
+        return $this->sections;
+    }
+
+    /**
+     * Setter for sections
+     *
+     * @param mixed sections Value to set
+     * @return self
+     */
+    public function setSections(ArrayCollection $sections)
+    {
+        $this->sections = $sections;
+        return $this;
+    }
+
+
+    /**
+     * Set updated
+     *
+     * @param DateTime $updated
+     * @return self
+     */
+    public function setUpdated(\DateTime $updated)
+    {
+        $this->updated = $updated;
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 
     /**
      * Set mode (manual|automatic)
      *
      * @param string $mode
-     * @return Newscoop\IngestPluginBundle\Entity\Feed
+     * @return self
      */
     public function setMode($mode)
     {
@@ -104,24 +208,47 @@ class Feed
     }
 
     /**
-     * Set updated
+     * Getter for parser
      *
-     * @param DateTime $updated
-     * @return Newscoop\IngestPluginBundle\Entity\Feed
+     * @return Newscoop\IngestPluginBundle\Entity\Parser
      */
-    public function setUpdated(\DateTime $updated)
+    public function getParser()
     {
-        $this->updated = $updated;
+        return $this->parser;
+    }
+
+    /**
+     * Setter for parser
+     *
+     * @param Newscoop\IngestPluginBundle\Entity\Parser $parser Value to set
+     * @return self
+     */
+    public function setParser(\Newscoop\IngestPluginBundle\Entity\Parser $parser)
+    {
+        $this->parser = $parser;
         return $this;
     }
 
     /**
-     * Get updated
+     * Getter for entries
      *
-     * @return DateTime
+     * @return Doctrine\Common\Collections\ArrayCollection
      */
-    public function getUpdated()
+    public function getEntries()
     {
-        return $this->updated;
+        return $this->entries;
     }
+
+    /**
+     * Setter for entries
+     *
+     * @param Doctrine\Common\Collections\ArrayCollection $entries Value to set
+     * @return self
+     */
+    public function setEntries(ArrayCollection $entries)
+    {
+        $this->entries = $entries;
+        return $this;
+    }
+
 }

@@ -9,15 +9,14 @@ services:
     newscoop_ingest_plugin.configure_menu_listener:
         class: Newscoop\IngestPluginBundle\EventListener\ConfigureMenuListener
         tags:
-          - { name: kernel.event_listener, event: newscoop_newscoop.menu_configure, method: onMenuConfigure }
+            - { name: kernel.event_listener, event: newscoop_newscoop.menu_configure, method: onMenuConfigure }
+        arguments:
+            - @translator
 
-    newscoop_ingest_plugin.hooks.listener:
-        class:     "Newscoop\IngestPluginBundle\EventListener\HooksListener"
-        arguments: ["@service_container"]
-        tags:
-          - { name: kernel.event_listener, event: newscoop_admin.interface.article.edit.sidebar, method: sidebar }
+    ingest.ingest:
+        class:      Newscoop\IngestPluginBundle\Services\IngestService
+        arguments:  ["@em"]
 
-    # Publisher service
-    #  provides hooks for providers
-
-    # Ingest service
+    ingest.publisher:
+        class:      Newscoop\IngestPluginBundle\Services\PublishService
+        arguments:  ["@em"]

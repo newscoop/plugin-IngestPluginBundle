@@ -9,9 +9,20 @@
 namespace Newscoop\IngestPluginBundle\EventListener;
 
 use Newscoop\NewscoopBundle\Event\ConfigureMenuEvent;
+use Symfony\Component\Translation\Translator;
 
 class ConfigureMenuListener
 {
+    private $translator;
+
+    /**
+     * @param Translator $translator
+     */
+    public function __construct(Translator $translator)
+    {
+        $this->translator = $translator;
+    }
+
     /**
      * @param ConfigureMenuEvent $event
      */
@@ -19,9 +30,9 @@ class ConfigureMenuListener
     {
         $menu = $event->getMenu();
 
-        $menu[getGS('Plugins')]->addChild(
-        	'Ingest Manager',
-        	array('uri' => $event->getRouter()->generate('newscoop_ingestplugin_default_admin'))
+        $menu[$this->translator->trans('Plugins')]->addChild(
+            $this->translator->trans('plugin.ingest.menu'),
+            array('uri' => $event->getRouter()->generate('newscoop_ingestplugin_admin_content'))
         );
     }
 }

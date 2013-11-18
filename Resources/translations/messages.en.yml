@@ -1,0 +1,43 @@
+Plugins: "Plugins"
+plugin:
+  ingest:
+    title: "Ingest manager"
+    header: "Ingest manager"
+    menu: "Ingest manager"
+    tabs:
+      content: "Content"
+      feeds: "Feeds"
+      parsers: "Parsers"
+    feeds:
+      none: "No feeds found"
+      add: "Add feed"
+      edit: "Edit feed"
+      delete: "Delete feed"
+      name: "Name"
+      url: "URL"
+      mode:
+        name: "Publication mode"
+        auto: "Automatic"
+        manual: "Manual"
+      category: "Category"
+      updated: "Last updated"
+      notupdated: "Not yet updated"
+      parser: "Parser"
+      nosections: "No sections"
+    parsers:
+      none: "No parsers found"
+      name: "Name"
+      description: "Description"
+      domain: "Domain"
+      feeds: "In use"
+      add: "Add parser"
+      delete: "Delete parser"
+      nonew: "There are no new parsers. To install a parser copy the file into the Parsers directory."
+      install: "Install"
+    btn:
+      add: "Add feed"
+      delete: "Delete"
+      cancel: "Cancel"
+      deleteall: "Delete all"
+      remove: "Remove"
+      save: "Save"

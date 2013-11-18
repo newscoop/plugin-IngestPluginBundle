@@ -1,0 +1,48 @@
+{% extends 'NewscoopIngestPluginBundle:Admin:index.html.twig' %}
+
+{% block admin_content %}
+    {% set parsersActive = 'active' %}
+
+    {{ parent() }}
+
+    <p class="buttonbar">
+        <a href="{{ path('newscoop_ingestplugin_admin_parseradd') }}" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'plugin.ingest.parsers.add'|trans }}
+        </a>
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'plugin.ingest.parsers.name'|trans }}</th>
+                <th>{{ 'plugin.ingest.parsers.description'|trans }}</th>
+                <th>{{ 'plugin.ingest.parsers.domain'|trans }}</th>
+                <th>{{ 'plugin.ingest.parsers.feeds'|trans }}</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if parsers %}
+                {% for parser in parsers %}
+                    <tr id="parser_{{ parser.id }}">
+                        <td>{{ parser.name }}</td>
+                        <td>{{ parser.description }}</td>
+                        <td>{{ parser.domain }}</td>
+                        <td>{{ parser.feeds|length }}</td>
+                        <td>
+                            <a href="{{ path('newscoop_ingestplugin_admin_parserdelete', {'id': parser.id}) }}" class="btn btn-default confirm-delete" title="{{ 'plugin.ingest.parsers.delete'|trans|e }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                    <td colspan="5">{{ 'plugin.ingest.parsers.none'|trans }}.</td>
+                <tr>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

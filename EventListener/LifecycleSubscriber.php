@@ -27,6 +27,7 @@ class LifecycleSubscriber implements EventSubscriberInterface
         $tool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
         $tool->updateSchema($this->getClasses(), true);
 
+
         // Generate proxies for entities
         $this->em->getProxyFactory()->generateProxyClasses($this->getClasses(), __DIR__ . '/../../../../library/Proxy');
     }
@@ -55,9 +56,12 @@ class LifecycleSubscriber implements EventSubscriberInterface
         );
     }
 
-    private function getClasses(){
+    private function getClasses()
+    {
         return array(
-          $this->em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Example'),
+            $this->em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed'),
+            $this->em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed\Entry'),
+            $this->em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Parser'),
         );
     }
 }

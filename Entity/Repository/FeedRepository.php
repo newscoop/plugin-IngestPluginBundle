@@ -7,7 +7,6 @@
 
 namespace Newscoop\IngestPluginBundle\Entity\Repository;
 
-use DateTime;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -15,10 +14,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class FeedRepository extends EntityRepository
 {
-    public function getFeeds() {
-
+    public function getFeeds()
+    {
         $query = $this->getEntityManager()
-            ->createQuert('SELECT f.id, f.title FROM '.$this->getEntityName().' AS f');
+            ->createQuert('SELECT f.id, f.name FROM '.$this->getEntityName().' AS f');
         $feeds = $query->getResult();
 
         if (empty($feeds)) {

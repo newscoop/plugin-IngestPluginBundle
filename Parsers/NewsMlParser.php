@@ -5,7 +5,7 @@
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
-namespace Newscoop\Ingest\Parser;
+namespace Newscoop\IngestPluginBundle\Parsers;
 
 use Newscoop\Ingest\Parser;
 
@@ -14,6 +14,27 @@ use Newscoop\Ingest\Parser;
  */
 class NewsMlParser implements Parser
 {
+    /**
+     * Parser name
+     *
+     * @var string
+     */
+    public static $parserName = 'NewsML';
+
+    /**
+     * Parser description
+     *
+     * @var string
+     */
+    public static $parserDescription = 'This parser can be used for NewsML 1.0 content.';
+
+    /**
+     * Parser domain, can use basic regexp for matching
+     *
+     * @var string
+     */
+    public static $parserDomain = '*';
+
     const MEDIA_PRODUCT = 'Photo Dienst D';
 
     /** @var SimpleXMLElement */
@@ -131,7 +152,7 @@ class NewsMlParser implements Parser
     }
 
     /**
-     * Test if is image 
+     * Test if is image
      *
      * @return bool
      */

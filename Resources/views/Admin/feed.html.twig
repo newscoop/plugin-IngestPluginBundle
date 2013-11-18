@@ -1,0 +1,63 @@
+{% extends 'NewscoopIngestPluginBundle:Admin:index.html.twig' %}
+
+{% block admin_content %}
+    {% set feedsActive = 'active' %}
+
+    {{ parent() }}
+
+    <p class="buttonbar">
+        <a href="{{ path('newscoop_ingestplugin_admin_feedadd') }}" class="btn btn-default">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'plugin.ingest.feeds.add'|trans }}
+        </a>
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'plugin.ingest.feeds.name'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.url'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.mode.name'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.category'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.updated'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.parser'|trans }}</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if feeds %}
+                {% for feed in feeds %}
+                    <tr id="feed_{{ feed.id }}">
+                        <td>{{ feed.name }}</td>
+                        <td>{{ feed.url }}</td>
+                        <td>{{ feed.mode == 'auto' ? 'plugin.ingest.feeds.mode.auto'|trans : 'plugin.ingest.feeds.mode.manual'|trans }}</td>
+                        <td>
+                            {% if feed.sections %}
+                                {% for section in feed.sections %}
+                                    {{ section.name }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {{ 'plugin.ingest.feeds.nosections'|trans }}
+                            {% endif %}
+                        </td>
+                        <td>{{ feed.updated ? feed.updated : 'plugin.ingest.feeds.notupdated'|trans }}</td>
+                        <td>{{ feed.parser.name }}</td>
+                        <td>
+                            <a href="{{ path('newscoop_ingestplugin_admin_feededit', {'id': feed.id}) }}" class="btn btn-default" title="{{ 'plugin.ingest.feeds.edit'|trans|e }}">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a href="{{ path('newscoop_ingestplugin_admin_feeddelete', {'id': feed.id}) }}" class="btn btn-default confirm-delete" title="{{ 'plugin.ingest.feeds.delete'|trans|e }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                    <td colspan="7">{{ 'plugin.ingest.feeds.none'|trans }}.</td>
+                <tr>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}
