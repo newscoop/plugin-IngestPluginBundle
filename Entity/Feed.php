@@ -1,8 +1,9 @@
 <?php
 /**
- * @package Newscoop
- * @copyright 2011 Sourcefabric o.p.s.
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ * @package   Newscoop\IngestPluginBundle
+ * @author    Mischa Gorinskat <mischa.gorinskat@sourcefabric.org>
+ * @copyright 2013 Sourcefabric o.p.s.
+ * @license   http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
 namespace Newscoop\IngestPluginBundle\Entity;
@@ -13,6 +14,8 @@ use Newscoop\IngestPluginBundle\Entity\Feed\Entry;
 use Newscoop\IngestPluginBundle\Entity\Parser;
 
 /**
+ * Feed entity
+ *
  * @ORM\Entity(repositoryClass="Newscoop\IngestPluginBundle\Entity\Repository\FeedRepository")
  * @ORM\Table(name="plugin_ingest_feed")
  */
@@ -72,7 +75,9 @@ class Feed
     private $entries;
 
     /**
-     * @param string $title
+     * Initialize object
+     *
+     * @param string $name
      */
     public function __construct($name='New Feed')
     {
@@ -99,17 +104,20 @@ class Feed
      */
     public function getName()
     {
-        return $this->title;
+        return $this->name;
     }
 
     /**
      * Set name
      *
      * @param string $name
+     *
+     * @return self
      */
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -127,11 +135,13 @@ class Feed
      * Setter for url
      *
      * @param mixed $url Value to set
+     *
      * @return self
      */
     public function setUrl($url)
     {
         $this->url = $url;
+
         return $this;
     }
 
@@ -148,12 +158,14 @@ class Feed
     /**
      * Setter for sections
      *
-     * @param mixed sections Value to set
+     * @param mixed $sections Value to set
+     *
      * @return self
      */
     public function setSections(ArrayCollection $sections)
     {
         $this->sections = $sections;
+
         return $this;
     }
 
@@ -161,12 +173,14 @@ class Feed
     /**
      * Set updated
      *
-     * @param DateTime $updated
+     * @param \DateTime $updated
+     *
      * @return self
      */
     public function setUpdated(\DateTime $updated)
     {
         $this->updated = $updated;
+
         return $this;
     }
 
@@ -184,11 +198,13 @@ class Feed
      * Set mode (manual|automatic)
      *
      * @param string $mode
+     *
      * @return self
      */
     public function setMode($mode)
     {
         $this->mode = $mode;
+
         return $this;
     }
 
@@ -202,6 +218,11 @@ class Feed
         return (string) $this->mode;
     }
 
+    /**
+     * Check if mode it automatic
+     *
+     * @return boolean
+     */
     public function isAutoMode()
     {
         return (bool) ($this->getMode() === "auto");
@@ -221,11 +242,13 @@ class Feed
      * Setter for parser
      *
      * @param Newscoop\IngestPluginBundle\Entity\Parser $parser Value to set
+     *
      * @return self
      */
     public function setParser(\Newscoop\IngestPluginBundle\Entity\Parser $parser)
     {
         $this->parser = $parser;
+
         return $this;
     }
 
@@ -243,12 +266,13 @@ class Feed
      * Setter for entries
      *
      * @param Doctrine\Common\Collections\ArrayCollection $entries Value to set
+     *
      * @return self
      */
     public function setEntries(ArrayCollection $entries)
     {
         $this->entries = $entries;
+
         return $this;
     }
-
 }

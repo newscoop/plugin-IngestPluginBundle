@@ -1,247 +1,81 @@
 <?php
 /**
- * @package Newscoop
- * @copyright 2011 Sourcefabric o.p.s.
- * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ * @category  IngestPlugin
+ * @package   Newscoop\IngestPluginBundle
+ * @author    Mischa Gorinskat <mischa.gorinskat@sourcefabric.org>
+ * @copyright 2013 Sourcefabric o.p.s.
+ * @license   http://www.gnu.org/licenses/gpl-3.0.txt  GNU GENERAL PUBLIC LICENSE Version 3
  */
 
 namespace Newscoop\IngestPluginBundle\Parsers;
 
-use Newscoop\IngestPluginBundle\Parsers;
+use Newscoop\IngestPluginBundle\Parsers,
+    SimplePie;
 
 /**
- * NewsML parser
+ * Parses RSS (all versions) and ATOM feeds.
  */
-class RFCRSSParser implements Parser
+class RFCRSSParser extends Parser
 {
     /**
      * Parser name
      *
      * @var string
      */
-    public $parserName = 'RSS';
+    public static $parserName = 'RSS';
 
     /**
      * Parser description
      *
      * @var string
      */
-    public $parserDescription = 'This parser can be used for RSS 1.0, RSS 2.0 and Atom';
+    public static $parserDescription = 'This parser can be used for RSS 1.0, RSS 2.0 and Atom';
 
     /**
      * Parser domain, can use basic regexp for matching
      *
      * @var string
      */
-    public $parserDomain = '*';
-
-    /** @var SimpleXMLElement */
-    private $xml;
-
-    /** @var string */
-    private $dir;
+    public static $parserDomain = '*';
 
     /**
-     * @param string $content
-     */
-    public function __construct($content)
-    {
-        $this->xml = simplexml_load_file($content);
-        $this->dir = dirname($content);
-    }
-
-    /**
-     * Get title
+     * Simplepie_item object which represents entry in a feed
      *
-     * @return string
+     * @var \Simplepie_item
      */
-    public function getTitle()
-    {
-        return $this->getString($this->xml->xpath('//HeadLine'));
-    }
+    private $entry;
 
     /**
-     * Get content
+     * Get all feed entries as a parser instance
      *
-     * @return string
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed $feedEntity Feed entity
+     *
+     * @return array Array should contain feed entries
      */
-    public function getContent()
+    public static function getStories(\Newscoop\IngestPluginBundle\Entity\Feed $feedEntity)
     {
-        $content = array();
-        foreach ($this->xml->xpath('//body.content/*[not(@lede)]') as $element) {
-            $content[] = $element->asXML();
+        $feed = new SimplePie();
+        $feed->set_feed_url($feedEntity->getUrl());
+
+        $feed->init();
+
+        $items = $feed->get_items();
+        $entries = array();
+        foreach ($items as $item) {
+            $entries[] = new RFCRSSParser($item);
         }
 
-        return str_replace('hl2>', 'h2>', implode("\n", $content));
+        return $entries;
     }
 
     /**
-     * Get created
+     * Initialize object with simpe pie entry
      *
-     * @return DateTime
+     * @param \SimplePie_Item $feedEntry Feed entry
      */
-    public function getCreated()
+    public function __construct(\SimplePie_Item $feedEntry)
     {
-        return new \DateTime($this->getString($this->xml->xpath('//FirstCreated')));
-    }
-
-    /**
-     * Get updated
-     *
-     * @return DateTime
-     */
-    public function getUpdated()
-    {
-        return new \DateTime($this->getString($this->xml->xpath('//ThisRevisionCreated')));
-    }
-
-    /**
-     * Get priority
-     *
-     * @return int
-     */
-    public function getPriority()
-    {
-        $priority = array_shift($this->xml->xpath('//Priority'));
-        return (int) $priority['FormalName'];
-    }
-
-    /**
-     * Get service
-     *
-     * @return string
-     */
-    public function getService()
-    {
-        $service = array_shift($this->xml->xpath('//NewsService'));
-        return (string) $service['FormalName'];
-    }
-
-    /**
-     * Get summary
-     *
-     * @return string
-     */
-    public function getSummary()
-    {
-        return $this->getString($this->xml->xpath('//p[@lede="true"]'));
-    }
-
-    /**
-     * Get news product
-     *
-     * @return string
-     */
-    public function getProduct()
-    {
-        $product = array_shift($this->xml->xpath('//NewsProduct'));
-        return (string) $product['FormalName'];
-    }
-
-    /**
-     * Get news item type
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        $type_info = array_shift($this->xml->xpath('//NewsItemType'));
-        return (string) $type_info['FormalName'];
-    }
-
-    /**
-     * Test if is image
-     *
-     * @return bool
-     */
-    public function isImage()
-    {
-        return $this->getProduct() == self::MEDIA_PRODUCT;
-    }
-
-    /**
-     * Get images
-     *
-     * @return array
-     */
-    public function getImages()
-    {
-        $images = array();
-        foreach ($this->xml->xpath('//NewsManagement/AssociatedWith') as $assoc) {
-            list(,,,$dateId, $newsItemId) = explode(':', (string) $assoc['NewsItem']);
-            foreach (glob("{$this->dir}/{$dateId}*_{$newsItemId}.xml") as $imageNewsMl) {
-                $images[] = new self($imageNewsMl);
-            }
-        }
-
-        return $images;
-    }
-
-    /**
-     * Get status
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        $status = array_shift($this->xml->xpath('//Status'));
-        return (string) $status['FormalName'];
-    }
-
-    /**
-     * Get location
-     *
-     * @return string
-     */
-    public function getLocation()
-    {
-        return $this->getString($this->xml->xpath('//NewsLines/DateLine'));
-    }
-
-    /**
-     * Get list of authors
-     *
-     * @return array
-     */
-    public function getAuthors()
-    {
-        $authors = array();
-        foreach ($this->xml->xpath('//AdministrativeMetadata/Property[@FormalName="author"]') as $author) {
-            $authors[] = (string) $author['Value'];
-        }
-
-        return implode(', ', $authors);
-    }
-
-    /**
-     * Get provider
-     *
-     * @return string
-     */
-    public function getProvider()
-    {
-        $provider = array_shift($this->xml->xpath('//AdministrativeMetadata/Provider/Party'));
-        return (string) $provider['FormalName'];
-    }
-
-    /**
-     * Get provider id
-     *
-     * @return string
-     */
-    public function getProviderId()
-    {
-        return $this->getString($this->xml->xpath('//Identification/NewsIdentifier/ProviderId'));
-    }
-
-    /**
-     * Get date id
-     *
-     * @return string
-     */
-    public function getDateId()
-    {
-        return $this->getString($this->xml->xpath('//Identification/NewsIdentifier/DateId'));
+        $this->entry = $feedEntry;
     }
 
     /**
@@ -251,28 +85,7 @@ class RFCRSSParser implements Parser
      */
     public function getNewsItemId()
     {
-        return $this->getString($this->xml->xpath('//Identification/NewsIdentifier/NewsItemId'));
-    }
-
-    /**
-     * Get revision id
-     *
-     * @return int
-     */
-    public function getRevisionId()
-    {
-        return (int) $this->getString($this->xml->xpath('//Identification/NewsIdentifier/RevisionId'));
-    }
-
-    /**
-     * Get instruction
-     *
-     * @return string
-     */
-    public function getInstruction()
-    {
-        $instruction = array_shift($this->xml->xpath('//NewsManagement/Instruction'));
-        return (string) $instruction['FormalName'];
+        return $this->entry->get_id();
     }
 
     /**
@@ -282,30 +95,115 @@ class RFCRSSParser implements Parser
      */
     public function getLanguage()
     {
-        $language = array_shift($this->xml->xpath('//DescriptiveMetadata/Language'));
-        return strtolower($language['FormalName']);
+        $feed = $this->entry->get_feed();
+
+        return $feed->get_language();
     }
 
     /**
-     * Get subject
+     * Get title
      *
      * @return string
      */
-    public function getSubject()
+    public function getTitle()
     {
-        $subject = array_shift($this->xml->xpath('//DescriptiveMetadata/SubjectCode/Subject'));
-        return (string) $subject['FormalName'];
+        return $this->entry->get_title();
     }
 
     /**
-     * Get country
+     * Get content
      *
      * @return string
      */
-    public function getCountry()
+    public function getContent()
     {
-        $country = array_shift($this->xml->xpath('//DescriptiveMetadata/Location/Property[@FormalName="Country"]'));
-        return (string) $country['Value'];
+        return $this->entry->get_content(true);
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getSummary()
+    {
+        return $this->entry->get_description(true);
+    }
+
+    /**
+     * Get created
+     *
+     * @return DateTime
+     */
+    public function getCreated()
+    {
+        return new \DateTime($this->entry->get_date());
+    }
+
+    /**
+     * Get updated
+     *
+     * @return DateTime
+     */
+    public function getUpdated()
+    {
+        return new \DateTime($this->entry->get_updated_date());
+    }
+
+    /**
+     * Get categories as keywords
+     *
+     * @return array Each entry in the array should be a seperate keyword
+     */
+    public function getKeywords()
+    {
+        $return  = array();
+        $keywords = $this->entry->get_categories();
+        foreach ($keywords as $keyword) {
+            $return[] = $keyword->get_label();
+        }
+
+        return $return;
+    }
+
+    /**
+     * Get list of authors
+     *
+     * @return string|array
+     */
+    public function getAuthors()
+    {
+        $return  = array();
+        $authors = $this->entry->get_authors();
+        foreach ($authors as $author) {
+            $return[] = array(
+                'name' => $author->get_name(),
+                'email' => $author->get_email(),
+                'link' => $author->get_link(),
+            );
+        }
+
+        return $return;
+    }
+
+    /**
+     * Returns link to the Article
+     *
+     * @return string|null
+     */
+    public function getLink()
+    {
+        return $this->entry->get_permalink();
+    }
+
+    /**
+     * Get location
+     *
+     * @return array
+     */
+    public function getAttributeLocation()
+    {
+        return array('latitude' => $this->entry->get_latitude(), 'longitude' => $this->entry->get_longitude());
     }
 
     /**
@@ -313,82 +211,20 @@ class RFCRSSParser implements Parser
      *
      * @return string
      */
-    public function getSource()
+    public function getAttributeSource()
     {
-        $sources = array();
-        foreach ($this->xml->xpath('//AdministrativeMetadata/Source/Party') as $party) {
-            $sources[] = (string) $party['FormalName'];
+        $return  = array();
+        $sources = $this->entry->get_source();
+
+        if ($sources !== null) {
+            foreach ($sources as $source) {
+                $return[] = array(
+                    'name' => $source->get_title(),
+                    'link' => $source->get_link()
+                );
+            }
         }
 
-        return implode(', ', $sources);
-    }
-
-    /**
-     * Get catch line
-     *
-     * @return string
-     */
-    public function getCatchLine()
-    {
-        $catchLine = $this->xml->xpath('//NewsLines/NewsLine/NewsLineType[@FormalName="CatchLine"]');
-        return empty($catchLine) ? '' : $this->getString(array_shift($catchLine)->xpath('following::NewsLineText'));
-    }
-
-    /**
-     * Get catch word
-     *
-     * @return string
-     */
-    public function getCatchWord()
-    {
-        $catchWord = $this->xml->xpath('//NewsLines/NewsLine/NewsLineType[@FormalName="CatchWord"]');
-        return $this->getString(array_shift($catchWord)->xpath('following::NewsLineText'));
-    }
-
-    /**
-     * Get sub title
-     *
-     * @return string
-     */
-    public function getSubTitle()
-    {
-        return $this->getString($this->xml->xpath('//NewsLines/SubHeadLine'));
-    }
-
-    /**
-     * Get path
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        $contentItem = array_shift($this->xml->xpath('//NewsComponent/ContentItem[@Href]'));
-        $href = (string) $contentItem['Href'];
-        return "$this->dir/$href";
-    }
-
-    /**
-     * Get lift embargo
-     *
-     * @return DateTime|null
-     */
-    public function getLiftEmbargo()
-    .
-    {
-        $datetime = array_shift($this->xml->xpath('//StatusWillChange/DateAndTime'));
-        if ((string) $datetime !== '') {
-            return new \DateTime((string) $datetime);
-        }
-    }
-
-    /**
-     * Get string value of first matched element
-     *
-     * @param array $matches
-     * @return string
-     */
-    private function getString(array $matches)
-    {
-        return (string) array_shift($matches);
+        return $return;
     }
 }
