@@ -1,0 +1,72 @@
+{% extends 'NewscoopIngestPluginBundle:Admin:index.html.twig' %}
+
+{% block admin_content %}
+    {% set menuActive = 'entries' %}
+
+    {{ parent() }}
+
+    <p class="actionbar">
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'plugin.ingest.entries.feed'|trans }}</th>
+                <th>{{ 'plugin.ingest.entries.title'|trans }}</th>
+                <!--<th>{{ 'plugin.ingest.entries.body'|trans }}</th>-->
+                <th>{{ 'plugin.ingest.entries.section'|trans }}</th>
+                <th>{{ 'plugin.ingest.entries.created'|trans }}</th>
+                <th>{{ 'plugin.ingest.entries.published'|trans }}</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if entries %}
+                {% for entry in entries %}
+                    <tr id="entry_{{ entry.id }}">
+                        <td>{{ entry.feed.name }}</td>
+                        <td>{{ entry.title }}</td>
+                        <td>
+                            {{ 'plugin.ingest.entries.nosection'|trans }}
+                        </td>
+                        <td>{{ entry.created|date('d-m-Y') }}</td>
+                        <td>{{ entry.published ? entry.published : 'plugin.ingest.entries.notpublished'|trans }}</td>
+                        <td>
+                            <a href="{{ path('newscoop_ingestplugin_admin_entrypublish', {'id': entry.id}) }}" class="btn btn-default" title="{{ 'plugin.ingest.entries.publish'|trans|e }}">
+                                <span class="glyphicon glyphicon-fire"></span>
+                            </a>
+                            <a href="{{ path('newscoop_ingestplugin_admin_entryprepare', {'id': entry.id}) }}" class="btn btn-default" title="{{ 'plugin.ingest.entries.edit'|trans|e }}">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a href="{{ path('newscoop_ingestplugin_admin_entrydelete', {'id': entry.id}) }}" class="btn btn-default confirm-delete" title="{{ 'plugin.ingest.entries.delete'|trans|e }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            {% if entry.content %}
+                                {% set content = entry.content|raw|slice(0, 130) %}
+                                {{ 'plugin.ingest.entries.content'|trans }}:
+                            {% elseif entry.summary %}
+                                {% set content = entry.summary|raw|slice(0, 130) %}
+                                {{ 'plugin.ingest.entries.summary'|trans }}:
+                            {% else %}
+                                {% set content = '&nbsp;' %}
+                                {{ 'plugin.ingest.entries.nocontent'|trans }}
+                            {% endif %}
+                        </td>
+                        <td colspan="5">
+                            {{ content }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7">{{ 'plugin.ingest.entries.none'|trans }}.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+{% endblock %}

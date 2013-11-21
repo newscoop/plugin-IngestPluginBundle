@@ -1,7 +1,7 @@
 {% extends 'NewscoopIngestPluginBundle:Admin:index.html.twig' %}
 
 {% block admin_content %}
-    {% set feedsActive = 'active' %}
+    {% set menuActive = 'feeds' %}
 
     {{ parent() }}
 
@@ -40,7 +40,7 @@
                                 {{ 'plugin.ingest.feeds.nosections'|trans }}
                             {% endif %}
                         </td>
-                        <td>{{ feed.updated ? feed.updated : 'plugin.ingest.feeds.notupdated'|trans }}</td>
+                        <td>{{ feed.updated ? feed.updated|date('d-m-Y') : 'plugin.ingest.feeds.notupdated'|trans }}</td>
                         <td>{{ feed.parser.name }}</td>
                         <td>
                             <a href="{{ path('newscoop_ingestplugin_admin_feededit', {'id': feed.id}) }}" class="btn btn-default" title="{{ 'plugin.ingest.feeds.edit'|trans|e }}">

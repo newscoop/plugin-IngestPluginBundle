@@ -20,13 +20,14 @@ use Newscoop\IngestPluginBundle\Entity\Parser;
 class AdminController extends Controller
 {
     /**
-     * @Route("/content")
+     * @Route("/entry")
      * @Template()
      */
-    public function contentAction(Request $request)
+    public function entryAction(Request $request)
     {
         $em = $this->container->get('em');
 
+        // Todo: remove after debugging is done
         // Debug to install entities
         $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
         $tool->updateSchema(array(
@@ -34,6 +35,42 @@ class AdminController extends Controller
             $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed\Entry'),
             $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Parser'),
         ), true);
+
+        $entries = $em->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry')
+            ->createQueryBuilder('e')
+            ->getQuery()
+            ->getResult();
+
+        return array(
+            'entries' => $entries
+        );
+    }
+
+    /**
+     * @Route("/entry/publish/{id}")
+     * @Template()
+     */
+    public function entryPublish($id, Request $request)
+    {
+
+    }
+
+    /**
+     * @Route("/entry/prepare/{id}")
+     * @Template()
+     */
+    public function entryPrepare($id, Request $request)
+    {
+
+    }
+
+    /**
+     * @Route("/entry/delete/{id}")
+     * @Template()
+     */
+    public function entryDelete($id, Request $request)
+    {
+
     }
 
     /**
@@ -45,7 +82,7 @@ class AdminController extends Controller
         $em = $this->container->get('em');
 
         $feeds = $em->getRepository('Newscoop\IngestPluginBundle\Entity\Feed')
-            ->createQueryBuilder('p')
+            ->createQueryBuilder('f')
             ->getQuery()
             ->getResult();
 

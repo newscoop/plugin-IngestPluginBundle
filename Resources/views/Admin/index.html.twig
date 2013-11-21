@@ -12,9 +12,5 @@
 {% endblock %}
 
 {% block admin_content %}
-<ul class="nav nav-tabs">
-    <li class="{{ contentActive }}"><a href="{{ path('newscoop_ingestplugin_admin_content') }}">{{ 'plugin.ingest.tabs.content'|trans }}</a></li>
-    <li class="{{ feedsActive }}"><a href="{{ path('newscoop_ingestplugin_admin_feed') }}">{{ 'plugin.ingest.tabs.feeds'|trans }}</a></li>
-    <li class="{{ parsersActive }}"><a href="{{ path('newscoop_ingestplugin_admin_parser') }}">{{ 'plugin.ingest.tabs.parsers'|trans }}</a></li>
-</ul>
+    {{ include('NewscoopIngestPluginBundle:Admin:menu.html.twig', {menuActive: menuActive|default('content')}, with_context = false) }}
 {% endblock %}

@@ -32,7 +32,7 @@ class ConfigureMenuListener
 
         $menu[$this->translator->trans('Plugins')]->addChild(
             $this->translator->trans('plugin.ingest.menu'),
-            array('uri' => $event->getRouter()->generate('newscoop_ingestplugin_admin_content'))
+            array('uri' => $event->getRouter()->generate('newscoop_ingestplugin_admin_entry'))
         );
     }
 }
