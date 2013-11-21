@@ -13,10 +13,10 @@ services:
         arguments:
             - @translator
 
-    ingest.ingest:
+    newscoop_ingest_plugin.ingester:
         class:      Newscoop\IngestPluginBundle\Services\IngestService
-        arguments:  ["@em"]
+        arguments:  ["@em", "@newscoop_ingest_plugin.publisher"]
 
-    ingest.publisher:
-        class:      Newscoop\IngestPluginBundle\Services\PublishService
+    newscoop_ingest_plugin.publisher:
+        class:      Newscoop\IngestPluginBundle\Services\PublisherService
         arguments:  ["@em"]
