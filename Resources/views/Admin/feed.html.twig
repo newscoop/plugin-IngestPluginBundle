@@ -18,7 +18,8 @@
                 <th>{{ 'plugin.ingest.feeds.name'|trans }}</th>
                 <th>{{ 'plugin.ingest.feeds.url'|trans }}</th>
                 <th>{{ 'plugin.ingest.feeds.mode.name'|trans }}</th>
-                <th>{{ 'plugin.ingest.feeds.category'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.publication'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.section'|trans }}</th>
                 <th>{{ 'plugin.ingest.feeds.updated'|trans }}</th>
                 <th>{{ 'plugin.ingest.feeds.parser'|trans }}</th>
                 <th>&nbsp;</th>
@@ -31,6 +32,11 @@
                         <td>{{ feed.name }}</td>
                         <td>{{ feed.url }}</td>
                         <td>{{ feed.mode == 'auto' ? 'plugin.ingest.feeds.mode.auto'|trans : 'plugin.ingest.feeds.mode.manual'|trans }}</td>
+                        <td>
+                            {% if feed.publication %}
+                                {{ feed.publication.name }}
+                            {% endif %}
+                        </td>
                         <td>
                             {% if feed.sections %}
                                 {% for section in feed.sections %}

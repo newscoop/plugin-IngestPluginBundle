@@ -41,14 +41,14 @@ class Entry
     private $newsItemid;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     * @var string
+     * @ORM\Column(type="integer", nullable=true)
+     * @var int
      */
     private $articleId;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     * @var string
+     * @ORM\Column(type="object", nullable=true)
+     * @var \Newscoop\Entity\Language
      */
     private $language;
 
@@ -243,9 +243,34 @@ class Entry
     }
 
     /**
+     * Getter for articleId
+     *
+     * @return int
+     */
+    public function getArticleId()
+    {
+        return $this->articleId;
+    }
+
+    /**
+     * Setter for articleId
+     *
+     * @param int $articleId Value to set
+     *
+     * @return self
+     */
+    public function setArticleId($articleId)
+    {
+        $this->articleId = $articleId;
+
+        return $this;
+    }
+
+
+    /**
      * Get language code
      *
-     * @return string
+     * @return \Newscoop\Entity\Language
      */
     public function getLanguage()
     {
@@ -255,11 +280,11 @@ class Entry
     /**
      * Setter for language
      *
-     * @param string $language Value to set
+     * @param \Newscoop\Entity\Language $language Value to set
      *
      * @return self
      */
-    public function setLanguage($language)
+    public function setLanguage(\Newscoop\Entity\Language $language)
     {
         $this->language = $language;
 

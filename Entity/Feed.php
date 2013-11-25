@@ -41,8 +41,15 @@ class Feed
     private $url;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Publication")
+     * @ORM\JoinColumn(name="publication_id", referencedColumnName="Id")
+     * @var Newscoop\Entity\Publication
+     */
+    private $publication;
+
+    /**
      * @ORM\ManyToMany(targetEntity="Newscoop\Entity\Section")
-     * @ORM\JoinTable(name="feeds_sections",
+     * @ORM\JoinTable(name="plugin_ingest_feeds_sections",
      *      joinColumns={@ORM\JoinColumn(name="feed_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="section_id", referencedColumnName="id", unique=true)}
      *      )
@@ -144,6 +151,55 @@ class Feed
 
         return $this;
     }
+
+    /**
+     * Getter for publication
+     *
+     * @return \Newscoop\Entity\Publication
+     */
+    public function getPublication()
+    {
+        return $this->publication;
+    }
+
+    /**
+     * Setter for publication
+     *
+     * @param \Newscoop\Entity\Publication $publication Value to set
+     *
+     * @return self
+     */
+    public function setPublication(\Newscoop\Entity\Publication $publication)
+    {
+        $this->publication = $publication;
+
+        return $this;
+    }
+
+    /**
+     * Getter for language
+     *
+     * @return \Newscoop\Entity\Language
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Setter for language
+     *
+     * @param \Newscoop\Entity\Language $language Value to set
+     *
+     * @return self
+     */
+    public function setLanguage(\Newscoop\Entity\Language $language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
 
     /**
      * Getter for sections

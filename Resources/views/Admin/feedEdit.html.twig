@@ -5,11 +5,5 @@
 
     {{ parent() }}
 
-    <div>
-        {{ form_start(form) }}
-
-            {{ form_widget(form) }}
-
-        {{ form_end(form) }}
-    </div>
+    {{ include('NewscoopIngestPluginBundle:Admin:FeedType.html.twig', {form: form}, with_context = false) }}
 {% endblock %}

@@ -5,14 +5,18 @@ namespace Newscoop\IngestPluginBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Finder\Finder;
 
 use Newscoop\IngestPluginBundle\Form\Type\FeedType;
 use Newscoop\IngestPluginBundle\Entity\Feed;
+use Newscoop\IngestPluginBundle\Entity\Feed\Entry;
 use Newscoop\IngestPluginBundle\Entity\Parser;
+use Newscoop\EventDispatcher\Events\GenericEvent;
 
 /**
  * @Route("/admin/ingest")
@@ -36,6 +40,12 @@ class AdminController extends Controller
             $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Parser'),
         ), true);
 
+        // $dispatcher = $this->get('event_dispatcher');
+        // $dispatcher->dispatch('plugin.install.newscoop_ingest_plugin', new GenericEvent());
+        // $dispatcher->dispatch('plugin.remove.newscoop_ingest_plugin', new GenericEvent());
+
+        // End of debug code
+
         $entries = $em->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry')
             ->createQueryBuilder('e')
             ->getQuery()
@@ -48,18 +58,21 @@ class AdminController extends Controller
 
     /**
      * @Route("/entry/publish/{id}")
-     * @Template()
+     * @ParamConverter("get")
      */
-    public function entryPublish($id, Request $request)
+    public function entryPublishAction(Request $request, Entry $entry)
     {
+        $publisherService = $this->container->get('newscoop_ingest_plugin.publisher');
+        $publisherService->publish($entry);
 
+        die('EOA');
     }
 
     /**
      * @Route("/entry/prepare/{id}")
      * @Template()
      */
-    public function entryPrepare($id, Request $request)
+    public function entryPrepareAction($id, Request $request)
     {
 
     }
@@ -68,7 +81,7 @@ class AdminController extends Controller
      * @Route("/entry/delete/{id}")
      * @Template()
      */
-    public function entryDelete($id, Request $request)
+    public function entryDeleteAction($id, Request $request)
     {
 
     }
@@ -77,8 +90,8 @@ class AdminController extends Controller
      * @Route("/feed")
      * @Template()
      */
-    public function feedAction(Request $request) {
-
+    public function feedAction(Request $request)
+    {
         $em = $this->container->get('em');
 
         $feeds = $em->getRepository('Newscoop\IngestPluginBundle\Entity\Feed')
@@ -101,19 +114,32 @@ class AdminController extends Controller
 
         $form = $this->createForm(new FeedType(), $feed);
 
-        $form->handleRequest($request);
+        // Handle updates in form
+        if ($request->isXmlHttpRequest()) {
+            $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($feed);
-            $em->flush();
+            return new JsonResponse(array(
+                'html' => htmlentities($this-> renderView('NewscoopIngestPluginBundle:Admin:FeedType.html.twig', array(
+                    'form'   => $form->createView(),
+                ))),
+            ));
+        }
 
-            $this->get('session')->getFlashBag()->add(
-                'notice',
-                'Feed added!'
-            );
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
 
-            return $this->redirect($this->generateUrl('newscoop_ingestplugin_admin_feed'));
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($feed);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add(
+                    'notice',
+                    'Feed added!'
+                );
+
+                return $this->redirect($this->generateUrl('newscoop_ingestplugin_admin_feed'));
+            }
         }
 
         return array(
@@ -127,7 +153,6 @@ class AdminController extends Controller
      */
     public function feedEditAction($id, Request $request)
     {
-
         $em = $this->getDoctrine()->getManager();
         $feed = $em->getRepository('Newscoop\IngestPluginBundle\Entity\Feed')->find($id);
         if (!$feed) {
@@ -138,21 +163,33 @@ class AdminController extends Controller
 
         $form = $this->createForm(new FeedType(), $feed);
 
-        $form->handleRequest($request);
+        // Handle updates in form
+        if ($request->isXmlHttpRequest()) {
+            $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($feed);
-            $em->flush();
-
-            $this->get('session')->getFlashBag()->add(
-                'notice',
-                'Feed updated!'
-            );
-
-            return $this->redirect($this->generateUrl('newscoop_ingestplugin_admin_feed'));
+            return new JsonResponse(array(
+                'html' => htmlentities($this->render('NewscoopIngestPluginBundle:Admin:FeedForm.html.twig', array(
+                    'form'   => $form->createView(),
+                ))),
+            ));
         }
 
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($feed);
+                $em->flush();
+
+                $this->get('session')->getFlashBag()->add(
+                    'notice',
+                    'Feed updated!'
+                );
+
+                return $this->redirect($this->generateUrl('newscoop_ingestplugin_admin_feed'));
+            }
+        }
 
         return array(
             'form' => $form
@@ -162,8 +199,8 @@ class AdminController extends Controller
     /**
      * @Route("/feed/delete/{id}")
      */
-    public function feedDeleteAction($id, Request $request) {
-
+    public function feedDeleteAction($id, Request $request)
+    {
         $em     = $this->getDoctrine()->getManager();
         $feed   = $em->getRepository('Newscoop\IngestPluginBundle\Entity\Feed')->find($id);
         if (!$feed) {
@@ -187,8 +224,8 @@ class AdminController extends Controller
      * @Route("/parser")
      * @Template()
      */
-    public function parserAction(Request $request) {
-
+    public function parserAction(Request $request)
+    {
         $em = $this->container->get('em');
 
         $parsers = $em->getRepository('Newscoop\IngestPluginBundle\Entity\Parser')
@@ -205,8 +242,8 @@ class AdminController extends Controller
      * @Route("/parser/add")
      * @Template()
      */
-    public function parserAddAction(Request $request) {
-
+    public function parserAddAction(Request $request)
+    {
         $em                 = $this->container->get('em');
         $finder             = new Finder();
         $namespacePrefix    = '\\Newscoop\\IngestPluginBundle\\Parsers\\';
@@ -223,7 +260,7 @@ class AdminController extends Controller
         $dbResult = $em->getRepository('Newscoop\IngestPluginBundle\Entity\Parser')
             ->getParserNamespaces();
 
-        $dbNamespaces = array_map('current', $dbResult);
+        $dbNamespaces = ($dbResult !== null) ? array_map('current', $dbResult) : array();
 
         // Filter found parsers with already installed parsers
         $newParsers = array_diff($fileNamespaces, $dbNamespaces);
