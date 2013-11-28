@@ -3,6 +3,7 @@ services:
         class: Newscoop\IngestPluginBundle\EventListener\LifecycleSubscriber
         arguments:
             - @em
+            - @newscoop_ingest_plugin.articletypeconfigurator
         tags:
             - { name: kernel.event_subscriber}
 
@@ -15,8 +16,12 @@ services:
 
     newscoop_ingest_plugin.ingester:
         class:      Newscoop\IngestPluginBundle\Services\IngestService
-        arguments:  ["@em", "@newscoop_ingest_plugin.publisher"]
+        arguments:  ["@em", "@newscoop_ingest_plugin.publisher", "@newscoop_ingest_plugin.articletypeconfigurator"]
 
     newscoop_ingest_plugin.publisher:
         class:      Newscoop\IngestPluginBundle\Services\PublisherService
+        arguments:  ["@em", "@newscoop_ingest_plugin.articletypeconfigurator"]
+
+    newscoop_ingest_plugin.articletypeconfigurator:
+        class:      Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService
         arguments:  ["@em"]

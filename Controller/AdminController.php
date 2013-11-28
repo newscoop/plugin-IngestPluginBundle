@@ -33,25 +33,71 @@ class AdminController extends Controller
 
         // Todo: remove after debugging is done
         // Debug to install entities
-        $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
-        $tool->updateSchema(array(
-            $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed'),
-            $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed\Entry'),
-            $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Parser'),
-        ), true);
+        // $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
+        // $tool->updateSchema(array(
+        //     $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed'),
+        //     $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed\Entry'),
+        //     $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Parser'),
+        // ), true);
 
         // $dispatcher = $this->get('event_dispatcher');
         // $dispatcher->dispatch('plugin.install.newscoop_ingest_plugin', new GenericEvent());
         // $dispatcher->dispatch('plugin.remove.newscoop_ingest_plugin', new GenericEvent());
 
         // End of debug code
+        $queryBuilder = $em
+            ->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry')
+            ->createQueryBuilder('e');
 
-        $entries = $em->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry')
-            ->createQueryBuilder('e')
-            ->getQuery()
-            ->getResult();
+        $defaultData = array('feed' => '', 'published' => '');
+        $filterForm = $this->createFormBuilder($defaultData)
+            ->setMethod('GET')
+            ->add('feed', 'entity', array(
+                'class' => 'Newscoop\IngestPluginBundle\Entity\Feed',
+                'property' => 'name',
+                'empty_value' => 'plugin.ingest.entries.filter.select_feed',
+                'required' => false,
+            ))
+            ->add('published', 'choice', array(
+                'choices'   => array(
+                    'Y' => 'plugin.ingest.entries.filter.yes',
+                    'N' => 'plugin.ingest.entries.filter.no',
+                ),
+                'empty_value' => 'plugin.ingest.entries.filter.all',
+                'label' => 'plugin.ingest.entries.filter.published',
+                'required' => false,
+            ))
+            ->add('send', 'submit', array(
+                'label' => 'plugin.ingest.entries.filter.filter'
+            ))
+            ->getForm();
+
+        $filterForm->handleRequest($request);
+
+        if ($filterForm->isValid()) {
+            $formData = $filterForm->getData();
+            $query = $queryBuilder
+                ->where('1=1');
+            if (!empty($formData['feed'])) {
+                $query = $query
+                    ->andWhere($queryBuilder->expr()->in('e.feed', '?1'))
+                    ->setParameter(1, $formData['feed']);
+            }
+            if (!empty($formData['published'])) {
+                if ($formData['published'] == 'Y') {
+                    $expression = $queryBuilder->expr()->isNotNull('e.published');
+                } else {
+                    $expression = $queryBuilder->expr()->isNull('e.published');
+                }
+                $query = $query
+                    ->andWhere($expression);
+            }
+        }
+
+        $entries = $queryBuilder->getQuery()->getResult();
 
         return array(
+            'filterForm' => $filterForm->createView(),
             'entries' => $entries
         );
     }
@@ -65,7 +111,12 @@ class AdminController extends Controller
         $publisherService = $this->container->get('newscoop_ingest_plugin.publisher');
         $publisherService->publish($entry);
 
-        die('EOA');
+        $this->get('session')->getFlashBag()->add(
+            'notice',
+            'Entry succesfully published!'
+        );
+
+        return $this->redirect($this->generateUrl('newscoop_ingestplugin_admin_entry'));
     }
 
     /**
@@ -79,11 +130,27 @@ class AdminController extends Controller
 
     /**
      * @Route("/entry/delete/{id}")
+     * @ParamConverter("get")
      * @Template()
      */
-    public function entryDeleteAction($id, Request $request)
+    public function entryDeleteAction(Request $request, Entry $entry)
     {
+        if ($entry->isPublished()) {
+            $publisherService = $this->container->get('newscoop_ingest_plugin.publisher');
+            $publisherService->remove($entry);
+        }
 
+        $em = $this->container->get('em');
+
+        $em->remove($entry);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add(
+            'notice',
+            'Entry removed succesfully!'
+        );
+
+        return $this->redirect($this->generateUrl('newscoop_ingestplugin_admin_entry'));
     }
 
     /**

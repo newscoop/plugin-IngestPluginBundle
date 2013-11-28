@@ -204,7 +204,7 @@ class Feed
     /**
      * Getter for sections
      *
-     * @return mixed
+     * @return Doctrine\Common\Collections\ArrayCollection
      */
     public function getSections()
     {
@@ -214,7 +214,7 @@ class Feed
     /**
      * Setter for sections
      *
-     * @param mixed $sections Value to set
+     * @param Doctrine\Common\Collections\ArrayCollection $sections Value to set
      *
      * @return self
      */

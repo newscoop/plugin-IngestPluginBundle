@@ -35,10 +35,10 @@ class Entry
     private $feed;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(name="newsitem_id", type="string")
      * @var string
      */
-    private $newsItemid;
+    private $newsItemId;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -47,7 +47,8 @@ class Entry
     private $articleId;
 
     /**
-     * @ORM\Column(type="object", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Language")
+     * @ORM\JoinColumn(name="language_id", referencedColumnName="Id")
      * @var \Newscoop\Entity\Language
      */
     private $language;
@@ -113,7 +114,8 @@ class Entry
     private $priority;
 
     /**
-     * @ORM\Column(type="object", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Section")
+     * @ORM\JoinColumn(name="section_id", referencedColumnName="id")
      * @var \Newscoop\Entity\Section
      */
     private $section;
@@ -557,7 +559,7 @@ class Entry
     /**
      * Getter for section
      *
-     * @return mixed
+     * @return \Newscoop\Entity\Section
      */
     public function getSection()
     {
@@ -567,11 +569,11 @@ class Entry
     /**
      * Setter for section
      *
-     * @param null|\Newscoop\Entity\Section $section Value to set
+     * @param \Newscoop\Entity\Section $section Value to set
      *
      * @return self
      */
-    public function setSection($section)
+    public function setSection(\Newscoop\Entity\Section $section)
     {
         $this->section = $section;
 

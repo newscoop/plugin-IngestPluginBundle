@@ -13,7 +13,8 @@ use Doctrine\ORM\EntityManager,
     Newscoop\IngestPluginBundle\Entity\Ingest\Feed,
     Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry,
     Newscoop\IngestPluginBundle\Parser,
-    Newscoop\IngestPluginBundle\Services\PublisherService;
+    Newscoop\IngestPluginBundle\Services\PublisherService,
+    Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
 
 /**
  * Ingest service
@@ -40,10 +41,14 @@ class IngestService
      * @param EntityManager    $em        Entity manager
      * @param PublisherService $publisher Publisher
      */
-    public function __construct(EntityManager $em, PublisherService $publisher)
-    {
+    public function __construct(
+        EntityManager $em,
+        PublisherService $publisher,
+        ArticleTypeConfigurationService $articleTypeConfService
+    ) {
         $this->em = $em;
         $this->publisher = $publisher;
+        $this->articleTypeConfigurator = $articleTypeConfService;
     }
 
     /**
@@ -82,12 +87,24 @@ class IngestService
         $repository = $this->em
             ->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry');
 
+        // Get possible languages based on feed and selected sections(s)
+        $allowedLanguages = array();
+        $sections = $feed->getSections();
+        foreach ($sections AS $section) {
+            $allowedLanguages[] = $section->getLanguage();
+        }
+
         foreach ($unparsedEntries as $unparsedEntry) {
+
+            if ($unparsedEntry->getNewsItemId() === '' || $unparsedEntry->getNewsItemId() === null) {
+                throw Exception('Skipped parsing feed entry. Method getNewsItemId returns invalid value.', 0);
+                continue;
+            }
 
             $entry = $repository->findBy(
                 array(
                     'feed' => $feed,
-                    'newsItemid' => $unparsedEntry->getNewsItemId()
+                    'newsItemId' => $unparsedEntry->getNewsItemId()
                 )
             );
 
@@ -109,23 +126,36 @@ class IngestService
                 $entry->setNewsItemId($unparsedEntry->getNewsItemId());
             }
 
-            $languageFound  = false;
+            $languageEntity = null;
             if ($unparsedEntry->getLanguage() !== null && $unparsedEntry->getLanguage() !== '') {
-                // Determine locale
-                $localeArray    = \Locale::parseLocale($unparsedEntry->getLanguage());
-                if (array_key_exists('language', $localeArray) && array_key_exists('region', $localeArray)) {
-                    $setLanguage    = $localeArray['language'].'-'.$localeArray['region'];
-                    $languageFound  = true;
-                } elseif (array_key_exists('language', $localeArray)) {
-                    $setLanguage    = $localeArray['language'].'-'.$localeArray['language'];
-                    $languageFound  = true;
+                if ($unparsedEntry->getLanguage() instanceof \Newscoop\Entity\Language) {
+                    $languageEntity = $unparsedEntry->getLanguage();
+                } else {
+                    $languageEntity = $this
+                        ->em->getRepository('\Newscoop\Entity\Language')
+                        ->findByRFC3066bis($unparsedEntry->getLanguage());
                 }
             }
-            if (!$languageFound) {
-                //Todo: Set to default language is language is not provided
-                $setLanguage = 'en-GB';
+            // Use default language if no language is set or if the found
+            // languages are not allowed in our selected languages
+            if (!in_array($languageEntity, $allowedLanguages)) {
+                $languageEntity = $feed->getPublication()->getDefaultLanguage();
             }
-            $entry->setLanguage($setLanguage);
+            $entry->setLanguage($languageEntity);
+
+            $sectionEntity  = null; // Default can be null, but not for autopublishing
+            if ($unparsedEntry->getSection() instanceof \Newscoop\Entity\Section) {
+                $sectionEntity = $unparsedEntry->getSection();
+            } else {
+                $sections = $feed->getSections();
+                foreach ($sections as $section) {
+                    if ($section->getLanguage() == $languageEntity) {
+                        $sectionEntity = $section;
+                        break;
+                    }
+                }
+            }
+            $entry->setSection($sectionEntity);
 
             $entry->setTitle($unparsedEntry->getTitle());
             $entry->setContent($unparsedEntry->getContent());
@@ -141,7 +171,6 @@ class IngestService
             $entry->setStatus($unparsedEntry->getStatus());
             $entry->setPriority($unparsedEntry->getPriority());
             $entry->setKeywords($unparsedEntry->getKeywords());
-            $entry->setSection($unparsedEntry->getSection());
             $entry->setAuthors($unparsedEntry->getAuthors());
             $entry->setImages($unparsedEntry->getImages());
 

@@ -2,16 +2,18 @@
 /**
  * @package Newscoop\IngestPluginBundle
  * @author Mischa Gorinskat <mischa.gorinskat@sourcefabric.org>
- * @copyright 2012 Sourcefabric o.p.s.
+ * @copyright 2013 Sourcefabric o.p.s.
  * @license http://www.gnu.org/licenses/gpl-3.0.txt
  */
 
 namespace Newscoop\IngestPluginBundle\EventListener;
 
-use Symfony\Component\EventDispatcher\EventSubscriberInterface,
+use Doctrine\ORM\EntityManager,
+    Symfony\Component\EventDispatcher\EventSubscriberInterface,
     Newscoop\EventDispatcher\Events\GenericEvent,
     Newscoop\Entity\ArticleType,
-    Newscoop\Entity\ArticleField;
+    Newscoop\Entity\ArticleTypeField,
+    Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
 
 /**
  * Event lifecycle management
@@ -20,9 +22,12 @@ class LifecycleSubscriber implements EventSubscriberInterface
 {
     private $em;
 
-    public function __construct($em)
-    {
+    public function __construct(
+        EntityManager $em,
+        ArticleTypeConfigurationService $articleTypeConfigurationService
+    ) {
         $this->em = $em;
+        $this->articleTypeConfigurationService = $articleTypeConfigurationService;
     }
 
     public function install(GenericEvent $event)
@@ -33,50 +38,8 @@ class LifecycleSubscriber implements EventSubscriberInterface
         // Generate proxies for entities
         $this->em->getProxyFactory()->generateProxyClasses($this->getClasses(), __DIR__ . '/../../../../library/Proxy');
 
-        // Create article type
-        $newswireType = new \Newscoop\Entity\ArticleType();
-        $newswireType->setName('Newswire');
-
-        // NewsItemIdentifier: "getNewsItemId"
-        // NewsProduct: "getProduct"
-        // Status: "getStatus"
-        // Urgency: "getPriority"
-        // HeadLine: "getTitle"
-        // NewsLineText: "getCatchLine"
-        // DataLead: "getSummary"
-        // DataContent: "getContent"
-        // AuthorNames: "getAuthors"
-
-        $fieldArray = array(
-            'newsItemId' => array('type' => 'text'),
-            'newsProduct' => array('type' => 'text', 'max_size' => 255),
-            'status' => array('type' => 'text', 'max_size' => 255),
-            'urgency' => array('type' => 'text', 'max_size' => 255),
-            'headLine' => array('type' => 'text', 'max_size' => 255),
-            'newsLineText' => array('type' => 'text', 'max_size' => 255),
-            'dataLead' => array('type' => 'body', 'field_type_param' => 'editor_size=250'),
-            'dataContent' => array('type' => 'body', 'field_type_param' => 'editor_size=500'),
-            'authorNames' => array('type' => 'text', 'max_size' => 255),
-        );
-
-        foreach ($fieldArray AS $fieldID => $fieldParams) {
-            $articleField = new \Newscoop\Entity\ArticleField();
-            $articleField->setArticleType($newswireType);
-            $articleField->setName($fieldID);
-            $articleField->setType($fieldParams['type']);
-
-            if (array_key_exists('max_size', $fieldParams)) {
-                $articleField->setLength($fieldParams['max_size']);
-            }
-            if (array_key_exists('field_type_param', $fieldParams)) {
-                $articleField->setFieldTypeParam($fieldParams['field_type_param']);
-            }
-
-            $this->em->persist($articleField);
-        }
-
-        $this->em->persist($newswireType);
-        $this->em->flush();
+        // Create articletype
+        $this->articleTypeConfigurationService->create();
     }
 
     public function update(GenericEvent $event)
@@ -92,6 +55,9 @@ class LifecycleSubscriber implements EventSubscriberInterface
     {
         $tool = new \Doctrine\ORM\Tools\SchemaTool($this->em);
         $tool->dropSchema($this->getClasses(), true);
+
+        // Remove articletype
+        $this->articleTypeConfigurationService->remove();
     }
 
     public static function getSubscribedEvents()

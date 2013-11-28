@@ -14,6 +14,7 @@ $(document).ready(function() {
                 }
             });
         });
-
     }
+
+    // TODO: add modal with confirmation to button/a with class confirm-delete
 });

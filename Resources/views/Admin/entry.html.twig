@@ -6,6 +6,11 @@
     {{ parent() }}
 
     <p class="actionbar">
+        {{ form_start(filterForm, { 'attr': { 'class': 'form-inline'} }) }}
+
+            {{ form_rest(filterForm) }}
+
+        {{ form_end(filterForm) }}
     </p>
 
     <table class="table table-striped">
@@ -13,7 +18,7 @@
             <tr>
                 <th>{{ 'plugin.ingest.entries.feed'|trans }}</th>
                 <th>{{ 'plugin.ingest.entries.title'|trans }}</th>
-                <!--<th>{{ 'plugin.ingest.entries.body'|trans }}</th>-->
+                <th>{{ 'plugin.ingest.entries.language'|trans }}</th>
                 <th>{{ 'plugin.ingest.entries.section'|trans }}</th>
                 <th>{{ 'plugin.ingest.entries.created'|trans }}</th>
                 <th>{{ 'plugin.ingest.entries.published'|trans }}</th>
@@ -26,18 +31,25 @@
                     <tr id="entry_{{ entry.id }}">
                         <td>{{ entry.feed.name }}</td>
                         <td>{{ entry.title }}</td>
-                        <td>
-                            {{ 'plugin.ingest.entries.nosection'|trans }}
-                        </td>
+                        <td>{{ entry.language.name }}</td>
+                        <td>{% spaceless %}
+                            {% if entry.section %}
+                                {{ entry.section.name }}
+                            {% else %}
+                                {{ 'plugin.ingest.entries.nosection'|trans }}
+                            {% endif %}
+                        {% endspaceless %}</td>
                         <td>{{ entry.created|date('d-m-Y') }}</td>
-                        <td>{{ entry.published ? entry.published : 'plugin.ingest.entries.notpublished'|trans }}</td>
+                        <td>{{ entry.published ? entry.published|date('d-m-Y') : 'plugin.ingest.entries.notpublished'|trans }}</td>
                         <td>
-                            <a href="{{ path('newscoop_ingestplugin_admin_entrypublish', {'id': entry.id}) }}" class="btn btn-default" title="{{ 'plugin.ingest.entries.publish'|trans|e }}">
-                                <span class="glyphicon glyphicon-fire"></span>
-                            </a>
-                            <a href="{{ path('newscoop_ingestplugin_admin_entryprepare', {'id': entry.id}) }}" class="btn btn-default" title="{{ 'plugin.ingest.entries.edit'|trans|e }}">
-                                <span class="glyphicon glyphicon-pencil"></span>
-                            </a>
+                            {% if entry.published is empty %}
+                                <a href="{{ path('newscoop_ingestplugin_admin_entrypublish', {'id': entry.id}) }}" class="btn btn-default" title="{{ 'plugin.ingest.entries.publish'|trans|e }}">
+                                    <span class="glyphicon glyphicon-fire"></span>
+                                </a>
+                                <a href="{{ path('newscoop_ingestplugin_admin_entryprepare', {'id': entry.id}) }}" class="btn btn-default" title="{{ 'plugin.ingest.entries.edit'|trans|e }}">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            {% endif %}
                             <a href="{{ path('newscoop_ingestplugin_admin_entrydelete', {'id': entry.id}) }}" class="btn btn-default confirm-delete" title="{{ 'plugin.ingest.entries.delete'|trans|e }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
@@ -56,7 +68,7 @@
                                 {{ 'plugin.ingest.entries.nocontent'|trans }}
                             {% endif %}
                         </td>
-                        <td colspan="5">
+                        <td colspan="6">
                             {{ content }}
                         </td>
                     </tr>

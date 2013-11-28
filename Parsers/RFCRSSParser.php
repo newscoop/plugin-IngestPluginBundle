@@ -79,7 +79,7 @@ class RFCRSSParser extends Parser
     }
 
     /**
-     * Get news item id
+     * Get news item id, if feed provides no item use other unique value
      *
      * @return string
      */

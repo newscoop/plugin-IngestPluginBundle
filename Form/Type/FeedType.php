@@ -25,6 +25,7 @@ class FeedType extends AbstractType
                 'property' => 'name',
                 'multiple' => false,
                 'expanded' => false,
+                'empty_value' => 'plugin.ingest.feeds.choose_publication',
                 'attr' => array('class' => 'publication'),
             ));
 
