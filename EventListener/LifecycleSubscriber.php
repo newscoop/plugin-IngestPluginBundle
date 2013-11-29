@@ -64,8 +64,8 @@ class LifecycleSubscriber implements EventSubscriberInterface
     {
         return array(
             'plugin.install.m038_ingest_plugin_bundle' => array('install', 1),
-            'plugin.install.m038_ingest_plugin_bundle' => array('update', 1),
-            'plugin.install.m038_ingest_plugin_bundle' => array('remove', 1),
+            'plugin.update.m038_ingest_plugin_bundle' => array('update', 1),
+            'plugin.remove.m038_ingest_plugin_bundle' => array('remove', 1),
         );
     }
 
