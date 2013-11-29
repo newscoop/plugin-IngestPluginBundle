@@ -53,7 +53,7 @@ class Feed
      * @ORM\ManyToMany(targetEntity="Newscoop\Entity\Section")
      * @ORM\JoinTable(name="plugin_ingest_feeds_sections",
      *      joinColumns={@ORM\JoinColumn(name="feed_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="section_id", referencedColumnName="id", unique=true)}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="section_id", referencedColumnName="id")}
      *      )
      **/
     private $sections;
