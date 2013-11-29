@@ -4,13 +4,15 @@
     {% set menuActive = 'feeds' %}
 
     {{ parent() }}
+{% endblock %}
 
-    <p class="buttonbar">
-        <a href="{{ path('newscoop_ingestplugin_admin_feedadd') }}" class="btn btn-default">
+{% block plugin_content %}
+    <div class="actionbar">
+        <a href="{{ path('newscoop_ingestplugin_admin_feedadd') }}" class="btn btn-default btn-sm">
             <span class="glyphicon glyphicon-plus"></span>
             {{ 'plugin.ingest.feeds.add'|trans }}
         </a>
-    </p>
+    </div>
 
     <table class="table table-striped">
         <thead>
@@ -49,10 +51,10 @@
                         <td>{{ feed.updated ? feed.updated|date('d-m-Y') : 'plugin.ingest.feeds.notupdated'|trans }}</td>
                         <td>{{ feed.parser.name }}</td>
                         <td>
-                            <a href="{{ path('newscoop_ingestplugin_admin_feededit', {'id': feed.id}) }}" class="btn btn-default" title="{{ 'plugin.ingest.feeds.edit'|trans|e }}">
+                            <a href="{{ path('newscoop_ingestplugin_admin_feededit', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.edit'|trans|e }}">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
-                            <a href="{{ path('newscoop_ingestplugin_admin_feeddelete', {'id': feed.id}) }}" class="btn btn-default confirm-delete" title="{{ 'plugin.ingest.feeds.delete'|trans|e }}">
+                            <a href="{{ path('newscoop_ingestplugin_admin_feeddelete', {'id': feed.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.feeds.delete'|trans|e }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </td>

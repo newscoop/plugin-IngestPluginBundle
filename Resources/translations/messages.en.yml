@@ -26,11 +26,12 @@ plugin:
       content: "Content"
       summary: "Summary"
       filter:
-        select_feed: "Select a feed"
+        feeds: "Feeds"
+        all_feeds: "All feeds"
         published: "Published"
-        yes: "Yes"
-        no: "No"
-        all: "All"
+        yes: "Published: Yes"
+        no: "Published: No"
+        all: "Published: Any"
         filter: "Filter"
     feeds:
       none: "No feeds found"
@@ -60,6 +61,7 @@ plugin:
       delete: "Delete parser"
       nonew: "There are no new parsers. To install a parser copy the file into the Parsers directory."
       install: "Install"
+      cancel: "Cancel"
     btn:
       add: "Add feed"
       delete: "Delete"

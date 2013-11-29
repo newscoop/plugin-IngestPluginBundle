@@ -1,9 +1,15 @@
 {% extends 'NewscoopIngestPluginBundle:Admin:index.html.twig' %}
 
+{% use 'NewscoopIngestPluginBundle:Form:feedType.html.twig' %}
+
 {% block admin_content %}
     {% set menuActive = 'feeds' %}
 
     {{ parent() }}
+{% endblock %}
 
-    {{ include('NewscoopIngestPluginBundle:Admin:FeedType.html.twig', {form: form}, with_context = false) }}
+{% block plugin_content %}
+
+    {{ block('feed_form') }}
+
 {% endblock %}

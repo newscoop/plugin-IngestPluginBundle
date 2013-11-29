@@ -4,13 +4,15 @@
     {% set menuActive = 'parsers' %}
 
     {{ parent() }}
+{% endblock %}
 
-    <p class="buttonbar">
-        <a href="{{ path('newscoop_ingestplugin_admin_parseradd') }}" class="btn btn-default">
+{% block plugin_content %}
+    <div class="actionbar">
+        <a href="{{ path('newscoop_ingestplugin_admin_parseradd') }}" class="btn btn-default btn-sm">
             <span class="glyphicon glyphicon-plus"></span>
             {{ 'plugin.ingest.parsers.add'|trans }}
         </a>
-    </p>
+    </div>
 
     <table class="table table-striped">
         <thead>
@@ -31,7 +33,7 @@
                         <td>{{ parser.domain }}</td>
                         <td>{{ parser.feeds|length }}</td>
                         <td>
-                            <a href="{{ path('newscoop_ingestplugin_admin_parserdelete', {'id': parser.id}) }}" class="btn btn-default confirm-delete" title="{{ 'plugin.ingest.parsers.delete'|trans|e }}">
+                            <a href="{{ path('newscoop_ingestplugin_admin_parserdelete', {'id': parser.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.parsers.delete'|trans|e }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </td>

@@ -1,0 +1,23 @@
+{% block form_row %}
+    <div class="form-group">
+        {{ form_label(form, null, { 'label_attr': { 'class': 'col-sm-2 control-label' }}) }}
+        {{ form_errors(form) }}
+        <div class="col-sm-6">
+            {% set attr = attr|merge({ 'attr': { 'class': attr.class|default('') ~ ' form-control input-sm col-sm-6'}}) %}
+            {{ form_widget(form, attr) }}
+        </div>
+    </div>
+{% endblock form_row %}
+
+{% block choice_widget_expanded %}
+{% spaceless %}
+    {% for child in form %}
+        <div class="checkbox">
+            <label>
+                {{ form_widget(child) }}
+                {{ form_label(child) }}
+            </label>
+        </div>
+    {% endfor %}
+{% endspaceless %}
+{% endblock choice_widget_expanded %}

@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 use Newscoop\IngestPluginBundle\Entity\Feed\Entry;
 use Newscoop\IngestPluginBundle\Entity\Parser;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Feed entity
@@ -35,7 +36,7 @@ class Feed
     private $name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
     private $url;
@@ -43,6 +44,7 @@ class Feed
     /**
      * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Publication")
      * @ORM\JoinColumn(name="publication_id", referencedColumnName="Id")
+     * @Assert\Type(type="Newscoop\Entity\Publication")
      * @var Newscoop\Entity\Publication
      */
     private $publication;

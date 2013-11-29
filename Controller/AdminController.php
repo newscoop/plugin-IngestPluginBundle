@@ -55,7 +55,7 @@ class AdminController extends Controller
             ->add('feed', 'entity', array(
                 'class' => 'Newscoop\IngestPluginBundle\Entity\Feed',
                 'property' => 'name',
-                'empty_value' => 'plugin.ingest.entries.filter.select_feed',
+                'empty_value' => 'plugin.ingest.entries.filter.all_feeds',
                 'required' => false,
             ))
             ->add('published', 'choice', array(
@@ -67,7 +67,7 @@ class AdminController extends Controller
                 'label' => 'plugin.ingest.entries.filter.published',
                 'required' => false,
             ))
-            ->add('send', 'submit', array(
+            ->add('filter', 'submit', array(
                 'label' => 'plugin.ingest.entries.filter.filter'
             ))
             ->getForm();
@@ -186,7 +186,7 @@ class AdminController extends Controller
             $form->handleRequest($request);
 
             return new JsonResponse(array(
-                'html' => htmlentities($this-> renderView('NewscoopIngestPluginBundle:Admin:FeedType.html.twig', array(
+                'html' => htmlentities($this-> renderView('NewscoopIngestPluginBundle:Admin:feedAjax.html.twig', array(
                     'form'   => $form->createView(),
                 ))),
             ));
@@ -228,14 +228,14 @@ class AdminController extends Controller
             );
         }
 
-        $form = $this->createForm(new FeedType(), $feed);
+        $form = $this->createForm(new FeedType(), $feed, array('type' => 'edit'));
 
-        // Handle updates in form
+        // Handles updates in form
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
             return new JsonResponse(array(
-                'html' => htmlentities($this->render('NewscoopIngestPluginBundle:Admin:FeedForm.html.twig', array(
+                'html' => htmlentities($this-> renderView('NewscoopIngestPluginBundle:Admin:feedAjax.html.twig', array(
                     'form'   => $form->createView(),
                 ))),
             ));
@@ -346,8 +346,11 @@ class AdminController extends Controller
                     'expanded' => true,
                     'label' => 'Select one or more parsers to install'
                 ))
-                ->add('save', 'submit', array(
+                ->add('install', 'submit', array(
                     'label' => 'plugin.ingest.parsers.install'
+                ))
+                ->add('cancel', 'button', array(
+                    'label' => 'plugin.ingest.parsers.cancel'
                 ));
             $form = $formBuilder->getForm();
 

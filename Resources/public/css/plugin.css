@@ -1,0 +1,10 @@
+.tab-content {
+    border: 1px solid #DDDDDD;
+    border-top: none;
+    padding: 1em;
+    background: white;
+}
+
+.actionbar {
+    text-align: right;
+}

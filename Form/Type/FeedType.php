@@ -13,6 +13,19 @@ class FeedType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $publicationSettingsArray = array(
+            'class' => 'Newscoop\Entity\Publication',
+            'property' => 'name',
+            'multiple' => false,
+            'expanded' => false,
+            'attr' => array('class' => 'publication'),
+        );
+
+        // Only display empty value on add
+        if ($options['type'] == 'add')  {
+            $publicationSettingsArray['empty_value'] = 'plugin.ingest.feeds.choose_publication';
+        }
+
         $builder
             ->add('name')
             ->add('url')
@@ -20,14 +33,7 @@ class FeedType extends AbstractType
                 'choices' => array('auto' => 'plugin.ingest.feeds.mode.auto', 'manual' => 'plugin.ingest.feeds.mode.manual'),
                 'required' => true,
             ))
-            ->add('publication', 'entity', array(
-                'class' => 'Newscoop\Entity\Publication',
-                'property' => 'name',
-                'multiple' => false,
-                'expanded' => false,
-                'empty_value' => 'plugin.ingest.feeds.choose_publication',
-                'attr' => array('class' => 'publication'),
-            ));
+            ->add('publication', 'entity', $publicationSettingsArray);
 
         $formModifier = function(FormInterface $form, \Newscoop\Entity\Publication $publication=null) {
             if ($publication === null) return false;
@@ -79,6 +85,7 @@ class FeedType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => 'Newscoop\IngestPluginBundle\Entity\Feed',
+            'type' => 'add'
         ));
     }
 

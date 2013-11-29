@@ -1,0 +1,48 @@
+{% block feed_form %}
+
+{% form_theme form 'NewscoopIngestPluginBundle:Form:_form_horizontal.html.twig' %}
+
+{# Do not remove wrapper div #}
+<div class="form_wrapper">
+
+    {{ form_start(form, { 'attr': { 'class': 'form_feed form-horizontal'} }) }}
+
+        {{ form_row(form.name) }}
+        {{ form_row(form.url) }}
+        <span class="help-block col-sm-offset-2">This can be left empty if the parsers handle retrieval of content.</span>
+
+        {{ form_row(form.parser) }}
+        {{ form_row(form.mode) }}
+        <span class="help-block col-sm-offset-2">
+            If <em>manual</em> is selected, entries will be ingested and appear in the
+            <strong>Entries</strong> tab. If <em>automatic</em> is selected feeds will
+            automatically be pulished in the below chosen publication and section.
+            The system will always use the latest publish Issue.
+        </span>
+
+        {{ form_row(form.publication, {'attr' : {'class' : 'publication'} }) }}
+
+        {% if form.sections is defined %}
+            {{ form_row(form.sections) }}
+
+            <span class="help-block col-sm-offset-2">
+                Automatically published entries will be published in the first
+                selected section. Unless multiple sections with different
+                languages are selected, in that case the system will try to find
+                the best suited language according to the entry language.
+                <br>
+                The parser can also return a section for the entry to be published
+                in. This will override all settings.
+            </span>
+        {% endif %}
+
+        <div class="col-sm-offset-2">
+            {{ form_widget(form.save, {'attr' : {'class' : 'btn btn-primary'} }) }}
+            {{ form_widget(form.cancel, {'attr' : {'class' : 'btn btn-default btn-js-click', 'data-url' : path('newscoop_ingestplugin_admin_feed') } }) }}
+        </div>
+
+        {{ form_rest(form) }}
+
+    {{ form_end(form) }}
+</div>
+{% endblock feed_form %}
