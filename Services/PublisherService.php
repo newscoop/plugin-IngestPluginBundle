@@ -9,10 +9,10 @@
 
 namespace Newscoop\IngestPluginBundle\Services;
 
-use Doctrine\ORM\EntityManager,
-    Doctrine\Common\Collections\Collection,
-    Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry,
-    Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
+use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Collections\Collection;
+use Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry;
+use Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
 
 /**
  * Ingest publisher service

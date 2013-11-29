@@ -8,12 +8,12 @@
 
 namespace Newscoop\IngestPluginBundle\EventListener;
 
-use Doctrine\ORM\EntityManager,
-    Symfony\Component\EventDispatcher\EventSubscriberInterface,
-    Newscoop\EventDispatcher\Events\GenericEvent,
-    Newscoop\Entity\ArticleType,
-    Newscoop\Entity\ArticleTypeField,
-    Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
+use Doctrine\ORM\EntityManager;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Newscoop\EventDispatcher\Events\GenericEvent;
+use Newscoop\Entity\ArticleType;
+use Newscoop\Entity\ArticleTypeField;
+use Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
 
 /**
  * Event lifecycle management
@@ -50,8 +50,8 @@ class LifecycleSubscriber implements EventSubscriberInterface
         // Generate proxies for entities
         $this->em->getProxyFactory()->generateProxyClasses($this->getClasses(), __DIR__ . '/../../../../library/Proxy');
 
-        // Create articletype
-        $this->articleTypeConfigurationService->create();
+        // Update articletype
+        $this->articleTypeConfigurationService->update();
     }
 
     public function remove(GenericEvent $event)

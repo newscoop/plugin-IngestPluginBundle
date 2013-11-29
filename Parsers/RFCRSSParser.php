@@ -9,8 +9,8 @@
 
 namespace Newscoop\IngestPluginBundle\Parsers;
 
-use Newscoop\IngestPluginBundle\Parsers,
-    SimplePie;
+use Newscoop\IngestPluginBundle\Parsers;
+use SimplePie;
 
 /**
  * Parses RSS (all versions) and ATOM feeds.

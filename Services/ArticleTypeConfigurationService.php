@@ -9,8 +9,8 @@
 
 namespace Newscoop\IngestPluginBundle\Services;
 
-use Doctrine\ORM\EntityManager,
-    Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\EntityManager;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * Configuration service for article type
@@ -136,6 +136,14 @@ class ArticleTypeConfigurationService
         $this->populateArticleTypeMetadata();
         $this->createArticleTypeTable();
         $this->extendArticleTypeTable();
+    }
+
+    /**
+     * Verifies and updates article type for this plugin
+     */
+    public function update()
+    {
+
     }
 
     /**

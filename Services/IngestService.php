@@ -9,12 +9,12 @@
 
 namespace Newscoop\IngestPluginBundle\Services;
 
-use Doctrine\ORM\EntityManager,
-    Newscoop\IngestPluginBundle\Entity\Ingest\Feed,
-    Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry,
-    Newscoop\IngestPluginBundle\Parser,
-    Newscoop\IngestPluginBundle\Services\PublisherService,
-    Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
+use Doctrine\ORM\EntityManager;
+use Newscoop\IngestPluginBundle\Entity\Ingest\Feed;
+use Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry;
+use Newscoop\IngestPluginBundle\Parser;
+use Newscoop\IngestPluginBundle\Services\PublisherService;
+use Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
 
 /**
  * Ingest service
