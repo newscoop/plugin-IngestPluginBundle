@@ -33,12 +33,12 @@ class AdminController extends Controller
 
         // Todo: remove after debugging is done
         // Debug to install entities
-        // $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
-        // $tool->updateSchema(array(
-        //     $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed'),
-        //     $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed\Entry'),
-        //     $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Parser'),
-        // ), true);
+        $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
+        $tool->updateSchema(array(
+            $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed'),
+            $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed\Entry'),
+            $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Parser'),
+        ), true);
 
         // $dispatcher = $this->get('event_dispatcher');
         // $dispatcher->dispatch('plugin.install.newscoop_ingest_plugin', new GenericEvent());
@@ -94,11 +94,17 @@ class AdminController extends Controller
             }
         }
 
-        $entries = $queryBuilder->getQuery()->getResult();
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $queryBuilder->getQuery(),
+            $request->query->get('knp_page', 1),
+            10
+        );
+        $pagination->setTemplate('NewscoopIngestPluginBundle:Pagination:pagination_bootstrap3.html.twig');
 
         return array(
             'filterForm' => $filterForm->createView(),
-            'entries' => $entries
+            'pagination' => $pagination
         );
     }
 
@@ -125,7 +131,10 @@ class AdminController extends Controller
      */
     public function entryPrepareAction($id, Request $request)
     {
+        $publisherService = $this->container->get('newscoop_ingest_plugin.publisher');
+        $publisherService->prepare($entry);
 
+        return $this->redirect($this->generateUrl('newscoop_ingestplugin_admin_entry'));
     }
 
     /**

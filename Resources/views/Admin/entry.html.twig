@@ -34,8 +34,8 @@
             </tr>
         </thead>
         <tbody>
-            {% if entries %}
-                {% for entry in entries %}
+            {% if pagination.getTotalItemCount > 0 %}
+                {% for entry in pagination %}
                     <tr id="entry_{{ entry.id }}">
                         <td>{{ entry.feed.name }}</td>
                         <td>{{ entry.title }}</td>
@@ -88,5 +88,9 @@
             {% endif %}
         </tbody>
     </table>
+
+    <div class="pagination-wrapper">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 
 {% endblock %}
