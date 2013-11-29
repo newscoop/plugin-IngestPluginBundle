@@ -49,6 +49,9 @@ class LifecycleSubscriber implements EventSubscriberInterface
 
         // Generate proxies for entities
         $this->em->getProxyFactory()->generateProxyClasses($this->getClasses(), __DIR__ . '/../../../../library/Proxy');
+
+        // Create articletype
+        $this->articleTypeConfigurationService->create();
     }
 
     public function remove(GenericEvent $event)
