@@ -1,7 +1,5 @@
 $(document).ready(function() {
 
-    alert('dom ready');
-
     // Button with btn-js-click should be executed through JS
     $('button.btn-js-click').click(function() {
         if ($(this).data('url') === '') {
@@ -16,21 +14,30 @@ $(document).ready(function() {
     $('.btn.confirm-delete').click(function(e) {
 
         e.stopImmediatePropagation();
-        var button = $(this);
+        var button = $(this),
+            dialogId = (button.data('dialog-id')) ? button.data('dialog-id') : 'dialog-confirm',
+            buttons = (typeof(confirmButtonOverride) !== 'undefined')
+                ? confirmButtonOverride
+                : [
+                    {
+                        text : Translator.get('plugin.ingest.dialog.delete'),
+                        click : function() {
+                            window.location = button.attr('href');
+                            $( this ).dialog( "close" );
+                        }
+                    }, {
+                        text : Translator.get('plugin.ingest.dialog.cancel'),
+                        click : function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                ];
 
-         $('#dialog-confirm').dialog({
-            resizable: false,
-            height:140,
+         $('#'+dialogId)
+         .data('dialogTriggerButton', button)
+         .dialog({
             modal: true,
-            buttons: {
-                "Delete all items": function() {
-                    window.location = button.attr('href');
-                    $( this ).dialog( "close" );
-                },
-                Cancel: function() {
-                    $( this ).dialog( "close" );
-                }
-            }
+            buttons: buttons
         });
 
         return false;

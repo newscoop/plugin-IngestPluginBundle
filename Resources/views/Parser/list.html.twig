@@ -33,7 +33,7 @@
                         <td>{{ parser.domain }}</td>
                         <td>{{ parser.feeds|length }}</td>
                         <td>
-                            <a href="{{ path('newscoop_ingestplugin_parser_delete', {'id': parser.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.parsers.delete'|trans|e }}">
+                            <a href="{{ path('newscoop_ingestplugin_parser_delete', {'id': parser.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.parsers.delete'|trans|e }}" data-dialog-id="dialog-delete-parser">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </td>
@@ -46,5 +46,12 @@
             {% endif %}
         </tbody>
     </table>
+
+    <div id="dialog-delete-parser" title="{{ 'plugin.ingest.parsers.dialog.title'|trans|e }}" style="display:none">
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+            {{ 'plugin.ingest.parsers.dialog.body'|trans }}
+        </p>
+    </div>
 
 {% endblock %}

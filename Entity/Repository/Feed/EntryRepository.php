@@ -9,9 +9,11 @@ namespace Newscoop\IngestPluginBundle\Entity\Repository\Feed;
 
 use DateTime;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Newscoop\IngestPluginBundle\Entity\Feed;
 
 /**
- * Feed/Entry repository
+ * Entry repository
  */
 class EntryRepository extends EntityRepository
 {

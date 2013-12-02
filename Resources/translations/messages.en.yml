@@ -8,6 +8,9 @@ plugin:
       entries: "Entries"
       feeds: "Feeds"
       parsers: "Parsers"
+    dialog:
+      delete: "Delete"
+      cancel: "Cancel"
     entries:
       none: "No entries found"
       publish: "Publish entry"
@@ -34,6 +37,14 @@ plugin:
         no: "Published: No"
         all: "Published: Any"
         filter: "Filter"
+        view: "View"
+        slim: "Slim view"
+        expanded: "Expanded view"
+      dialog:
+        title: "Confirm removal of entry"
+        body: "Are you sure you want to delete this entry? If the entry is published or prepared, the related article will also be removed"
+        delete: "Delete entry"
+        cancel: "Cancel"
     feeds:
       none: "No feeds found"
       add: "Add feed"
@@ -52,6 +63,12 @@ plugin:
       parser: "Parser"
       nosections: "No sections"
       choose_publication: "Select a publication"
+      dialog:
+        title: "Confirm removal of feed"
+        body: "Are you sure you want to delete this feed?"
+        delete: "Delete only feed"
+        delete_all: "Delete feed and entries"
+        cancel: "Cancel"
     parsers:
       none: "No parsers found"
       name: "Name"
@@ -63,6 +80,11 @@ plugin:
       nonew: "There are no new parsers. To install a parser copy the file into the Parsers directory."
       install: "Install"
       cancel: "Cancel"
+      dialog:
+        title: "Confirm removal of parser"
+        body: "Are you sure you want to delete this parser? Feeds linked to this parser will automatically be disabled."
+        delete: "Delete parser"
+        cancel: "Cancel"
     btn:
       add: "Add feed"
       delete: "Delete"

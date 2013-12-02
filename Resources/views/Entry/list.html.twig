@@ -14,6 +14,7 @@
 
             {{ form_row(filterForm.feed) }}
             {{ form_row(filterForm.published) }}
+            {{ form_row(filterForm.view) }}
             {{ form_widget(filterForm.filter, { 'attr': { 'class': 'btn btn-default btn-sm'} }) }}
 
             {{ form_rest(filterForm) }}
@@ -47,8 +48,8 @@
                                 {{ 'plugin.ingest.entries.nosection'|trans }}
                             {% endif %}
                         {% endspaceless %}</td>
-                        <td>{{ entry.created|date('d-m-Y') }}</td>
-                        <td>{{ entry.published ? entry.published|date('d-m-Y H:i') : 'plugin.ingest.entries.notpublished'|trans }}</td>
+                        <td>{{ entry.created|date('Y-m-d h:i:s') }}</td>
+                        <td>{{ entry.published ? entry.published|date('Y-m-d h:i:s') : 'plugin.ingest.entries.notpublished'|trans }}</td>
                         <td>
                             {% if entry.published is empty and entry.articleId is empty %}
                                 <a href="{{ path('newscoop_ingestplugin_entry_publish', {'id': entry.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.publish'|trans|e }}">
@@ -64,28 +65,30 @@
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
                             {% endif %}
-                            <a href="{{ path('newscoop_ingestplugin_entry_delete', {'id': entry.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.entries.delete'|trans|e }}">
+                            <a href="{{ path('newscoop_ingestplugin_entry_delete', {'id': entry.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.entries.delete'|trans|e }}" data-dialog-id="dialog-delete-entry">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                            {% if entry.content %}
-                                {% set content = entry.content|raw|slice(0, 130) %}
-                                {{ 'plugin.ingest.entries.content'|trans }}:
-                            {% elseif entry.summary %}
-                                {% set content = entry.summary|raw|slice(0, 130) %}
-                                {{ 'plugin.ingest.entries.summary'|trans }}:
-                            {% else %}
-                                {% set content = '&nbsp;' %}
-                                {{ 'plugin.ingest.entries.nocontent'|trans }}
-                            {% endif %}
-                        </td>
-                        <td colspan="6">
-                            {{ content }}
-                        </td>
-                    </tr>
+                    {% if view == 'expanded' %}
+                        <tr>
+                            <td>
+                                {% if entry.content %}
+                                    {% set content = entry.content %}
+                                    {{ 'plugin.ingest.entries.content'|trans }}:
+                                {% elseif entry.summary %}
+                                    {% set content = entry.summary %}
+                                    {{ 'plugin.ingest.entries.summary'|trans }}:
+                                {% else %}
+                                    {% set content = '&nbsp;' %}
+                                    {{ 'plugin.ingest.entries.nocontent'|trans }}
+                                {% endif %}
+                            </td>
+                            <td colspan="6">
+                                {{ content }}
+                            </td>
+                        </tr>
+                    {% endif %}
                 {% endfor %}
             {% else %}
                 <tr>
@@ -97,6 +100,13 @@
 
     <div class="pagination-wrapper">
         {{ knp_pagination_render(pagination) }}
+    </div>
+
+    <div id="dialog-delete-entry" title="{{ 'plugin.ingest.entries.dialog.title'|trans|e }}" style="display:none">
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+            {{ 'plugin.ingest.entries.dialog.body'|trans }}
+        </p>
     </div>
 
 {% endblock %}

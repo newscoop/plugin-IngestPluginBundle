@@ -67,6 +67,13 @@ class EntryController extends Controller
                 'label' => 'plugin.ingest.entries.filter.published',
                 'required' => false,
             ))
+            ->add('view', 'choice', array(
+                'choices'   => array(
+                    'slim' => 'plugin.ingest.entries.filter.slim',
+                    'expanded' => 'plugin.ingest.entries.filter.expanded',
+                ),
+                'label' => 'plugin.ingest.entries.filter.view',
+            ))
             ->add('filter', 'submit', array(
                 'label' => 'plugin.ingest.entries.filter.filter'
             ))
@@ -93,6 +100,7 @@ class EntryController extends Controller
                     ->andWhere($expression);
             }
         }
+        $queryBuilder->orderBy('e.created', 'desc');
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -104,7 +112,8 @@ class EntryController extends Controller
 
         return array(
             'filterForm' => $filterForm->createView(),
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'view'       => $formData['view']
         );
     }
 

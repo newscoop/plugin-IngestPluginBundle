@@ -91,7 +91,7 @@ class FeedController extends Controller
      */
     public function editAction(Request $request, Feed $feed)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->container->get('em');
 
         $form = $this->createForm(new FeedType(), $feed, array('type' => 'edit'));
 
@@ -110,7 +110,6 @@ class FeedController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
                 $em->persist($feed);
                 $em->flush();
 
@@ -134,6 +133,24 @@ class FeedController extends Controller
      */
     public function deleteAction(Request $request, Feed $feed)
     {
+        $em                     = $this->container->get('em');
+        $publisherService       = $this->container->get('newscoop_ingest_plugin.publisher');
+        $deleteRelatedEntries   = (bool) $request->query->get('delete_entries');
+
+        if ($deleteRelatedEntries) {
+
+            $entries = $em
+                ->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry')
+                ->findByFeed($feed);
+
+            foreach ($entries as $entry) {
+                if ($entry->getArticleId() !== null) {
+                    $publisherService->remove($entry);
+                }
+                $em->remove($entry);
+            }
+        }
+
         $em     = $this->getDoctrine()->getManager();
         $em->remove($feed);
         $em->flush();
