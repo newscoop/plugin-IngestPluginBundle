@@ -58,7 +58,9 @@ class IngestService
      */
     private function getFeeds()
     {
-        return $this->em->getRepository('\Newscoop\IngestPluginBundle\Entity\Feed')->findAll();
+        return $this->em
+            ->getRepository('\Newscoop\IngestPluginBundle\Entity\Feed')
+            ->findByEnabled(true);
     }
 
     /**
@@ -68,8 +70,14 @@ class IngestService
     {
         $feeds = $this->getFeeds();
 
-        foreach ($feeds as $feed) {
-            $this->updateFeed($feed);
+        if (count($feeds) > 0) {
+            $updated = array();
+            foreach ($feeds as $feed) {
+                $updated[] = $this->updateFeed($feed);
+            }
+            return count($updated);
+        } else {
+            return 0;
         }
     }
 
@@ -80,6 +88,10 @@ class IngestService
      */
     public function updateFeed(\Newscoop\IngestPluginBundle\Entity\Feed $feed)
     {
+        if (!$feed->isEnabled()) {
+            throw new \Exception('The feed '.$feed->getName().' is not enabled and will not be updated.', 1);
+        }
+
         $parser  = $feed->getParser();
         $namespace = $parser->getNamespace();
         $unparsedEntries = $namespace::getStories($feed);

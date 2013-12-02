@@ -44,16 +44,21 @@ EOT
         $ingest     = $this->getContainer()->getService('newscoop_ingest_plugin.ingester');
 
         if ($feedParam === 'all') {
-            //$ingest->ingestAllFeeds();
+            $feedsUpdated = $ingest->ingestAllFeeds();
+            $output->writeln('<info>Total feeds updated: '.$feedsUpdated.'</info>');
         } else {
             $em = $this->getContainer()->get('doctrine')->getManager();
             $feedEntity = $em
                 ->getRepository('\Newscoop\IngestPluginBundle\Entity\Feed')
-                ->find($feedParam);
+                ->findOneById($feedParam);
             if ($feedEntity === null) {
-                $output->writeln('No feed found with specified id.');
+                $output->writeln('<error>No feed found with specified id.</error>');
             } else {
-                $ingest->updateFeed($feedEntity);
+                try {
+                    $ingest->updateFeed($feedEntity);
+                } catch(\Exception $e) {
+                    $output->writeln('<error>'.$e->getMessage().'</error>');
+                }
             }
         }
     }

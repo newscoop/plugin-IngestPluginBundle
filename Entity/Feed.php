@@ -30,6 +30,12 @@ class Feed
     private $id;
 
     /**
+     * @ORM\Column(name="enabled", type="boolean")
+     * @var boolean
+     */
+    private $enabled;
+
+    /**
      * @ORM\Column(type="string")
      * @var string
      */
@@ -104,6 +110,54 @@ class Feed
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get id
+     *
+     * @param int $id
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return self;
+    }
+
+    /**
+     * Getter for enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Setter for enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return self
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Check if enabled
+     *
+     * @return boolean
+     */
+    public function isEnabled()
+    {
+        return ($this->getEnabled() === true);
     }
 
     /**

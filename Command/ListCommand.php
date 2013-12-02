@@ -37,10 +37,10 @@ EOT
             ->getRepository('\Newscoop\IngestPluginBundle\Entity\Feed')
             ->findAll();
 
-        $output->writeln('  '.str_pad('ID', 4, ' ', STR_PAD_LEFT) .'  Name');
+        $output->writeln('  En.  '.str_pad('ID', 4, ' ', STR_PAD_LEFT) .'  Name');
 
         foreach ($feeds as $feed) {
-            $output->writeln('  '.str_pad($feed->getId(), 4, ' ', STR_PAD_LEFT) .'  '.$feed->getName());
+            $output->writeln('    '.($feed->isEnabled() ? '1' : '0').'  '.str_pad($feed->getId(), 4, ' ', STR_PAD_LEFT) .'  '.$feed->getName());
         }
     }
 }

@@ -17,6 +17,7 @@
     <table class="table table-striped">
         <thead>
             <tr>
+                <th>{{ 'plugin.ingest.feeds.enabled'|trans }}</th>
                 <th>{{ 'plugin.ingest.feeds.name'|trans }}</th>
                 <th>{{ 'plugin.ingest.feeds.url'|trans }}</th>
                 <th>{{ 'plugin.ingest.feeds.mode.name'|trans }}</th>
@@ -31,6 +32,13 @@
             {% if feeds %}
                 {% for feed in feeds %}
                     <tr id="feed_{{ feed.id }}">
+                        <td>
+                            {% if feed.enabled %}
+                                {{ 'plugin.ingest.feeds.enabled'|trans }}
+                            {% else %}
+                                {{ 'plugin.ingest.feeds.disabled'|trans }}
+                            {% endif %}
+                        </td>
                         <td>{{ feed.name }}</td>
                         <td>{{ feed.url }}</td>
                         <td>{{ feed.mode == 'auto' ? 'plugin.ingest.feeds.mode.auto'|trans : 'plugin.ingest.feeds.mode.manual'|trans }}</td>
@@ -61,7 +69,7 @@
                     </tr>
                 {% endfor %}
             {% else %}
-                    <td colspan="7">{{ 'plugin.ingest.feeds.none'|trans }}.</td>
+                    <td colspan="8">{{ 'plugin.ingest.feeds.none'|trans }}.</td>
                 <tr>
                 </tr>
             {% endif %}

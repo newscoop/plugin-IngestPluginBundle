@@ -27,6 +27,10 @@ class FeedType extends AbstractType
         }
 
         $builder
+            ->add('enabled', 'choice', array(
+                'choices' => array('true' => 'plugin.ingest.feeds.enabled', 'false' => 'plugin.ingest.feeds.disabled'),
+                'required' => true,
+            ))
             ->add('name')
             ->add('url')
             ->add('mode', 'choice', array(

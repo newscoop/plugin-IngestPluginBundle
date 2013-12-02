@@ -7,6 +7,7 @@
 
     {{ form_start(form, { 'attr': { 'class': 'form_feed form-horizontal'} }) }}
 
+        {{ form_row(form.enabled) }}
         {{ form_row(form.name) }}
         {{ form_row(form.url) }}
         <span class="help-block col-sm-offset-2">This can be left empty if the parsers handle retrieval of content.</span>
