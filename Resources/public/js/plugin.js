@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    alert('dom ready');
+
     // Button with btn-js-click should be executed through JS
     $('button.btn-js-click').click(function() {
         if ($(this).data('url') === '') {
@@ -22,7 +24,7 @@ $(document).ready(function() {
             modal: true,
             buttons: {
                 "Delete all items": function() {
-                    window.location = button.attr('hreft');
+                    window.location = button.attr('href');
                     $( this ).dialog( "close" );
                 },
                 Cancel: function() {

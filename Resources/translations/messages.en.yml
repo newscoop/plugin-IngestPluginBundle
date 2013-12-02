@@ -13,6 +13,7 @@ plugin:
       publish: "Publish entry"
       edit: "Prepare entry"
       delete: "Delete entry"
+      view: "View article"
       nosection: "No section"
       feed: "Feed"
       title: "Title"

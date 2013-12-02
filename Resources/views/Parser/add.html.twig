@@ -21,7 +21,7 @@
 
             <div class="col-sm-offset-2">
                 {{ form_widget(form.install, {'attr' : {'class' : 'btn btn-primary btn-sm'}} ) }}
-                {{ form_widget(form.cancel, {'attr' : {'class' : 'btn btn-default btn-sm btn-js-click', 'data-url' : path('newscoop_ingestplugin_admin_parser') } }) }}
+                {{ form_widget(form.cancel, {'attr' : {'class' : 'btn btn-default btn-sm btn-js-click', 'data-url' : path('newscoop_ingestplugin_parser_list') } }) }}
             </div>
 
         {{ form_rest(form) }}

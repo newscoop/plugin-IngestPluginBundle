@@ -186,9 +186,9 @@ class IngestService
 
             // TODO: check after finishing publisher
             // Publish article
-            // if ($feed->isAutoMode()) {
-            //     $publisher->publish($entry);
-            // }
+            if ($feed->isAutoMode()) {
+                $this->publisher->publish($entry);
+            }
         }
 
         $feed->setUpdated(new \DateTime());

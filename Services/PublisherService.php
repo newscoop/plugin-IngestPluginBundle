@@ -124,7 +124,7 @@ class PublisherService
     /**
      * Prepares an entry as a Newscoop Article, but doesn't publish it yet
      *
-     * @param  \NewscoopIngestPluginBundle\Entity\Feed\Entry $entry
+     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
      */
     public function prepare(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
@@ -133,19 +133,24 @@ class PublisherService
         return $article;
     }
 
+    /**
+     * Updates the article linked with the given entry
+     *
+     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     */
     public function update(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
         // update
     }
 
+    /**
+     * Removes an article linked with the given entry
+     *
+     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     */
     public function remove(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
-        $article = $this->getArticle($entry);
-        if ($article !== null) {
-            $this->em->remove($article);
-            $this->em->flush();
-            exit;
-        }
+        $this->removeLegacy($entry);
     }
 
     /**
@@ -199,11 +204,46 @@ class PublisherService
         $this->em->persist($entry);
         $this->em->flush();
 
-        // echo 123; exit;
-
         return $article;
     }
 
+    /**
+     * Remove an article through entities.
+     * TODO: Not supported yet since articles are not fully working with all
+     * corresponding triggers through Entities
+     *
+     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     *   The entity on which the article is based
+     */
+    private function removeNew(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry) {
+        $article = $this->getArticle($entry);
+        if ($article !== null) {
+            $this->em->remove($article);
+            $this->em->flush();
+        }
+    }
+
+    /**
+     * Removes an article the legacy way
+     *
+     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     *   The entity on which the article is based
+     */
+    private function removeLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    {
+        $article = new \Article($entry->getLanguage()->getId(), $entry->getArticleId());
+        if ($article->exists()) {
+            $article->delete();
+        }
+    }
+
+    /**
+     * Get an article entity related to the given entry
+     *
+     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     *
+     * @return \Newscoop\Entity\Article
+     */
     private function getArticle(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
         if ($entry->getArticleId() === null) return null;
