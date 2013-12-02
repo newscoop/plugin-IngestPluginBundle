@@ -20,7 +20,9 @@ services:
 
     newscoop_ingest_plugin.publisher:
         class:      Newscoop\IngestPluginBundle\Services\PublisherService
-        arguments:  ["@em", "@newscoop_ingest_plugin.articletypeconfigurator"]
+        arguments:
+            - "@em"
+            - "@newscoop_ingest_plugin.articletypeconfigurator"
 
     newscoop_ingest_plugin.articletypeconfigurator:
         class:      Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService

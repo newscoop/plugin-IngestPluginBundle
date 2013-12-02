@@ -109,45 +109,26 @@ class PublisherService
      */
     private function publishLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
-        $publication = $entry->getFeed()->getPublication();
-        $latestIssue = $this->em
-            ->getRepository('\Newscoop\Entity\Issue')
-            ->getLatestByPublication($publication);
-        $articleType = $this->em
-            ->getRepository('\Newscoop\Entity\ArticleType')
-            ->findOneByName('Newswire');
+        $article = $this->createLegacy($entry);
 
-        $article = new \Article($entry->getLanguage()->getId());
-        $article->create(
-            $articleType->getName(),
-            $entry->getTitle(),
-            $publication->getId(),
-            $latestIssue->getId(),
-            $entry->getSection()->getId()
-        );
         $article->setWorkflowStatus('Y');
-        $article->setKeywords(implode(',', $entry->getKeywords()));
-        $article->setCommentsEnabled(true);
-
-        // ArticleType data
-        $this->setArticleDataLegacy($article, $entry);
-
-        // Dates
         $entry->setPublished(new \DateTime());
-        $article->setCreationDate($entry->getCreated()->format('Y-m-d H:i:s'));
-        $article->setPublishDate($entry->getPublished()->format('Y-m-d H:i:s'));
-        $article->setProperty('time_updated', $entry->getUpdated()->format('Y-m-d H:i:s'));
-
-        // Author
-        $this->setArticleAuthorsLegacy($article, $entry);
-
-        // TODO: Images
-
-        $entry->setArticleId($article->getArticleNumber());
 
         $article->commit();
         $this->em->persist($entry);
         $this->em->flush();
+
+        return $article;
+    }
+
+    /**
+     * Prepares an entry as a Newscoop Article, but doesn't publish it yet
+     *
+     * @param  \NewscoopIngestPluginBundle\Entity\Feed\Entry $entry
+     */
+    public function prepare(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    {
+        $article = $this->createLegacy($entry);
 
         return $article;
     }
@@ -165,6 +146,62 @@ class PublisherService
             $this->em->flush();
             exit;
         }
+    }
+
+    /**
+     * Creates an legacy Article based on a feed entry
+     *
+     * @param  \NewscoopIngestPluginBundle\Entity\Feed\Entry $entry
+     *
+     * @return \Article Returns legacy article opbject
+     */
+    private function createLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    {
+        $publication = $entry->getFeed()->getPublication();
+        $latestIssue = $this->em
+            ->getRepository('\Newscoop\Entity\Issue')
+            ->getLatestBy(array(
+                'publication' => $publication,
+                'language' => $entry->getLanguage(),
+                'workflowStatus' => 'Y'
+            ));
+        $articleType = $this->em
+            ->getRepository('\Newscoop\Entity\ArticleType')
+            ->findOneByName('Newswire');
+
+        $article = new \Article($entry->getLanguage()->getId());
+        $article->create(
+            $articleType->getName(),
+            $entry->getTitle(),
+            $publication->getId(),
+            $latestIssue->getId(),
+            $entry->getSection()->getNumber()
+        );
+        $article->setWorkflowStatus('N');
+        $article->setKeywords(implode(',', $entry->getKeywords()));
+        $article->setCommentsEnabled(0);
+
+        // ArticleType data
+        $this->setArticleDataLegacy($article, $entry);
+
+        // Dates
+        $article->setCreationDate($entry->getCreated()->format('Y-m-d H:i:s'));
+        $article->setProperty('time_updated', $entry->getUpdated()->format('Y-m-d H:i:s'));
+
+        // Author
+        $this->setArticleAuthorsLegacy($article, $entry);
+
+        // TODO: Images
+
+        $entry->setArticleId($article->getArticleNumber());
+
+        $article->commit();
+        $this->em->persist($entry);
+        $this->em->flush();
+
+        // echo 123; exit;
+
+        return $article;
     }
 
     private function getArticle(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)

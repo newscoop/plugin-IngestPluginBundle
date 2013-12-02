@@ -127,14 +127,19 @@ class AdminController extends Controller
 
     /**
      * @Route("/entry/prepare/{id}")
-     * @Template()
+     * @ParamConverter("get")
      */
-    public function entryPrepareAction($id, Request $request)
+    public function entryPrepareAction(Request $request, Entry $entry)
     {
         $publisherService = $this->container->get('newscoop_ingest_plugin.publisher');
-        $publisherService->prepare($entry);
+        $legacyArticle = $publisherService->prepare($entry);
 
-        return $this->redirect($this->generateUrl('newscoop_ingestplugin_admin_entry'));
+        $articleLink = '/admin/articles/edit.php?f_publication_id=' . $legacyArticle->getPublicationId()
+        . '&f_issue_number=' . $legacyArticle->getIssueNumber() . '&f_section_number=' . $legacyArticle->getSectionNumber()
+        . '&f_article_number=' . $legacyArticle->getArticleNumber() . '&f_language_id=' . $legacyArticle->getLanguageId()
+        . '&f_language_selected=' . $legacyArticle->getLanguageId();
+
+        return $this->redirect($articleLink);
     }
 
     /**
