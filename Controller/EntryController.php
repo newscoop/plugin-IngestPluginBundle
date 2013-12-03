@@ -49,7 +49,7 @@ class EntryController extends Controller
             ->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry')
             ->createQueryBuilder('e');
 
-        $defaultData = array('feed' => '', 'published' => '');
+        $defaultData = array('feed' => '', 'published' => '', 'view' => 'slim');
         $filterForm = $this->createFormBuilder($defaultData)
             ->setMethod('GET')
             ->add('feed', 'entity', array(
@@ -113,7 +113,7 @@ class EntryController extends Controller
         return array(
             'filterForm' => $filterForm->createView(),
             'pagination' => $pagination,
-            'view'       => $formData['view']
+            'view'       => (isset($formData) ? $formData['view'] : $defaultData['view'])
         );
     }
 
