@@ -18,6 +18,7 @@ class FeedType extends AbstractType
             'property' => 'name',
             'multiple' => false,
             'expanded' => false,
+            'label' => 'plugin.ingest.feeds.publication',
             'attr' => array('class' => 'publication'),
         );
 
@@ -31,10 +32,16 @@ class FeedType extends AbstractType
                 'label' => 'plugin.ingest.feeds.enabled',
                 'required' => false,
             ))
-            ->add('name')
-            ->add('url')
+            ->add('name', 'text', array(
+                'label' => 'plugin.ingest.feeds.name',
+            ))
+            ->add('url', 'url', array(
+                'label' => 'plugin.ingest.feeds.url',
+                'required' => false,
+            ))
             ->add('mode', 'choice', array(
                 'choices' => array('auto' => 'plugin.ingest.feeds.mode.auto', 'manual' => 'plugin.ingest.feeds.mode.manual'),
+                'label' => 'plugin.ingest.feeds.mode.name',
                 'required' => true,
             ))
             ->add('publication', 'entity', $publicationSettingsArray);
@@ -50,6 +57,7 @@ class FeedType extends AbstractType
                     'class' => 'Newscoop\Entity\Section',
                     'multiple' => true,
                     'expanded' => true,
+                    'label' => 'plugin.ingest.feeds.mode.section',
                 ));
         };
 
@@ -81,8 +89,12 @@ class FeedType extends AbstractType
                 'class' => 'Newscoop\IngestPluginBundle\Entity\Parser',
                 'property' => 'name',
             ))
-            ->add('save', 'submit')
-            ->add('cancel', 'button');
+            ->add('save', 'submit', array(
+                'label' => 'plugin.ingest.feeds.form.button.' . ($options['type'] == 'add' ? 'add' : 'save'),
+            ))
+            ->add('cancel', 'button', array(
+                'label' => 'plugin.ingest.feeds.form.button.cancel',
+            ));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)

@@ -72,6 +72,16 @@ plugin:
         delete: "Delete only feed"
         delete_all: "Delete feed and entries"
         cancel: "Cancel"
+      form:
+        help:
+          url: "This can be left empty if the parsers handle retrieval of content."
+          mode: "If <em>manual</em> is selected, entries will be ingested and appear in the<strong>Entries</strong> tab. If <em>automatic</em> is selected feeds willautomatically be pulished in the below chosen publication and section.The system will always use the latest publish Issue."
+          publication: "After selecting a publication, please wait untill the corresponding sections have been loaded."
+          section: "Automatically published entries will be published in the first selected section. Unless multiple sections with different languages are selected, in that case the system will try to find the best suited language according to the entry language.<br>The parser can also return a section for the entry to be published in. This will override all settings."
+        button:
+          add: "Add"
+          save: "Save"
+          cancel: "Cancel"
     parsers:
       none: "No parsers found"
       name: "Name"
@@ -81,8 +91,12 @@ plugin:
       add: "Add parser"
       delete: "Delete parser"
       nonew: "There are no new parsers. To install a parser copy the file into the Parsers directory."
-      install: "Install"
-      cancel: "Cancel"
+      form:
+        label:
+          namespace: "Select one or more parsers to install"
+        button:
+          install: "Install"
+          cancel: "Cancel"
       dialog:
         title: "Confirm removal of parser"
         body: "Are you sure you want to delete this parser? Feeds linked to this parser will automatically be disabled."

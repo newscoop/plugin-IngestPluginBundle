@@ -77,13 +77,13 @@ class ParserController extends Controller
                     'choices' => $newParsers,
                     'multiple' => true,
                     'expanded' => true,
-                    'label' => 'Select one or more parsers to install'
+                    'label' => 'plugin.ingest.parsers.form.label.namespace'
                 ))
                 ->add('install', 'submit', array(
-                    'label' => 'plugin.ingest.parsers.install'
+                    'label' => 'plugin.ingest.parsers.form.button.install'
                 ))
                 ->add('cancel', 'button', array(
-                    'label' => 'plugin.ingest.parsers.cancel'
+                    'label' => 'plugin.ingest.parsers.form.button.cancel'
                 ));
             $form = $formBuilder->getForm();
 
