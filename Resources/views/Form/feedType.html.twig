@@ -22,6 +22,10 @@
         </span>
 
         {{ form_row(form.publication, {'attr' : {'class' : 'publication'} }) }}
+        <span class="help-block col-sm-offset-2">
+            After selecting a publication, please wait untill the corresponding
+            sections have been loaded.
+        </span>
 
         {% if form.sections is defined %}
             {{ form_row(form.sections) }}
