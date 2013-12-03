@@ -100,7 +100,9 @@ class EntryController extends Controller
                     ->andWhere($expression);
             }
         }
-        $queryBuilder->orderBy('e.created', 'desc');
+        $queryBuilder
+            ->orderBy('e.created', 'desc')
+            ->orderBy('e.id', 'desc');
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(

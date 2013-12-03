@@ -22,7 +22,14 @@
         {{ form_end(filterForm) }}
     </div>
 
-    <table class="table table-striped">
+    {% if view == 'expanded' %}
+        {% set tableClass = 'table-hover' %}
+    {% endif %}
+    {% if view == 'slim' %}
+        {% set tableClass = 'table-striped table-hover' %}
+    {% endif %}
+
+    <table class="table {{ tableClass }}">
         <thead>
             <tr>
                 <th>{{ 'plugin.ingest.entries.feed'|trans }}</th>
@@ -37,7 +44,7 @@
         <tbody>
             {% if pagination.getTotalItemCount > 0 %}
                 {% for entry in pagination %}
-                    <tr id="entry_{{ entry.id }}">
+                    <tr id="entry_{{ entry.id }}" class="{% if view == 'expanded' %}active{% endif %}">
                         <td>{{ entry.feed.name }}</td>
                         <td>{{ entry.title }}</td>
                         <td>{{ entry.language.name }}</td>
@@ -71,6 +78,14 @@
                         </td>
                     </tr>
                     {% if view == 'expanded' %}
+                        {% if entry.link is not empty %}
+                            <td>
+                                {{ 'plugin.ingest.entries.link'|trans }}:
+                            </td>
+                            <td colspan="6">
+                                <a href="{{ entry.link }}" target="_blank">{{ entry.link }}</a>
+                            </td>
+                        {% endif %}
                         <tr>
                             <td>
                                 {% if entry.content %}

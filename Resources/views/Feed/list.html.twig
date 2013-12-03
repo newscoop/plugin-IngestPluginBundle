@@ -12,6 +12,10 @@
             <span class="glyphicon glyphicon-plus"></span>
             {{ 'plugin.ingest.feeds.add'|trans }}
         </a>
+        <a href="{{ path('newscoop_ingestplugin_feed_updateall') }}" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-refresh"></span>
+            {{ 'plugin.ingest.feeds.update_all'|trans }}
+        </a>
     </div>
 
     <table class="table table-striped">
@@ -59,6 +63,9 @@
                         <td>{{ feed.updated ? feed.updated|date('Y-m-d h:i:s') : 'plugin.ingest.feeds.notupdated'|trans }}</td>
                         <td>{{ feed.parser.name }}</td>
                         <td>
+                            <a href="{{ path('newscoop_ingestplugin_feed_update', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.update'|trans|e }}">
+                                <span class="glyphicon glyphicon-refresh"></span>
+                            </a>
                             <a href="{{ path('newscoop_ingestplugin_feed_edit', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.edit'|trans|e }}">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>

@@ -162,4 +162,37 @@ class FeedController extends Controller
 
         return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
     }
+
+    /**
+     * @Route("/update/{id}")
+     * @ParamConverter("get")
+     */
+    public function updateAction(Request $request, Feed $feed)
+    {
+        $ingestService = $this->container->get('newscoop_ingest_plugin.ingester');
+        $updatedFeedCount = $ingestService->ingestAllFeeds();
+
+        $this->get('session')->getFlashBag()->add(
+            'notice',
+            'Number of feeds updated: '.$updatedFeedCount
+        );
+
+        return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
+    }
+
+    /**
+     * @Route("/update/all")
+     */
+    public function updateAllAction(Request $request, $id)
+    {
+        $ingestService = $this->container->get('newscoop_ingest_plugin.ingester');
+        $ingestService->updateFeed($feed);
+
+        $this->get('session')->getFlashBag()->add(
+            'notice',
+            $feed->getName() .' has been updated.'
+        );
+
+        return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
+    }
 }

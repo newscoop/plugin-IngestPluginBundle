@@ -30,6 +30,7 @@ plugin:
       nocontent: "No content"
       content: "Content"
       summary: "Summary"
+      link: "Link"
       filter:
         feeds: "Feeds"
         all_feeds: "All feeds"
@@ -51,6 +52,8 @@ plugin:
       add: "Add feed"
       edit: "Edit feed"
       delete: "Delete feed"
+      update: "Update feed"
+      update_all: "Update all feeds"
       name: "Name"
       url: "URL"
       mode:
