@@ -60,7 +60,7 @@
                                 {{ 'plugin.ingest.feeds.nosections'|trans }}
                             {% endif %}
                         </td>
-                        <td>{{ feed.updated ? feed.updated|date('Y-m-d h:i:s') : 'plugin.ingest.feeds.notupdated'|trans }}</td>
+                        <td>{{ feed.updated ? feed.updated|date('Y-m-d H:i:s') : 'plugin.ingest.feeds.notupdated'|trans }}</td>
                         <td>{{ feed.parser.name }}</td>
                         <td>
                             <a href="{{ path('newscoop_ingestplugin_feed_update', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.update'|trans|e }}">

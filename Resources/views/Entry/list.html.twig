@@ -55,8 +55,8 @@
                                 {{ 'plugin.ingest.entries.nosection'|trans }}
                             {% endif %}
                         {% endspaceless %}</td>
-                        <td>{{ entry.created|date('Y-m-d h:i:s') }}</td>
-                        <td>{{ entry.published ? entry.published|date('Y-m-d h:i:s') : 'plugin.ingest.entries.notpublished'|trans }}</td>
+                        <td>{{ entry.created|date('Y-m-d H:i:s') }}</td>
+                        <td>{{ entry.published ? entry.published|date('Y-m-d H:i:s') : 'plugin.ingest.entries.notpublished'|trans }}</td>
                         <td>
                             {% if entry.published is empty and entry.articleId is empty %}
                                 <a href="{{ path('newscoop_ingestplugin_entry_publish', {'id': entry.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.publish'|trans|e }}">
