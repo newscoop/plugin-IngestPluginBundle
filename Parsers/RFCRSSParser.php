@@ -65,7 +65,7 @@ class RFCRSSParser extends Parser
             $entries[] = new RFCRSSParser($item);
         }
 
-        return $entries;
+        return array_reverse($entries);
     }
 
     /**
@@ -159,8 +159,10 @@ class RFCRSSParser extends Parser
     {
         $return  = array();
         $keywords = $this->entry->get_categories();
-        foreach ($keywords as $keyword) {
-            $return[] = $keyword->get_label();
+        if (is_array($keywords) && count($keywords) > 0) {
+            foreach ($keywords as $keyword) {
+                $return[] = $keyword->get_label();
+            }
         }
 
         return $return;
@@ -175,12 +177,15 @@ class RFCRSSParser extends Parser
     {
         $return  = array();
         $authors = $this->entry->get_authors();
-        foreach ($authors as $author) {
-            $return[] = array(
-                'name' => $author->get_name(),
-                'email' => $author->get_email(),
-                'link' => $author->get_link(),
-            );
+
+        if (is_array($authors) && count($authors) > 0) {
+            foreach ($authors as $author) {
+                $return[] = array(
+                    'name' => $author->get_name(),
+                    'email' => $author->get_email(),
+                    'link' => $author->get_link(),
+                );
+            }
         }
 
         return $return;

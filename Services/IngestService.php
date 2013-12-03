@@ -113,7 +113,7 @@ class IngestService
                 continue;
             }
 
-            $entry = $repository->findBy(
+            $entry = $repository->findOneBy(
                 array(
                     'feed' => $feed,
                     'newsItemId' => $unparsedEntry->getNewsItemId()
@@ -153,6 +153,7 @@ class IngestService
             if (!in_array($languageEntity, $allowedLanguages)) {
                 $languageEntity = $feed->getPublication()->getDefaultLanguage();
             }
+
             $entry->setLanguage($languageEntity);
 
             $sectionEntity  = null; // Default can be null, but not for autopublishing
