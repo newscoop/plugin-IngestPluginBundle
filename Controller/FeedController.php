@@ -164,10 +164,9 @@ class FeedController extends Controller
     }
 
     /**
-     * @Route("/update/{id}")
-     * @ParamConverter("get")
+     * @Route("/update/all")
      */
-    public function updateAction(Request $request, Feed $feed)
+    public function updateAllAction(Request $request)
     {
         $ingestService = $this->container->get('newscoop_ingest_plugin.ingester');
         $updatedFeedCount = $ingestService->ingestAllFeeds();
@@ -181,9 +180,10 @@ class FeedController extends Controller
     }
 
     /**
-     * @Route("/update/all")
+     * @Route("/update/{id}")
+     * @ParamConverter("get")
      */
-    public function updateAllAction(Request $request, $id)
+    public function updateAction(Request $request, Feed $feed)
     {
         $ingestService = $this->container->get('newscoop_ingest_plugin.ingester');
         $ingestService->updateFeed($feed);
