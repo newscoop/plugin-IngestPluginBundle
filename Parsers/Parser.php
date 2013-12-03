@@ -270,7 +270,9 @@ abstract class Parser
 
         // Call all attribute related getters
         foreach ($attributeMethods as $attributeMethod) {
-            list($name, $value) = $this->$attributeMethod();
+            $name   = strtolower(str_replace('getAttribute', '', $attributeMethod));
+            $value  = $this->$attributeMethod();
+
             $this->_setAttributeProperty($name, $value);
         }
 
