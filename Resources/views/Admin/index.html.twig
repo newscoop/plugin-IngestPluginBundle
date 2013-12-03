@@ -18,6 +18,11 @@
             {{ flashMessage }}
         </div>
     {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
 
     {{ include('NewscoopIngestPluginBundle:Admin:menu.html.twig', {menuActive: menuActive|default('content')}, with_context = false) }}
 

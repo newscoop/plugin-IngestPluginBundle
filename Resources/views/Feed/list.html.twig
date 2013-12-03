@@ -63,9 +63,11 @@
                         <td>{{ feed.updated ? feed.updated|date('Y-m-d H:i:s') : 'plugin.ingest.feeds.notupdated'|trans }}</td>
                         <td>{{ feed.parser.name }}</td>
                         <td>
-                            <a href="{{ path('newscoop_ingestplugin_feed_update', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.update'|trans|e }}">
-                                <span class="glyphicon glyphicon-refresh"></span>
-                            </a>
+                            {% if feed.enabled %}
+                                <a href="{{ path('newscoop_ingestplugin_feed_update', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.update'|trans|e }}">
+                                    <span class="glyphicon glyphicon-refresh"></span>
+                                </a>
+                            {% endif %}
                             <a href="{{ path('newscoop_ingestplugin_feed_edit', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.edit'|trans|e }}">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>

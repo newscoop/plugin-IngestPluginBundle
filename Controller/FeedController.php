@@ -186,12 +186,20 @@ class FeedController extends Controller
     public function updateAction(Request $request, Feed $feed)
     {
         $ingestService = $this->container->get('newscoop_ingest_plugin.ingester');
-        $ingestService->updateFeed($feed);
 
-        $this->get('session')->getFlashBag()->add(
-            'notice',
-            $feed->getName() .' has been updated.'
-        );
+        try {
+            $ingestService->updateFeed($feed);
+
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                $feed->getName() .' has been updated.'
+            );
+        } catch(\Exception $e) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'An error occured: '.$e->getMessage()
+            );
+        }
 
         return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
     }
