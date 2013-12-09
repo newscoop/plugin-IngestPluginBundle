@@ -145,7 +145,14 @@ class EntryController extends Controller
         $publisherService = $this->container->get('newscoop_ingest_plugin.publisher');
         $legacyArticle = $publisherService->prepare($entry);
 
-        return $this->redirect($this->generateUrl('newscoop_ingestplugin_entry_redirecttoarticle'));
+        return $this->redirect(
+            $this->generateUrl('newscoop_ingestplugin_entry_redirecttoarticle',
+                array(
+                    'languageId' => $legacyArticle->getLanguageId(),
+                    'articleNumber' => $legacyArticle->getArticleNumber(),
+                )
+            )
+        );
     }
 
     /**
