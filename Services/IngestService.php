@@ -177,9 +177,6 @@ class IngestService
             $entry->setCreated($unparsedEntry->getCreated());
             $entry->setUpdated($unparsedEntry->getUpdated());
 
-            // Todo: Set this when published automatically
-            //$entry->setPublished($unparsedEntry->getPublished());
-
             $entry->setProduct($unparsedEntry->getProduct());
             $entry->setStatus($unparsedEntry->getStatus());
             $entry->setPriority($unparsedEntry->getPriority());

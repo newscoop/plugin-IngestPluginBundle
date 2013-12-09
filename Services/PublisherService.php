@@ -357,7 +357,7 @@ class PublisherService
                 $article->setAuthor($author, $order++);
             }
         } else {
-            $name = $entry->getProduct() ?: $entry->getFeed()->getTitle();
+            $name = $entry->getProduct() ?: $entry->getFeed()->getName();
             $author = new \Author($name);
             if (!$author->exists()) {
                 $author->create();

@@ -54,6 +54,10 @@ class ArticleTypeConfigurationService
             'entryMethod' => 'getTitle',
             'type' => 'text', 'max_size' => 255
         ),
+        'dataLink' => array(
+            'entryMethod' => 'getLink',
+            'type' => 'text', 'max_size' => 255
+        ),
         'dataLead' => array(
             'entryMethod' => 'getSummary',
             'type' => 'body', 'field_type_param' => 'editor_size=250'
@@ -143,7 +147,7 @@ class ArticleTypeConfigurationService
      */
     public function update()
     {
-
+        //
     }
 
     /**
