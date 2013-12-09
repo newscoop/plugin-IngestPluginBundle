@@ -330,7 +330,7 @@ class NewsMlParser implements Parser
      *
      * @return string
      */
-    public function getCatchLine()
+    public function getCatchline()
     {
         $catchLine = $this->xml->xpath('//NewsLines/NewsLine/NewsLineType[@FormalName="CatchLine"]');
         return empty($catchLine) ? '' : $this->getString(array_shift($catchLine)->xpath('following::NewsLineText'));

@@ -47,7 +47,7 @@ class ArticleTypeConfigurationService
             'type' => 'text', 'max_size' => 255, 'is_hidden' => 1
         ),
         'headLine' => array(
-            'entryMethod' => 'getCatchLine',
+            'entryMethod' => 'getCatchline',
             'type' => 'text', 'max_size' => 255
         ),
         'newsLineText' => array(

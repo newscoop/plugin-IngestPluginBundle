@@ -342,25 +342,25 @@ class Entry
     }
 
     /**
-     * Get catch line
+     * Get catchline
      *
      * @return string
      */
-    public function getCatchLine()
+    public function getCatchline()
     {
-        return $this->catchLine;
+        return $this->catchline;
     }
 
     /**
-     * Setter for catchLine
+     * Setter for catchline
      *
-     * @param mixed $catchLine Value to set
+     * @param mixed $catchline Value to set
      *
      * @return self
      */
-    public function setCatchLine($catchLine)
+    public function setCatchline($catchline)
     {
-        $this->catchLine = $catchLine;
+        $this->catchline = $catchline;
 
         return $this;
     }
