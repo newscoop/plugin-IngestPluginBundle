@@ -151,6 +151,18 @@ class RFCRSSParser extends Parser
     }
 
     /**
+     * Get product (NewsProduct in \Article)
+     *
+     * @return string|null
+     */
+    public function getProduct()
+    {
+        $feed = $this->entry->get_feed();
+
+        return $feed->get_title();
+    }
+
+    /**
      * Get categories as keywords
      *
      * @return array Each entry in the array should be a seperate keyword
