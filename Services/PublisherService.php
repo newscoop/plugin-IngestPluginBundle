@@ -10,9 +10,10 @@
 namespace Newscoop\IngestPluginBundle\Services;
 
 use Doctrine\ORM\EntityManager;
-use Doctrine\Common\Collections\Collection;
 use Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry;
 use Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 /**
  * Ingest publisher service
@@ -22,7 +23,8 @@ class PublisherService
     /**
      * Initialize service
      *
-     * @param EntityManager $em Entity manager
+     * @param EntityManager                   $em                     Entity manager
+     * @param ArticleTypeConfigurationService $articleTypeConfService Articletype helper
      */
     public function __construct(EntityManager $em, ArticleTypeConfigurationService $articleTypeConfService)
     {
@@ -34,7 +36,9 @@ class PublisherService
      * Currently just a future proof wrapper class which calls legacy publishing
      * code
      *
-     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry Entry
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry Entry
+     *
+     * @return \Article Legacy article
      */
     public function publish(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
@@ -87,8 +91,7 @@ class PublisherService
                 ->setCommentsEnabled(0);
 
             $this->setArticleAuthors($article, $entry);
-
-            // TODO: set images
+            $this->setArticleImages($article, $entry);
 
             // Publish article
             $article->publish();
@@ -105,7 +108,9 @@ class PublisherService
      * Publishes an entry as an article.
      * NOTE: Mixed new and legacy code. Legacy article API is used.
      *
-     * @param \NewscoopIngestPluginBundleEntityFeedEntry $entry Entry to be published
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry Entry to be published
+     *
+     * @return \Article Legacy article
      */
     private function publishLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
@@ -124,7 +129,7 @@ class PublisherService
     /**
      * Prepares an entry as a Newscoop Article, but doesn't publish it yet
      *
-     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
      */
     public function prepare(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
@@ -136,17 +141,17 @@ class PublisherService
     /**
      * Updates the article linked with the given entry
      *
-     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
      */
     public function update(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
-        // update
+        $this->updateLegacy($entry);
     }
 
     /**
      * Removes an article linked with the given entry
      *
-     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
      */
     public function remove(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
@@ -156,7 +161,7 @@ class PublisherService
     /**
      * Creates an legacy Article based on a feed entry
      *
-     * @param  \NewscoopIngestPluginBundle\Entity\Feed\Entry $entry
+     * @param \NewscoopIngestPluginBundle\Entity\Feed\Entry $entry
      *
      * @return \Article Returns legacy article opbject
      */
@@ -195,8 +200,7 @@ class PublisherService
 
         // Author
         $this->setArticleAuthorsLegacy($article, $entry);
-
-        // TODO: Images
+        $this->setArticleImagesLegacy($article, $entry);
 
         $entry->setArticleId($article->getArticleNumber());
 
@@ -208,14 +212,50 @@ class PublisherService
     }
 
     /**
+     * Update an entry that is already published as article with legacy methods
+     *
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     *   The entity on which the article is based
+     */
+    private function updateLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    {
+        if (!$entry->isPublished()) {
+            return;
+        }
+
+        $article = getArticleLegacy($entry->getLanguage()->getId(), $entry->getArticleId());
+        if (!$article->exists()) {
+            return;
+        }
+
+        $article->setTitle($entry->getTitle());
+        $article->setProperty('time_updated', $entry->getUpdated()->format('Y-m-d H:i:s'));
+        $article->setKeywords(implode(',', $entry->getKeywords()));
+        $this->setArticleDataLegacy($article, $entry);
+        $this->setArticleAuthorsLegacy($article, $entry);
+
+        // TODO: Images
+
+        // Update published if entry already was published
+        if ($entry->isPublished()) {
+            $entry->setPublished(new \DateTime());
+        }
+
+        $article->commit();
+        $this->em->persist($entry);
+        $this->em->flush();
+    }
+
+    /**
      * Remove an article through entities.
      * TODO: Not supported yet since articles are not fully working with all
      * corresponding triggers through Entities
      *
-     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
      *   The entity on which the article is based
      */
-    private function removeNew(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry) {
+    private function removeNew(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    {
         $article = $this->getArticle($entry);
         if ($article !== null) {
             $this->em->remove($article);
@@ -226,12 +266,12 @@ class PublisherService
     /**
      * Removes an article the legacy way
      *
-     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
      *   The entity on which the article is based
      */
     private function removeLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
-        $article = new \Article($entry->getLanguage()->getId(), $entry->getArticleId());
+        $article = getArticleLegacy($entry->getLanguage()->getId(), $entry->getArticleId());
         if ($article->exists()) {
             $article->delete();
         }
@@ -240,18 +280,33 @@ class PublisherService
     /**
      * Get an article entity related to the given entry
      *
-     * @param  \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
      *
      * @return \Newscoop\Entity\Article
      */
     private function getArticle(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
-        if ($entry->getArticleId() === null) return null;
+        if ($entry->getArticleId() === null) {
+            return null;
+        }
 
         $article = $this->em->getRepository('\Newscoop\Entity\Article')
             ->findOneByNumber($entry->getArticleId());
 
         return $article;
+    }
+
+    /**
+     * Get a legacy article object related to the given entry
+     *
+     * @param int $languageId    Id of the article language
+     * @param int $articleNumber Number of the article
+     *
+     * @return \Article
+     */
+    private function getArticleLegacy($languageId, $articleNumber)
+    {
+        return new \Article($languageId, $articleNumber);
     }
 
     /**
@@ -363,6 +418,79 @@ class PublisherService
                 $author->create();
             }
             $article->setAuthor($author);
+        }
+    }
+
+    /**
+     * Set images for the article
+     *
+     * @param \Article                                  $article
+     * @param \Newscoop\IngestPluginBundle\Entity\Entry $entry
+     */
+    private function setArticleImagesLegacy(
+        \Article $article,
+        \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+    ) {
+        $images = $entry->getImages();
+        if (!is_array($images) || empty($images)) {
+            return;
+        }
+
+        $oldImages = \ArticleImage::GetImagesByArticleNumber($article->getArticleNumber());
+        if (is_array($oldImages)) {
+            foreach ($oldImages as $image) {
+                $image->delete();
+            }
+        }
+
+        $filesystem = new Filesystem();
+
+        foreach ($images as $image) {
+
+            if (!array_key_exists('location', $image) || !$image['location']) {
+                continue;
+            }
+
+            $imagePath = '';
+            if ($filesystem->exists($image['location'])) {
+                $basename = basename($image['location']);
+                $imagePath = $image['location'];
+            } else {
+                $tmpPath = tempnam(sys_get_temp_dir(), 'NWSIMG');
+
+                try {
+                    $filesystem->copy($image['location'], $tmpPath, true);
+                } catch(IOExceptionInterface $e) {
+                    echo '<pre>$e:'; var_dump($e); echo '<hr>'; exit;
+                    continue;
+                }
+                $imagePath = $tmpPath;
+                $basename = basename($image['location']);
+            }
+
+            $imagesize = getimagesize($imagePath);
+            $info = array(
+                'name' => $basename,
+                'type' => $imagesize['mime'],
+                'tmp_name' => $imagePath,
+                'size' => filesize($imagePath),
+                'error' => 0,
+            );
+
+            $attributes = array(
+                'Photographer' => array_key_exists('photographer', $image) ? $image['photographer'] : '',
+                'Description' => array_key_exists('description', $image) ? $image['description'] : '',
+                'Source' => 'newsfeed',
+                'Status' => 'approved',
+            );
+
+            try {
+                $image = \Image::OnImageUpload($info, $attributes, null, null, true);
+                \ArticleImage::AddImageToArticle($image->getImageId(), $article->getArticleNumber(), null);
+            } catch (\Exception $e) {
+                var_dump($e);
+                exit;
+            }
         }
     }
 }

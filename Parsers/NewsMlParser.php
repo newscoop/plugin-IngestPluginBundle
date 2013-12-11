@@ -35,13 +35,55 @@ class NewsMlParser implements Parser
      */
     public static $parserDomain = '*';
 
-    const MEDIA_PRODUCT = 'Photo Dienst D';
-
     /** @var SimpleXMLElement */
     private $xml;
 
     /** @var string */
     private $dir;
+
+    // Make sure imports don't happen too fast after file creation
+    const IMPORT_DELAY = 180;
+
+    const FEEDS_PATH = '/../../../../public/newsml_feeds/';
+
+    /**
+     * Get all feed entries as a parser instance
+     *
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed $feed Feed entity
+     *
+     * @return array Array should contain feed entries
+     */
+    public static function getStories(\Newscoop\IngestPluginBundle\Entity\Feed $feed)
+    {
+        $finder = new Finder();
+
+        $entries = array();
+        $finder->files()->in(__DIR__ . self::FEEDS_PATH)->name('*.xml');
+
+        foreach ($finder as $file) {
+
+            $filePath = $file->getRealpath();
+
+            if ($feed->getUpdated() && $feed->getUpdated()->getTimestamp() > filectime($filePath) + self::IMPORT_DELAY) {
+                continue;
+            }
+
+            if (time() < filectime($filePath) + self::IMPORT_DELAY) {
+                continue;
+            }
+
+            $handle = fopen($filePath, 'r');
+            if (flock($handle, LOCK_EX | LOCK_NB)) {
+
+                $entries[] = new SDAParser($filePath);
+
+                flock($handle, LOCK_UN);
+                fclose($handle);
+            }
+        }
+
+        return $entries;
+    }
 
     /**
      * @param string $content
@@ -50,6 +92,16 @@ class NewsMlParser implements Parser
     {
         $this->xml = simplexml_load_file($content);
         $this->dir = dirname($content);
+    }
+
+    /**
+     * Get news item id
+     *
+     * @return string
+     */
+    public function getNewsItemId()
+    {
+        return $this->getString($this->xml->xpath('//Identification/NewsIdentifier/NewsItemId'));
     }
 
     /**
@@ -70,11 +122,33 @@ class NewsMlParser implements Parser
     public function getContent()
     {
         $content = array();
-        foreach ($this->xml->xpath('//body.content/*[not(@lede)]') as $element) {
+        foreach ($this->xml->xpath('//body.content/*') as $element) {
             $content[] = $element->asXML();
         }
 
-        return str_replace('hl2>', 'h2>', implode("\n", $content));
+        return $content;
+    }
+
+    /**
+     * Get catch line
+     *
+     * @return string
+     */
+    public function getCatchline()
+    {
+        $catchLine = $this->xml->xpath('//NewsLines/NewsLine/NewsLineType[@FormalName="CatchLine"]');
+
+        return empty($catchLine) ? '' : $this->getString(array_shift($catchLine)->xpath('following::NewsLineText'));
+    }
+
+    /**
+     * Get summary
+     *
+     * @return string
+     */
+    public function getSummary()
+    {
+        return $this->getString($this->xml->xpath('//p[@lede="true"]'));
     }
 
     /**
@@ -98,14 +172,16 @@ class NewsMlParser implements Parser
     }
 
     /**
-     * Get priority
+     * Get lift embargo
      *
-     * @return int
+     * @return DateTime|null
      */
-    public function getPriority()
+    public function getLiftEmbargo()
     {
-        $priority = array_shift($this->xml->xpath('//Priority'));
-        return (int) $priority['FormalName'];
+        $datetime = array_shift($this->xml->xpath('//StatusWillChange/DateAndTime'));
+        if ((string) $datetime !== '') {
+            return new \DateTime((string) $datetime);
+        }
     }
 
     /**
@@ -116,17 +192,8 @@ class NewsMlParser implements Parser
     public function getService()
     {
         $service = array_shift($this->xml->xpath('//NewsService'));
-        return (string) $service['FormalName'];
-    }
 
-    /**
-     * Get summary
-     *
-     * @return string
-     */
-    public function getSummary()
-    {
-        return $this->getString($this->xml->xpath('//p[@lede="true"]'));
+        return (string) $service['FormalName'];
     }
 
     /**
@@ -137,46 +204,20 @@ class NewsMlParser implements Parser
     public function getProduct()
     {
         $product = array_shift($this->xml->xpath('//NewsProduct'));
+
         return (string) $product['FormalName'];
     }
 
     /**
-     * Get news item type
+     * Get instruction
      *
      * @return string
      */
-    public function getType()
+    public function getInstruction()
     {
-        $type_info = array_shift($this->xml->xpath('//NewsItemType'));
-        return (string) $type_info['FormalName'];
-    }
+        $instruction = array_shift($this->xml->xpath('//NewsManagement/Instruction'));
 
-    /**
-     * Test if is image
-     *
-     * @return bool
-     */
-    public function isImage()
-    {
-        return $this->getProduct() == self::MEDIA_PRODUCT;
-    }
-
-    /**
-     * Get images
-     *
-     * @return array
-     */
-    public function getImages()
-    {
-        $images = array();
-        foreach ($this->xml->xpath('//NewsManagement/AssociatedWith') as $assoc) {
-            list(,,,$dateId, $newsItemId) = explode(':', (string) $assoc['NewsItem']);
-            foreach (glob("{$this->dir}/{$dateId}*_{$newsItemId}.xml") as $imageNewsMl) {
-                $images[] = new self($imageNewsMl);
-            }
-        }
-
-        return $images;
+        return (string) $instruction['FormalName'];
     }
 
     /**
@@ -187,17 +228,32 @@ class NewsMlParser implements Parser
     public function getStatus()
     {
         $status = array_shift($this->xml->xpath('//Status'));
-        return (string) $status['FormalName'];
+
+        return mb_strtolower((string) $status['FormalName']);
     }
 
     /**
-     * Get location
+     * Get priority
+     *
+     * @return int
+     */
+    public function getPriority()
+    {
+        $priority = array_shift($this->xml->xpath('//Priority'));
+
+        return (int) $priority['FormalName'];
+    }
+
+    /**
+     * Get keywords
      *
      * @return string
      */
-    public function getLocation()
+    public function getKeywords()
     {
-        return $this->getString($this->xml->xpath('//NewsLines/DateLine'));
+        $catchWord = $this->xml->xpath('//NewsLines/NewsLine/NewsLineType[@FormalName="CatchWord"]');
+
+        return (empty($catchWord)) ? array() : array($this->getString(array_shift($catchWord)->xpath('following::NewsLineText')));
     }
 
     /**
@@ -216,13 +272,36 @@ class NewsMlParser implements Parser
     }
 
     /**
+     * Get location
+     *
+     * @return string
+     */
+    public function getAttributeLocation()
+    {
+        return $this->getString($this->xml->xpath('//NewsLines/DateLine'));
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getAttributeCountry()
+    {
+        $country = array_shift($this->xml->xpath('//DescriptiveMetadata/Location/Property[@FormalName="Country"]'));
+
+        return (string) $country['Value'];
+    }
+
+    /**
      * Get provider
      *
      * @return string
      */
-    public function getProvider()
+    public function getAttributeProvider()
     {
         $provider = array_shift($this->xml->xpath('//AdministrativeMetadata/Provider/Party'));
+
         return (string) $provider['FormalName'];
     }
 
@@ -231,29 +310,9 @@ class NewsMlParser implements Parser
      *
      * @return string
      */
-    public function getProviderId()
+    public function getAttributeProviderId()
     {
         return $this->getString($this->xml->xpath('//Identification/NewsIdentifier/ProviderId'));
-    }
-
-    /**
-     * Get date id
-     *
-     * @return string
-     */
-    public function getDateId()
-    {
-        return $this->getString($this->xml->xpath('//Identification/NewsIdentifier/DateId'));
-    }
-
-    /**
-     * Get news item id
-     *
-     * @return string
-     */
-    public function getNewsItemId()
-    {
-        return $this->getString($this->xml->xpath('//Identification/NewsIdentifier/NewsItemId'));
     }
 
     /**
@@ -261,31 +320,9 @@ class NewsMlParser implements Parser
      *
      * @return int
      */
-    public function getRevisionId()
+    public function getAttributeRevisionId()
     {
         return (int) $this->getString($this->xml->xpath('//Identification/NewsIdentifier/RevisionId'));
-    }
-
-    /**
-     * Get instruction
-     *
-     * @return string
-     */
-    public function getInstruction()
-    {
-        $instruction = array_shift($this->xml->xpath('//NewsManagement/Instruction'));
-        return (string) $instruction['FormalName'];
-    }
-
-    /**
-     * Get language
-     *
-     * @return string
-     */
-    public function getLanguage()
-    {
-        $language = array_shift($this->xml->xpath('//DescriptiveMetadata/Language'));
-        return strtolower($language['FormalName']);
     }
 
     /**
@@ -293,21 +330,23 @@ class NewsMlParser implements Parser
      *
      * @return string
      */
-    public function getSubject()
+    public function getAttributeSubject()
     {
         $subject = array_shift($this->xml->xpath('//DescriptiveMetadata/SubjectCode/Subject'));
+
         return (string) $subject['FormalName'];
     }
 
     /**
-     * Get country
+     * Get news item type
      *
      * @return string
      */
-    public function getCountry()
+    public function getAttributeType()
     {
-        $country = array_shift($this->xml->xpath('//DescriptiveMetadata/Location/Property[@FormalName="Country"]'));
-        return (string) $country['Value'];
+        $typeInfo = array_shift($this->xml->xpath('//NewsItemType'));
+
+        return (string) $typeInfo['FormalName'];
     }
 
     /**
@@ -315,7 +354,7 @@ class NewsMlParser implements Parser
      *
      * @return string
      */
-    public function getSource()
+    public function getAttributeSource()
     {
         $sources = array();
         foreach ($this->xml->xpath('//AdministrativeMetadata/Source/Party') as $party) {
@@ -326,33 +365,11 @@ class NewsMlParser implements Parser
     }
 
     /**
-     * Get catch line
-     *
-     * @return string
-     */
-    public function getCatchline()
-    {
-        $catchLine = $this->xml->xpath('//NewsLines/NewsLine/NewsLineType[@FormalName="CatchLine"]');
-        return empty($catchLine) ? '' : $this->getString(array_shift($catchLine)->xpath('following::NewsLineText'));
-    }
-
-    /**
-     * Get catch word
-     *
-     * @return string
-     */
-    public function getCatchWord()
-    {
-        $catchWord = $this->xml->xpath('//NewsLines/NewsLine/NewsLineType[@FormalName="CatchWord"]');
-        return $this->getString(array_shift($catchWord)->xpath('following::NewsLineText'));
-    }
-
-    /**
      * Get sub title
      *
      * @return string
      */
-    public function getSubTitle()
+    public function getAttributeSubTitle()
     {
         return $this->getString($this->xml->xpath('//NewsLines/SubHeadLine'));
     }
@@ -362,34 +379,11 @@ class NewsMlParser implements Parser
      *
      * @return string
      */
-    public function getPath()
+    public function getAttributePath()
     {
         $contentItem = array_shift($this->xml->xpath('//NewsComponent/ContentItem[@Href]'));
         $href = (string) $contentItem['Href'];
+
         return "$this->dir/$href";
-    }
-
-    /**
-     * Get lift embargo
-     *
-     * @return DateTime|null
-     */
-    public function getLiftEmbargo()
-    {
-        $datetime = array_shift($this->xml->xpath('//StatusWillChange/DateAndTime'));
-        if ((string) $datetime !== '') {
-            return new \DateTime((string) $datetime);
-        }
-    }
-
-    /**
-     * Get string value of first matched element
-     *
-     * @param array $matches
-     * @return string
-     */
-    private function getString(array $matches)
-    {
-        return (string) array_shift($matches);
     }
 }

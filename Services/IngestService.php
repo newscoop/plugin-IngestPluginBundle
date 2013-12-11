@@ -36,16 +36,25 @@ class IngestService
     private $publisher;
 
     /**
+     * List of all languages for current feed (based on sections)
+     *
+     * @var array
+     */
+    private $allowedLanguages = array();
+
+    /**
      * Initialize service
      *
-     * @param EntityManager    $em        Entity manager
-     * @param PublisherService $publisher Publisher
+     * @param EntityManager                   $em                     Entity manager
+     * @param PublisherService                $publisher              Publisher
+     * @param ArticleTypeConfigurationService $articleTypeConfService Articletype helper
      */
     public function __construct(
         EntityManager $em,
         PublisherService $publisher,
         ArticleTypeConfigurationService $articleTypeConfService
-    ) {
+    )
+    {
         $this->em = $em;
         $this->publisher = $publisher;
         $this->articleTypeConfigurator = $articleTypeConfService;
@@ -65,16 +74,22 @@ class IngestService
 
     /**
      * Ingest content of all feeds
+     *
+     * @return int Number of handled feeds
      */
     public function ingestAllFeeds()
     {
         $feeds = $this->getFeeds();
 
         if (count($feeds) > 0) {
+
             $updated = array();
             foreach ($feeds as $feed) {
-                $updated[] = $this->updateFeed($feed);
+                $updated[] = $this->updateFeed($feed, false);
             }
+
+            $this->liftEmbargo();
+
             return count($updated);
         } else {
             return 0;
@@ -85,8 +100,9 @@ class IngestService
      * Update a specific feed
      *
      * @param Newscoop\IngestPluginBundle\Entity\Feed $feed
+     * @param boolean                                 $liftEmbargo
      */
-    public function updateFeed(\Newscoop\IngestPluginBundle\Entity\Feed $feed)
+    public function updateFeed(\Newscoop\IngestPluginBundle\Entity\Feed $feed, $liftEmbargo=true)
     {
         if (!$feed->isEnabled()) {
             throw new \Exception('The feed '.$feed->getName().' is not enabled and will not be updated.', 1);
@@ -100,10 +116,10 @@ class IngestService
             ->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry');
 
         // Get possible languages based on feed and selected sections(s)
-        $allowedLanguages = array();
+        $this->allowedLanguages = array();
         $sections = $feed->getSections();
-        foreach ($sections AS $section) {
-            $allowedLanguages[] = $section->getLanguage();
+        foreach ($sections as $section) {
+            $this->allowedLanguages[] = $section->getLanguage();
         }
 
         foreach ($unparsedEntries as $unparsedEntry) {
@@ -120,91 +136,100 @@ class IngestService
                 )
             );
 
-            if ($entry !== null && !empty($entry)) {
-
-                // Todo: Handle other possible statuses
-                if ($unparsedEntry->getStatus() == 'Deleted') {
-                    // Delete entry
-                    // Delete entry via publisher
-
-                    $publisher->delete($entry);
-                    $this->em->remove($entry);
-
-                    continue;
-                }
-            } else {
+            if ($entry === null) {
                 $entry = new \Newscoop\IngestPluginBundle\Entity\Feed\Entry();
                 $entry->setFeed($feed);
                 $entry->setNewsItemId($unparsedEntry->getNewsItemId());
             }
 
-            $languageEntity = null;
-            if ($unparsedEntry->getLanguage() !== null && $unparsedEntry->getLanguage() !== '') {
-                if ($unparsedEntry->getLanguage() instanceof \Newscoop\Entity\Language) {
-                    $languageEntity = $unparsedEntry->getLanguage();
-                } else {
-                    $languageEntity = $this
-                        ->em->getRepository('\Newscoop\Entity\Language')
-                        ->findByRFC3066bis($unparsedEntry->getLanguage());
-                }
-            }
-            // Use default language if no language is set or if the found
-            // languages are not allowed in our selected languages
-            if (!in_array($languageEntity, $allowedLanguages)) {
-                $languageEntity = $feed->getPublication()->getDefaultLanguage();
-            }
-
-            $entry->setLanguage($languageEntity);
-
-            $sectionEntity  = null; // Default can be null, but not for autopublishing
-            if ($unparsedEntry->getSection() instanceof \Newscoop\Entity\Section) {
-                $sectionEntity = $unparsedEntry->getSection();
-            } else {
-                $sections = $feed->getSections();
-                foreach ($sections as $section) {
-                    if ($section->getLanguage() == $languageEntity) {
-                        $sectionEntity = $section;
-                        break;
+            if ($unparsedEntry->getInstruction() == 'delete') {
+                if ($entry->getId() !== null) {
+                    $this->em->remove($entry);
+                    if ($entry->getArticleId() !== null) {
+                        $this->publisher->remove($entry);
                     }
                 }
+            } else {
+
+                $languageEntity = $this->getLanguage(
+                    $unparsedEntry->getLanguage(),
+                    $feed->getPublication()->getDefaultLanguage()
+                );
+
+                // only add entry
+                $entry->setLanguage($languageEntity);
+
+                $sectionEntity  = null; // Default can be null, but not for autopublishing
+                if ($unparsedEntry->getSection() instanceof \Newscoop\Entity\Section) {
+                    $sectionEntity = $unparsedEntry->getSection();
+                } elseif (is_int($unparsedEntry->getSection())) {
+                    // Try to find entity
+                    $sectionEntity = $this->em->getRepository('Newscoop\Entity\Section')
+                        ->findOneById($unparsedEntry->getSection());
+                }
+                if ($sectionEntity === null) {
+                    $sections = $feed->getSections();
+                    foreach ($sections as $section) {
+                        if ($section->getLanguage() == $languageEntity) {
+                            $sectionEntity = $section;
+                            break;
+                        }
+                    }
+                }
+
+                $entry->setSection($sectionEntity);
+                $entry->setCreated($unparsedEntry->getCreated());
+
+                $entry->setTitle($unparsedEntry->getTitle());
+                $entry->setContent($unparsedEntry->getContent());
+                $entry->setCatchLine($unparsedEntry->getCatchLine());
+                $entry->setSummary($unparsedEntry->getSummary());
+
+                $entry->setUpdated($unparsedEntry->getUpdated());
+                $entry->setEmbargoed($unparsedEntry->getLiftEmbargo());
+
+                $entry->setProduct($unparsedEntry->getProduct());
+                $entry->setStatus($unparsedEntry->getStatus());
+                $entry->setPriority($unparsedEntry->getPriority());
+                $entry->setKeywords($unparsedEntry->getKeywords());
+                $entry->setAuthors($unparsedEntry->getAuthors());
+                $entry->setImages($unparsedEntry->getImages());
+
+                $entry->setLink($unparsedEntry->getLink());
+
+                $entry->setAttributes($unparsedEntry->setAllAttributes()->getAttributes());
+
+                $this->em->persist($entry);
+
+                if ($entry->isPublished()) {
+                    $this->publisher->update($entry);
+                } elseif ($feed->isAutoMode()) {
+                    $this->publisher->publish($entry);
+                }
             }
-            $entry->setSection($sectionEntity);
 
-            $entry->setTitle($unparsedEntry->getTitle());
-            $entry->setContent($unparsedEntry->getContent());
-            $entry->setCatchLine($unparsedEntry->getCatchLine());
-            $entry->setSummary($unparsedEntry->getSummary());
-            $entry->setCreated($unparsedEntry->getCreated());
-            $entry->setUpdated($unparsedEntry->getUpdated());
-
-            $entry->setProduct($unparsedEntry->getProduct());
-            $entry->setStatus($unparsedEntry->getStatus());
-            $entry->setPriority($unparsedEntry->getPriority());
-            $entry->setKeywords($unparsedEntry->getKeywords());
-            $entry->setAuthors($unparsedEntry->getAuthors());
-            $entry->setImages($unparsedEntry->getImages());
-
-            //Todo: what to do with this
-            //$entry->setEmbargoed($unparsedEntry->getEmbargoed());
-
-            $entry->setLink($unparsedEntry->getLink());
-
-            // Attributes
-            $entry->setAttributes($unparsedEntry->setAllAttributes()->getAttributes());
-
-            $this->em->persist($entry);
-
-            // TODO: check after finishing publisher
-            // Publish article
-            if ($feed->isAutoMode()) {
-                $this->publisher->publish($entry);
-            }
+            // Flush each time to prevent inconsistencies
+            $this->em->flush();
         }
 
         $feed->setUpdated(new \DateTime());
 
         $this->em->persist($feed);
         $this->em->flush();
+
+        if ($liftEmbargo) {
+            $this->liftEmbargo();
+        }
+    }
+
+    /**
+     * Checks if any embargoes need to be lifted
+     */
+    private function liftEmbargo()
+    {
+        $this->em
+            ->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry')
+            ->liftEmbargo();
     }
 
     // private function updateSDAFeed(Feed $feed)
@@ -231,7 +256,7 @@ class IngestService
     //                     case '':
     //                         if ($entry->isPublished()) {
     //                             $this->updatePublished($entry);
-    //                         } else if ($feed->isAutoMode()) {
+    //                         } elseif ($feed->isAutoMode()) {
     //                             $this->publish($entry);
     //                         }
     //                         break;
@@ -281,4 +306,25 @@ class IngestService
     //         $this->publisher->delete($entry);
     //     }
     // }
+
+    private function getLanguage($language, $defaultLanguage=null)
+    {
+        $languageEntity = null;
+        if ($language !== null && $language !== '') {
+            if ($language instanceof \Newscoop\Entity\Language) {
+                $languageEntity = $language;
+            } else {
+                $languageEntity = $this
+                    ->em->getRepository('\Newscoop\Entity\Language')
+                    ->findByRFC3066bis($language);
+            }
+        }
+        // Use default language if no language is set or if the found
+        // languages are not allowed in our selected languages
+        if (!in_array($languageEntity, $this->allowedLanguages)) {
+            $languageEntity = $defaultLanguage;
+        }
+
+        return $languageEntity;
+    }
 }

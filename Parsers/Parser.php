@@ -144,6 +144,16 @@ abstract class Parser
     }
 
     /**
+     * Get lift embargo date
+     *
+     * @return DateTime|null
+     */
+    public function getLiftEmbargo()
+    {
+        return null;
+    }
+
+    /**
      * Get published
      *
      * @return DateTime|null
@@ -163,14 +173,27 @@ abstract class Parser
         return null;
     }
 
+    // TODO: Check valid instructions for NewsML
     /**
-     * Get status (Status in \Article)
+     * Get instruction, mainly for NewsML, but can be implemented in other feed
+     * types aswell. Allowed values are (should all be in lowercase):
+     *     update, rectify, delete or the null value
      *
-     * @return string|null
+     * @return null|string
+     */
+    public function getInstruction()
+    {
+        return null;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string (Defaults to: usable)
      */
     public function getStatus()
     {
-        return null;
+        return 'usable';
     }
 
     /**

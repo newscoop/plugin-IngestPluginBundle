@@ -58,19 +58,21 @@
                         <td>{{ entry.created|date('Y-m-d H:i:s') }}</td>
                         <td>{{ entry.published ? entry.published|date('Y-m-d H:i:s') : 'plugin.ingest.entries.notpublished'|trans }}</td>
                         <td>
-                            {% if entry.published is empty and entry.articleId is empty %}
-                                <a href="{{ path('newscoop_ingestplugin_entry_publish', {'id': entry.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.publish'|trans|e }}">
-                                    <span class="glyphicon glyphicon-fire"></span>
-                                </a>
-                            {% endif %}
-                            {% if entry.articleId is empty %}
-                                <a href="{{ path('newscoop_ingestplugin_entry_prepare', {'id': entry.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.edit'|trans|e }}">
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                            {% else %}
-                                <a href="{{ path('newscoop_ingestplugin_entry_redirecttoarticle', {'languageId' : entry.language.id, 'articleNumber': entry.articleId}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.view'|trans|e }}">
-                                    <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>
+                            {% if entry.status == 'usable' %}
+                                {% if entry.published is empty and entry.articleId is empty %}
+                                    <a href="{{ path('newscoop_ingestplugin_entry_publish', {'id': entry.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.publish'|trans|e }}">
+                                        <span class="glyphicon glyphicon-fire"></span>
+                                    </a>
+                                {% endif %}
+                                {% if entry.articleId is empty %}
+                                    <a href="{{ path('newscoop_ingestplugin_entry_prepare', {'id': entry.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.edit'|trans|e }}">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('newscoop_ingestplugin_entry_redirecttoarticle', {'languageId' : entry.language.id, 'articleNumber': entry.articleId}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.view'|trans|e }}">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </a>
+                                {% endif %}
                             {% endif %}
                             <a href="{{ path('newscoop_ingestplugin_entry_delete', {'id': entry.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.entries.delete'|trans|e }}" data-dialog-id="dialog-delete-entry">
                                 <span class="glyphicon glyphicon-trash"></span>

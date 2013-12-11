@@ -23,9 +23,9 @@ class EntryRepository extends EntityRepository
     public function liftEmbargo()
     {
         $query = $this->getEntityManager()
-            ->createQuery("SELECT e.id, e.embargoed FROM {$this->getEntityName()} e WHERE e.status = 'Embargoed' AND DATE_DIFF(CURRENT_DATE(), e.embargoed) >= 0");
-
+            ->createQuery('SELECT e.id, e.embargoed FROM '.$this->getEntityName().' e WHERE e.status = \'Embargoed\' AND DATE_DIFF(CURRENT_DATE(), e.embargoed) >= 0');
         $embargoed = $query->getResult();
+
         if (empty($embargoed)) {
             return;
         }
@@ -45,7 +45,7 @@ class EntryRepository extends EntityRepository
         }
 
         $query = $this->getEntityManager()
-            ->createQuery("UPDATE {$this->getEntityName()} e SET e.status = 'Usable' WHERE e.id IN (" . implode(',', $ids) . ")");
+            ->createQuery('UPDATE '.$this->getEntityName().' e SET e.status = \'usable\' WHERE e.id IN (' . implode(',', $ids) . ')');
         $query->getResult();
     }
 }

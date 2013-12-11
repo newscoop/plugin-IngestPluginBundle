@@ -665,11 +665,11 @@ class Entry
     /**
      * Setter for embargoed
      *
-     * @param \DateTime $embargoed Value to set
+     * @param \DateTime|null $embargoed Value to set
      *
      * @return self
      */
-    public function setEmbargoed(\DateTime $embargoed)
+    public function setEmbargoed($embargoed)
     {
         $this->embargoed = $embargoed;
 
