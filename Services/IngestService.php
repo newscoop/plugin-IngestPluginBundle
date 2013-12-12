@@ -53,8 +53,7 @@ class IngestService
         EntityManager $em,
         PublisherService $publisher,
         ArticleTypeConfigurationService $articleTypeConfService
-    )
-    {
+    ) {
         $this->em = $em;
         $this->publisher = $publisher;
         $this->articleTypeConfigurator = $articleTypeConfService;
@@ -102,7 +101,7 @@ class IngestService
      * @param Newscoop\IngestPluginBundle\Entity\Feed $feed
      * @param boolean                                 $liftEmbargo
      */
-    public function updateFeed(\Newscoop\IngestPluginBundle\Entity\Feed $feed, $liftEmbargo=true)
+    public function updateFeed(\Newscoop\IngestPluginBundle\Entity\Feed $feed, $liftEmbargo = true)
     {
         if (!$feed->isEnabled()) {
             throw new \Exception('The feed '.$feed->getName().' is not enabled and will not be updated.', 1);
@@ -223,7 +222,7 @@ class IngestService
     }
 
     /**
-     * Checks if any embargoes need to be lifted
+     * Call liftEmbaro in repostory
      */
     private function liftEmbargo()
     {
@@ -232,82 +231,15 @@ class IngestService
             ->liftEmbargo();
     }
 
-    // private function updateSDAFeed(Feed $feed)
-    // {
-    //     foreach (glob($this->config['path'] . '/*.xml') as $file) {
-    //         if ($feed->getUpdated() && $feed->getUpdated()->getTimestamp() > filectime($file) + self::IMPORT_DELAY) {
-    //             continue;
-    //         }
-
-    //         if (time() < filectime($file) + self::IMPORT_DELAY) {
-    //             continue;
-    //         }
-
-    //         $handle = fopen($file, 'r');
-    //         if (flock($handle, LOCK_EX | LOCK_NB)) {
-    //             $parser = new NewsMlParser($file);
-    //             if (!$parser->isImage()) {
-    //                 $entry = $this->getPrevious($parser, $feed);
-    //                 switch ($parser->getInstruction()) {
-    //                     case 'Rectify':
-    //                     case 'Update':
-    //                         $entry->update($parser);
-
-    //                     case '':
-    //                         if ($entry->isPublished()) {
-    //                             $this->updatePublished($entry);
-    //                         } elseif ($feed->isAutoMode()) {
-    //                             $this->publish($entry);
-    //                         }
-    //                         break;
-
-    //                     case 'Delete':
-    //                         $this->deletePublished($entry);
-    //                         $this->em->remove($entry);
-    //                         break;
-
-    //                     default:
-    //                         throw new \InvalidArgumentException("Instruction '{$parser->getInstruction()}' not implemented.");
-    //                         break;
-    //                 }
-    //             }
-
-    //             flock($handle, LOCK_UN);
-    //             fclose($handle);
-    //         } else {
-    //             continue;
-    //         }
-    //     }
-
-    //     $feed->setUpdated(new \DateTime());
-    //     $this->getEntryRepository()->liftEmbargo();
-    //     $this->em->flush();
-    // }
-
-    // public function publish(Entry $entry, $workflow = 'Y')
-    // {
-    //     $article = $this->publisher->publish($entry, $workflow);
-    //     $entry->setPublished(new \DateTime());
-    //     $this->em->persist($entry);
-    //     $this->em->flush();
-    //     return $article;
-    // }
-
-    // private function updatePublished(Entry $entry)
-    // {
-    //     if ($entry->isPublished()) {
-    //         $this->publisher->update($entry);
-    //     }
-    // }
-
-    // private function deletePublished(Entry $entry)
-    // {
-    //     if ($entry->isPublished()) {
-    //         $this->publisher->delete($entry);
-    //     }
-    // }
-
-    private function getLanguage($language, $defaultLanguage=null)
+    /**
+     * Gets a language based on the language parameter. Accepts multiple
+     *
+     * @param \Newscoop\Entity\Language|string $language        Language which needs to be found
+     * @param \Newscoop\Entity\Language|null   $defaultLanguage Fallback language
+     *
+     * @return \Newscoop\Entity\Language|null                    Returns language entity or null if not found
+     */
+    private function getLanguage($language, $defaultLanguage = null)
     {
         $languageEntity = null;
         if ($language !== null && $language !== '') {

@@ -134,6 +134,8 @@ class PublisherService
      * Prepares an entry as a Newscoop Article, but doesn't publish it yet
      *
      * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+     *
+     * @return \Article Legacy article
      */
     public function prepare(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
@@ -218,8 +220,7 @@ class PublisherService
     /**
      * Update an entry that is already published as article with legacy methods
      *
-     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
-     *   The entity on which the article is based
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry The entity on which the article is based
      */
     private function updateLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
@@ -255,8 +256,7 @@ class PublisherService
      * TODO: Not supported yet since articles are not fully working with all
      * corresponding triggers through Entities
      *
-     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
-     *   The entity on which the article is based
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry The entity on which the article is based
      */
     private function removeNew(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
@@ -270,8 +270,7 @@ class PublisherService
     /**
      * Removes an article the legacy way
      *
-     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
-     *   The entity on which the article is based
+     * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry The entity on which the article is based
      */
     private function removeLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
@@ -323,10 +322,9 @@ class PublisherService
      * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry   Entity
      */
     private function setArticleData(
-            \Newscoop\Entity\Article $article,
-            \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
-        )
-    {
+        \Newscoop\Entity\Article $article,
+        \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+    ) {
         $newswireType = $this->em
             ->getRepository('\Newscoop\Entity\ArticleType')
             ->findBy(array('name' => 'newswire'));
@@ -464,8 +462,7 @@ class PublisherService
 
                 try {
                     $filesystem->copy($image['location'], $tmpPath, true);
-                } catch(IOExceptionInterface $e) {
-                    echo '<pre>$e:'; var_dump($e); echo '<hr>'; exit;
+                } catch (IOExceptionInterface $e) {
                     continue;
                 }
                 $imagePath = $tmpPath;
