@@ -62,7 +62,11 @@ class PublisherService
             $publication = $entry->getFeed()->getPublication();
             $latestIssue = $this->em
                 ->getRepository('\Newscoop\Entity\Issue')
-                ->getLatestByPublication($publication);
+                ->getLatestBy(array(
+                    'publication' => $publication,
+                    'language' => $entry->getLanguage(),
+                    'workflowStatus' => 'Y'
+                ));
             $articleType = $this->em
                 ->getRepository('\Newscoop\Entity\ArticleType')
                 ->findOneBy(array('name', 'Newswire'));
@@ -184,7 +188,7 @@ class PublisherService
             $articleType->getName(),
             $entry->getTitle(),
             $publication->getId(),
-            $latestIssue->getId(),
+            $latestIssue->getNumber(),
             $entry->getSection()->getNumber()
         );
         $article->setWorkflowStatus('N');
