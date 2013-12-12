@@ -235,10 +235,10 @@ class PublisherService
         $article->setTitle($entry->getTitle());
         $article->setProperty('time_updated', $entry->getUpdated()->format('Y-m-d H:i:s'));
         $article->setKeywords(implode(',', $entry->getKeywords()));
+
         $this->setArticleDataLegacy($article, $entry);
         $this->setArticleAuthorsLegacy($article, $entry);
-
-        // TODO: Images
+        $this->setArticleImagesLegacy($article, $entry);
 
         // Update published if entry already was published
         if ($entry->isPublished()) {
