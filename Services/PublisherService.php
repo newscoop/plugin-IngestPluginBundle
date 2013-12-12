@@ -315,6 +315,9 @@ class PublisherService
 
     /**
      * Set articletype specific data
+     * NOTE: This is not finished, the article type entities are not complete
+     *       and probably will be competely revised
+     * TODO: Finish thi
      *
      * @param \Newscoop\Entity\Article                       $article Article
      * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry   Entity
@@ -332,8 +335,6 @@ class PublisherService
         $newswireFields = $this->em
             ->getRepository('\Newscoop\Entity\ArticleTypeField')
             ->findBy(array('type_id' => $newswireType->getId()));
-
-        // TODO: Finish this
     }
 
     /**
@@ -366,10 +367,9 @@ class PublisherService
      * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry   Entity
      */
     private function setArticleAuthors(
-            \Newscoop\Entity\Article $article,
-            \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
-        )
-    {
+        \Newscoop\Entity\Article $article,
+        \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
+    ) {
         $repository = $this->em->getRepository('\Newscoop\Entity\Author');
         $doctrineCollection = new \Doctrine\Common\Collections\ArrayCollection();
 
