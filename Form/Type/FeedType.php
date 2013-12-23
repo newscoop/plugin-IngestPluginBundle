@@ -57,6 +57,7 @@ class FeedType extends AbstractType
                     'class' => 'Newscoop\Entity\Section',
                     'multiple' => true,
                     'expanded' => true,
+                    'property' => 'name',
                     'label' => 'plugin.ingest.feeds.section',
                 ));
         };
