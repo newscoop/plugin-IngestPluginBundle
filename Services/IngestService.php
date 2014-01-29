@@ -124,7 +124,7 @@ class IngestService
         foreach ($unparsedEntries as $unparsedEntry) {
 
             if ($unparsedEntry->getNewsItemId() === '' || $unparsedEntry->getNewsItemId() === null) {
-                throw Exception('Skipped parsing feed entry. Method getNewsItemId returns invalid value.', 0);
+                throw \Exception('Skipped parsing feed entry. Method getNewsItemId returns invalid value.', 0);
                 continue;
             }
 
