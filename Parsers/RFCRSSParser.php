@@ -192,8 +192,10 @@ class RFCRSSParser extends Parser
 
         if (is_array($authors) && count($authors) > 0) {
             foreach ($authors as $author) {
-                $return[] = array(
-                    'name' => $author->get_name(),
+                $authorName = $this->readName($author->get_name());
+                $authors[] = array(
+                    'firstname' => $authorName['firstname'],
+                    'lastname' => $authorName['lastname'],
                     'email' => $author->get_email(),
                     'link' => $author->get_link(),
                 );

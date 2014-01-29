@@ -231,9 +231,7 @@ abstract class Parser
     /**
      * Get authors
      *
-     * @return array Array can have 2 formats. Either with author name in each
-     *               entry or with a sub-array as each entry. The sub array can
-     *               have 3 keys: name, email, link
+     * @return array The array must have 4 keys: firstname, lastename, email, link
      */
     public function getAuthors()
     {
@@ -315,5 +313,37 @@ abstract class Parser
         $this->_attributes[$propertyName] = $propertyValue;
 
         return $this;
+    }
+
+    /**
+     * Try to get a first and last name from a name string
+     *
+     * @param string $p_name
+     *
+     * @return array Array with key 'firstname' and 'lastname'
+     */
+    private static function readName($name)
+    {
+        $name = trim($name);
+        $firstName = NULL;
+        $lastName = NULL;
+        preg_match('/([^,]+),([^,]+)/', $name, $matches);
+        if (count($matches) > 0) {
+            $lastName = trim($matches[1]);
+            $firstName = isset($matches[2]) ? trim($matches[2]) : '';
+        } else {
+            preg_match_all('/[^\s]+/', $name, $matches);
+            if (isset($matches[0])) {
+                $matches = $matches[0];
+            }
+            if (count($matches) > 1) {
+                $lastName = array_pop($matches);
+                $firstName = implode(' ', $matches);
+            }
+            if (count($matches) == 1) {
+                $firstName = $matches[0];
+            }
+        }
+        return array('firstname' => $firstName, 'lastname' => $lastName);
     }
 }

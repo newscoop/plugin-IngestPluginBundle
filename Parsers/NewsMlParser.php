@@ -265,7 +265,13 @@ class NewsMlParser implements Parser
     {
         $authors = array();
         foreach ($this->xml->xpath('//AdministrativeMetadata/Property[@FormalName="author"]') as $author) {
-            $authors[] = (string) $author['Value'];
+            $authorName = $this->readName((string) $author['Value']);
+            $authors[] = array(
+                'firstname' => $authorName['firstname'],
+                'lastname' => $authorName['lastname'],
+                'email' => '',
+                'link' => '',
+            );
         }
 
         return implode(', ', $authors);
