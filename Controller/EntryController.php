@@ -31,19 +31,6 @@ class EntryController extends Controller
     {
         $em = $this->container->get('em');
 
-        // Todo: remove after debugging is done
-        // Debug to install entities
-        $tool = new \Doctrine\ORM\Tools\SchemaTool($em);
-        $tool->updateSchema(array(
-            $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed'),
-            $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Feed\Entry'),
-            $em->getClassMetadata('Newscoop\IngestPluginBundle\Entity\Parser'),
-        ), true);
-
-        // $dispatcher = $this->get('event_dispatcher');
-        // $dispatcher->dispatch('plugin.install.newscoop_ingest_plugin', new GenericEvent());
-        // $dispatcher->dispatch('plugin.remove.newscoop_ingest_plugin', new GenericEvent());
-
         // End of debug code
         $queryBuilder = $em
             ->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry')

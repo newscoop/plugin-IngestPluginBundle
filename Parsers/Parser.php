@@ -322,7 +322,7 @@ abstract class Parser
      *
      * @return array Array with key 'firstname' and 'lastname'
      */
-    private static function readName($name)
+    protected function readName($name)
     {
         $name = trim($name);
         $firstName = NULL;
