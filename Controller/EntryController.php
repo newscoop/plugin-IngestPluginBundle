@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Finder\Finder;
+use Exception;
 
 use Newscoop\IngestPluginBundle\Form\Type\FeedType;
 use Newscoop\IngestPluginBundle\Entity\Feed;
@@ -24,7 +25,7 @@ use Newscoop\EventDispatcher\Events\GenericEvent;
 class EntryController extends Controller
 {
     /**
-     * @Route("/list")
+     * @Route("/list/")
      * @Template()
      */
     public function listAction(Request $request)
@@ -107,7 +108,7 @@ class EntryController extends Controller
     }
 
     /**
-     * @Route("/publish/{id}")
+     * @Route("/publish/{id}/")
      * @ParamConverter("get")
      */
     public function publishAction(Request $request, Entry $entry)
@@ -117,7 +118,7 @@ class EntryController extends Controller
 
         $this->get('session')->getFlashBag()->add(
             'notice',
-            'Entry succesfully published!'
+            $this->container->get('translator')->trans('plugin.ingest.entries.publishedsuccess')
         );
 
         return $this->redirect($this->generateUrl('newscoop_ingestplugin_entry_list'));
@@ -143,7 +144,7 @@ class EntryController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}")
+     * @Route("/delete/{id}/")
      * @ParamConverter("get")
      * @Template()
      */
@@ -161,14 +162,14 @@ class EntryController extends Controller
 
         $this->get('session')->getFlashBag()->add(
             'notice',
-            'Entry removed succesfully!'
+            $this->container->get('translator')->trans('plugin.ingest.entries.removedsuccess')
         );
 
         return $this->redirect($this->generateUrl('newscoop_ingestplugin_entry_list'));
     }
 
     /**
-     * @Route("/redirect/{languageId}/{articleNumber}")
+     * @Route("/redirect/{languageId}/{articleNumber}/")
      */
     public function redirectToArticleAction($languageId, $articleNumber, Request $request)
     {
@@ -177,7 +178,13 @@ class EntryController extends Controller
         // find article
         $article = new \Article($languageId, $articleNumber);
         if (!$article->exists()) {
-            throw new \Exception("Article could not be found. (Language: $languageId, ArticleNumber: $articleNumber)", 1);
+            throw new Exception(
+                $this->container->get('translator')->trans(
+                    'plugin.indest.entries.articlenotfound',
+                    array('%language%' => $languageId, '%article%' => $articleNumber)
+                ),
+                1
+            );
         }
 
         $legacyArticleLink = '/admin/articles/edit.php?f_publication_id=' . $article->getPublicationId()

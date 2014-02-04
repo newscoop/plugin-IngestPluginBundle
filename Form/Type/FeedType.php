@@ -58,6 +58,7 @@ class FeedType extends AbstractType
                     'multiple' => true,
                     'expanded' => true,
                     'property' => 'name',
+                    //TODO: Add language here
                     'label' => 'plugin.ingest.feeds.section',
                 ));
         };

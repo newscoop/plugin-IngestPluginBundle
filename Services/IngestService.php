@@ -15,6 +15,7 @@ use Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry;
 use Newscoop\IngestPluginBundle\Parser;
 use Newscoop\IngestPluginBundle\Services\PublisherService;
 use Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
+use Newscoop\NewscoopException;
 
 /**
  * Ingest service
@@ -124,7 +125,7 @@ class IngestService
         foreach ($unparsedEntries as $unparsedEntry) {
 
             if ($unparsedEntry->getNewsItemId() === '' || $unparsedEntry->getNewsItemId() === null) {
-                throw \Exception('Skipped parsing feed entry. Method getNewsItemId returns invalid value.', 0);
+                throw new NewscoopException('Skipped parsing feed entry. Method getNewsItemId returns invalid value.', 0);
                 continue;
             }
 

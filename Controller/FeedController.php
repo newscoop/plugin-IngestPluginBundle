@@ -24,7 +24,7 @@ use Newscoop\EventDispatcher\Events\GenericEvent;
 class FeedController extends Controller
 {
     /**
-     * @Route("/list")
+     * @Route("/list/")
      * @Template()
      */
     public function listAction(Request $request)
@@ -42,7 +42,7 @@ class FeedController extends Controller
     }
 
     /**
-     * @Route("/add")
+     * @Route("/add/")
      * @Template()
      */
     public function addAction(Request $request)
@@ -72,7 +72,7 @@ class FeedController extends Controller
 
                 $this->get('session')->getFlashBag()->add(
                     'notice',
-                    'Feed added!'
+                    $this->container->get('translator')->get('plugin.ingest.feeds.addedsuccess')
                 );
 
                 return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
@@ -85,7 +85,7 @@ class FeedController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}")
+     * @Route("/edit/{id}/")
      * @ParamConverter("get")
      * @Template()
      */
@@ -115,7 +115,7 @@ class FeedController extends Controller
 
                 $this->get('session')->getFlashBag()->add(
                     'notice',
-                    'Feed updated!'
+                    $this->container->get('translator')->get('plugin.ingest.feeds.updatedsuccess')
                 );
 
                 return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
@@ -128,7 +128,7 @@ class FeedController extends Controller
     }
 
     /**
-     * @Route("/delete/{id}")
+     * @Route("/delete/{id}/")
      * @ParamConverter("get")
      */
     public function deleteAction(Request $request, Feed $feed)
@@ -157,14 +157,14 @@ class FeedController extends Controller
 
         $this->get('session')->getFlashBag()->add(
             'notice',
-            'Feed deleted!'
+            $this->container->get('translator')->get('plugin.ingest.feeds.deletedsuccess')
         );
 
         return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
     }
 
     /**
-     * @Route("/update/all")
+     * @Route("/update/all/")
      */
     public function updateAllAction(Request $request)
     {
@@ -173,14 +173,17 @@ class FeedController extends Controller
 
         $this->get('session')->getFlashBag()->add(
             'notice',
-            'Number of feeds updated: '.$updatedFeedCount
+            $this->container->get('translator')->get(
+                'plugin.ingest.feeds.feedupdatedcount',
+                array('%count%' => $updatedFeedCount)
+            )
         );
 
         return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
     }
 
     /**
-     * @Route("/update/{id}")
+     * @Route("/update/{id}/")
      * @ParamConverter("get")
      */
     public function updateAction(Request $request, Feed $feed)
@@ -192,12 +195,18 @@ class FeedController extends Controller
 
             $this->get('session')->getFlashBag()->add(
                 'notice',
-                $feed->getName() .' has been updated.'
+                $this->container->get('translator')->get(
+                    'plugin.ingest.feeds.feedupdated',
+                    array('%feed%' => $feed->getName())
+                )
             );
         } catch(\Exception $e) {
             $this->get('session')->getFlashBag()->add(
                 'error',
-                'An error occured: '.$e->getMessage()
+                $this->container->get('translator')->get(
+                    'plugin.ingest.feeds.feedupdateerror',
+                    array('%error%' => $e->getMessage())
+                )
             );
         }
 

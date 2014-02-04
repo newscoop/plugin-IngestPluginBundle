@@ -14,6 +14,7 @@ use Symfony\Component\Finder\Finder;
 
 use Newscoop\IngestPluginBundle\Entity\Parser;
 use Newscoop\EventDispatcher\Events\GenericEvent;
+use Newscoop\NewscoopException;
 
 /**
  * @Route("/admin/ingest/parser")
@@ -115,7 +116,7 @@ class ParserController extends Controller
                                 $em->persist($parser);
                             }
                         } catch (IOException $e) {
-                            echo 'Parser file does not exist.';
+                            throw new NewscoopException($this->container->get('translator')->trans('plugin.ingest.parsers.parserfilenotexists'));
                         }
                     }
 
@@ -124,7 +125,7 @@ class ParserController extends Controller
 
                 $this->get('session')->getFlashBag()->add(
                     'notice',
-                    'Parser(s) installed!'
+                    $this->container->get('translator')->trans('plugin.ingest.parsers.installedsuccess')
                 );
 
                 return $this->redirect($this->generateUrl('newscoop_ingestplugin_parser_list'));
@@ -148,7 +149,7 @@ class ParserController extends Controller
 
         $this->get('session')->getFlashBag()->add(
             'notice',
-            'Parser deleted!'
+            $this->container->get('translator')->trans('plugin.ingest.parsers.deletedsuccess')
         );
 
         return $this->redirect($this->generateUrl('newscoop_ingestplugin_parser_list'));
