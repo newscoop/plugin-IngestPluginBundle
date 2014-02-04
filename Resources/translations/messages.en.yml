@@ -1,126 +1,128 @@
-Plugins: "Plugins"
+---
+Plugins: Plugins
 plugin:
   ingest:
-    title: "Ingest manager"
-    header: "Ingest manager"
-    menu: "Ingest manager"
-    tabs:
-      entries: "Entries"
-      feeds: "Feeds"
-      parsers: "Parsers"
-    dialog:
-      delete: "Delete"
-      cancel: "Cancel"
-    entries:
-      none: "No entries found"
-      publish: "Publish entry"
-      edit: "Prepare entry"
-      delete: "Delete entry"
-      view: "View article"
-      nosection: "No section"
-      enabled: "Enabled"
-      feed: "Feed"
-      title: "Title"
-      language: "Language"
-      body: "Body"
-      section: "Section"
-      created: "Created"
-      published: "Published"
-      notpublished: "Not published"
-      nocontent: "No content"
-      content: "Content"
-      summary: "Summary"
-      link: "Link"
-      articlenotfound: "Article could not be found. (Language: %language%, ArticleNumber: %article%)"
-      removedsuccess: "Entry succesfully removed!"
-      publishedsuccess: "Entry succesfully published!"
-      filter:
-        feeds: "Feeds"
-        all_feeds: "All feeds"
-        published: "Published"
-        yes: "Published: Yes"
-        no: "Published: No"
-        all: "Published: Any"
-        filter: "Filter"
-        view: "View"
-        slim: "Slim view"
-        expanded: "Expanded view"
-      dialog:
-        title: "Confirm removal of entry"
-        body: "Are you sure you want to delete this entry? If the entry is published or prepared, the related article will also be removed"
-        delete: "Delete entry"
-        cancel: "Cancel"
-    feeds:
-      none: "No feeds found"
-      add: "Add feed"
-      edit: "Edit feed"
-      delete: "Delete feed"
-      update: "Update feed"
-      update_all: "Update all feeds"
-      name: "Name"
-      url: "URL"
-      mode:
-        name: "Publication mode"
-        auto: "Automatic"
-        manual: "Manual"
-      publication: "Publication"
-      section: "Section(s)"
-      updated: "Last updated"
-      notupdated: "Not yet updated"
-      parser: "Parser"
-      nosections: "No sections"
-      choose_publication: "Select a publication"
-      enabled: "Enabled"
-      disabled: "Disabled"
-      addedsuccess: "Feed added!"
-      updatedsuccess: "Feed updated!"
-      deletedsuccess: "Feed deleted!"
-      feedupdatedcount: "Number of feeds updated: %count%"
-      feedupdated: "%feed% has been updated."
-      feedupdateerror: "An error occured: %error%"
-      dialog:
-        title: "Confirm removal of feed"
-        body: "Are you sure you want to delete this feed?"
-        delete: "Delete only feed"
-        delete_all: "Delete feed and entries"
-        cancel: "Cancel"
-      form:
-        help:
-          url: "This can be left empty if the parsers handle retrieval of content."
-          mode: "If <em>manual</em> is selected, entries will be ingested and appear in the<strong>Entries</strong> tab. If <em>automatic</em> is selected feeds willautomatically be pulished in the below chosen publication and section.The system will always use the latest publish Issue."
-          publication: "After selecting a publication, please wait untill the corresponding sections have been loaded."
-          section: "Automatically published entries will be published in the first selected section. Unless multiple sections with different languages are selected, in that case the system will try to find the best suited language according to the entry language.<br>The parser can also return a section for the entry to be published in. This will override all settings."
-        button:
-          add: "Add"
-          save: "Save"
-          cancel: "Cancel"
-    parsers:
-      none: "No parsers found"
-      name: "Name"
-      description: "Description"
-      domain: "Domain"
-      feeds: "In use"
-      add: "Add parser"
-      delete: "Delete parser"
-      nonew: "There are no new parsers. To install a parser copy the file into the Parsers directory."
-      parserfilenotexists: "Parser file does not exist."
-      installedsuccess: "Parser(s) installed!"
-      deletedsuccess: "Parser deleted!"
-      form:
-        label:
-          namespace: "Select one or more parsers to install"
-        button:
-          install: "Install"
-          cancel: "Cancel"
-      dialog:
-        title: "Confirm removal of parser"
-        body: "Are you sure you want to delete this parser? Feeds linked to this parser will automatically be disabled."
-        delete: "Delete parser"
-        cancel: "Cancel"
     btn:
-      add: "Add feed"
-      delete: "Delete"
-      cancel: "Cancel"
-      deleteall: "Delete all"
-      remove: "Remove"
-      save: "Save"
+      add: Add feed
+      cancel: Cancel
+      delete: Delete
+      deleteall: Delete all
+      remove: Remove
+      save: Save
+    dialog:
+      cancel: Cancel
+      delete: Delete
+    entries:
+      articlenotfound: 'Article could not be found. (Language: %language%, ArticleNumber:
+        %article%)'
+      body: Body
+      content: Content
+      created: Created
+      delete: Delete entry
+      dialog:
+        body: Are you sure you want to delete this entry? If the entry is published or prepared, the related article will also be removed
+        cancel: Cancel
+        delete: Delete entry
+        title: Confirm removal of entry
+      edit: Prepare entry
+      enabled: Enabled
+      feed: Feed
+      filter:
+        all: 'Published: Any'
+        all_feeds: All feeds
+        expanded: Expanded view
+        'false': 'Published: No'
+        feeds: Feeds
+        filter: Filter
+        published: Published
+        slim: Slim view
+        'true': 'Published: Yes'
+        view: View
+      language: Language
+      link: Link
+      nocontent: No content
+      none: No entries found
+      nosection: No section
+      notpublished: Not published
+      publish: Publish entry
+      published: Published
+      publishedsuccess: Entry successfully published!
+      removedsuccess: Entry successfully removed!
+      section: Section
+      summary: Summary
+      title: Title
+      view: View article
+    feeds:
+      add: Add feed
+      addedsuccess: Feed added!
+      choose_publication: Select a publication
+      delete: Delete feed
+      deletedsuccess: Feed deleted!
+      dialog:
+        body: Are you sure you want to delete this feed?
+        cancel: Cancel
+        delete: Delete only feed
+        delete_all: Delete feed and entries
+        title: Confirm removal of feed
+      disabled: Disabled
+      edit: Edit feed
+      enabled: Enabled
+      feedupdated: '%feed% has been updated.'
+      feedupdatedcount: 'Number of feeds updated: %count%'
+      feedupdateerror: 'An error occured: %error%'
+      form:
+        button:
+          add: Add
+          cancel: Cancel
+          save: Save
+        help:
+          mode: If <em>manual</em> is selected, entries will be ingested and appear in the <strong>Entries</strong> tab. If <em>automatic</em> is selected entries willautomatically be pulished in the below chosen publication and section. The system will always use the latest published Issue.
+          publication: After selecting a publication, please wait untill the corresponding sections have been loaded.
+          section: Automatically published entries will be published in the first selected section. If multiple sections with different languages are selected, then the system will try to find the best suited section according to the entry language.<br>The parser can also return a section for the entry to be published in. This will override all settings.
+          url: This can be left blank if the parsers handle retrieval of content.
+      mode:
+        auto: Automatic
+        manual: Manual
+        name: Publication mode
+      name: Name
+      none: No feeds found
+      nosections: No sections
+      notupdated: Not yet updated
+      parser: Parser
+      publication: Publication
+      section: Section(s)
+      update: Update feed
+      update_all: Update all feeds
+      updated: Last updated
+      updatedsuccess: Feed updated!
+      url: URL
+    header: Ingest manager
+    menu: Ingest manager
+    parsers:
+      add: Add parser
+      delete: Delete parser
+      deletedsuccess: Parser deleted!
+      description: Description
+      dialog:
+        body: Are you sure you want to delete this parser? Feeds linked to this parser will automatically be disabled.
+        cancel: Cancel
+        delete: Delete parser
+        title: Confirm removal of parser
+      domain: Domain
+      feeds: In use
+      form:
+        button:
+          cancel: Cancel
+          install: Install
+        label:
+          namespace: Select one or more parsers to install
+      installedsuccess: Parser(s) installed!
+      name: Name
+      none: No parsers found
+      nonew: There are no new parsers. To install a parser copy the file into the Parsers directory.
+      parserfilenotexists: Parser file does not exist.
+    tabs:
+      entries: Entries
+      feeds: Feeds
+      parsers: Parsers
+    title: Ingest manager
