@@ -274,7 +274,7 @@ class PublisherService
      */
     private function removeLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
-        $article = getArticleLegacy($entry->getLanguage()->getId(), $entry->getArticleId());
+        $article = $this->getArticleLegacy($entry->getLanguage()->getId(), $entry->getArticleId());
         if ($article->exists()) {
             $article->delete();
         }
