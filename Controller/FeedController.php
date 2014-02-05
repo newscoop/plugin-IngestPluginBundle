@@ -72,7 +72,7 @@ class FeedController extends Controller
 
                 $this->get('session')->getFlashBag()->add(
                     'notice',
-                    $this->container->get('translator')->get('plugin.ingest.feeds.addedsuccess')
+                    $this->container->get('translator')->trans('plugin.ingest.feeds.addedsuccess')
                 );
 
                 return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
@@ -115,7 +115,7 @@ class FeedController extends Controller
 
                 $this->get('session')->getFlashBag()->add(
                     'notice',
-                    $this->container->get('translator')->get('plugin.ingest.feeds.updatedsuccess')
+                    $this->container->get('translator')->trans('plugin.ingest.feeds.updatedsuccess')
                 );
 
                 return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
@@ -157,7 +157,7 @@ class FeedController extends Controller
 
         $this->get('session')->getFlashBag()->add(
             'notice',
-            $this->container->get('translator')->get('plugin.ingest.feeds.deletedsuccess')
+            $this->container->get('translator')->trans('plugin.ingest.feeds.deletedsuccess')
         );
 
         return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
@@ -203,7 +203,7 @@ class FeedController extends Controller
         } catch(\Exception $e) {
             $this->get('session')->getFlashBag()->add(
                 'error',
-                $this->container->get('translator')->get(
+                $this->container->get('translator')->trans(
                     'plugin.ingest.feeds.feedupdateerror',
                     array('%error%' => $e->getMessage())
                 )
