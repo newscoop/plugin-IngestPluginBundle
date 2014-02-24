@@ -164,6 +164,48 @@ class FeedController extends Controller
     }
 
     /**
+     * @Route("/edit/quick/{id}/{option}/{value}")
+     * @ParamConverter("get")
+     */
+    public function quickEditAction(Request $request, Feed $feed, $option, $value)
+    {
+        $em = $this->container->get('em');
+        $method = 'set'.$option;
+
+        if (method_exists($feed, $method)) {
+
+            try {
+                $feed->$method($value);
+                $em->persist($feed);
+                $em->flush();
+                $status = 'notice';
+                $message = $this->container->get('translator')->trans(
+                    'plugin.ingest.feeds.updatedpropertysucces',
+                    array('%property%' => $option, '%value%' => $value, '%feed%' => $feed->getName())
+                );
+            } catch (\Exception $e) {
+                $status = 'error';
+                $message = $this->container->get('translator')->trans(
+                    'plugin.ingest.feeds.updatedpropertyfailure'
+                );
+            }
+        } else {
+            $status = 'error';
+            $message = $this->container->get('translator')->trans(
+                'plugin.ingest.feeds.updatedinvalidmethod',
+                array('%property%' => $option, '%value%' => $value, '%feed%' => $feed->getName())
+            );
+        }
+
+        $this->get('session')->getFlashBag()->add(
+            $status,
+            $message
+        );
+
+        return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
+    }
+
+    /**
      * @Route("/update/all/")
      */
     public function updateAllAction(Request $request)

@@ -54,6 +54,8 @@ plugin:
       none: "No feeds found"
       add: "Add feed"
       edit: "Edit feed"
+      quick_edit_auto: "Change publication mode to automatic"
+      quick_edit_manual: "Change publication mode to manual"
       delete: "Delete feed"
       update: "Update feed"
       update_all: "Update all feeds"
@@ -75,6 +77,9 @@ plugin:
       addedsuccess: "Feed added!"
       updatedsuccess: "Feed updated!"
       deletedsuccess: "Feed deleted!"
+      updatedpropertysucces: 'Succesfully updated property "%property%" to value "%value%" for %feed%.'
+      updatedpropertyfailure: 'Could not update property "%property%" to value "%value%" for %feed%!'
+      updatedinvalidmethod: 'Invalied method called.'
       feedupdatedcount: "Number of feeds updated: %count%"
       feedupdated: "%feed% has been updated."
       feedupdateerror: "An error occured: %error%"

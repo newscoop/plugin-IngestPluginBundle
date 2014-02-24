@@ -62,12 +62,20 @@
                         </td>
                         <td>{{ feed.updated ? feed.updated|date('Y-m-d H:i:s') : 'plugin.ingest.feeds.notupdated'|trans }}</td>
                         <td>{{ feed.parser.name }}</td>
-                        <td>
+                        <td align="right">
                             {% if feed.enabled %}
                                 <a href="{{ path('newscoop_ingestplugin_feed_update', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.update'|trans|e }}">
                                     <span class="glyphicon glyphicon-refresh"></span>
                                 </a>
                             {% endif %}
+                            {% if feed.mode == 'manual' %}
+                                <a href="{{ path('newscoop_ingestplugin_feed_quickedit', {'id': feed.id, 'option': 'mode', 'value': 'auto'}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.quick_edit_auto'|trans|e }}">
+                                    <span class="glyphicon glyphicon-flag"></span>
+                            {% else %}
+                                <a href="{{ path('newscoop_ingestplugin_feed_quickedit', {'id': feed.id, 'option': 'mode', 'value': 'manual'}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.quick_edit_manual'|trans|e }}">
+                                    <span class="glyphicon glyphicon-hand-up"></span>
+                            {% endif %}
+                            </a>
                             <a href="{{ path('newscoop_ingestplugin_feed_edit', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.edit'|trans|e }}">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
