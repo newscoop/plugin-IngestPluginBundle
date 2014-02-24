@@ -12,12 +12,14 @@ plugin:
       cancel: Abbrechen
       delete: Löschen
     entries:
+      articlenotfound: 'Artikel konnte nicht gefunden werden. (Sprache: %language%,
+        Artikelnummer: %article%)'
       body: Body
       content: Inhalt
       created: Erstellt
       delete: Eingabe löschen
       dialog:
-        body: "Sind Sie sicher, dass dieser Eintrag gelöscht werden soll? Falls dieser Eintrag publiziert oder angelegt wurde, wird der zugehörige Artikel ebenfalls entfernt."
+        body: 'Sind Sie sicher, dass dieser Eintrag gelöscht werden soll? Falls dieser Eintrag publiziert oder angelegt wurde, wird der zugehörige Artikel ebenfalls entfernt.'
         cancel: Abbrechen
         delete: Eintrag löschen
         title: Entfernen des Eintrags bestätigen
@@ -25,15 +27,15 @@ plugin:
       enabled: Aktiviert
       feed: Feed
       filter:
-        all: "Veröffentlicht: beliebig"
+        all: 'Veröffentlicht: beliebig'
         all_feeds: Alle Feeds
         expanded: Erweiterte Ansicht
+        no: 'Veröffentlicht: Nein'
         feeds: Feeds
         filter: Filter
         published: Veröffentlicht
-        yes: 'Veröffentlicht: Ja'
-        no: 'Veröffentlicht: Nein'
         slim: Schmale Ansicht
+        yes: 'Veröffentlicht: Ja'
         view: Ansicht
       language: Sprache
       link: Link
@@ -43,16 +45,20 @@ plugin:
       notpublished: Nicht veröffentlicht
       publish: Eingabe publizieren
       published: Veröffentlicht
+      publishedsuccess: Eingabe erfolgreich publiziert!
+      removedsuccess: Eingabe erfolgreich entfernt!
       section: Rubrik
       summary: Zusammenfassung
       title: Titel
       view: Artikel ansehen
     feeds:
       add: Feed hinzufügen
+      addedsuccess: Feed hinzugefügt!
       choose_publication: Wählen Sie eine Publikation
       delete: Feed löschen
+      deletedsuccess: Feed gelöscht!
       dialog:
-        body: "Sind Sie sicher, dass Sie diesen Feed löschen wollen?"
+        body: 'Sind Sie sicher, dass Sie diesen Feed löschen wollen?'
         cancel: Abbrechen
         delete: Nur Feed löschen
         delete_all: Feed und Eingaben löschen
@@ -60,16 +66,19 @@ plugin:
       disabled: Deaktiviert
       edit: Feed bearbeiten
       enabled: Aktiviert
+      feedupdated: '%feed% wurde aktualisiert.'
+      feedupdatedcount: 'Anzahl der Feeds aktualisiert: %count%'
+      feedupdateerror: 'Ein Fehler ist aufgetreten: %error%'
       form:
         button:
           add: Hinzufügen
           cancel: Abbrechen
           save: Speichern
         help:
-          mode: "Wenn <em>manuell</em> ausgewählt ist, werden Eingaben aufgenommen und erscheinen im Reiter <strong>Eingaben</strong>. Wenn <em>automatisch</em> ausgewählt ist, werden die Feeds automatisch in der weiter unten ausgewählten Publikation und Rubrik veröffentlicht. Es wird immer die aktuelleste Ausgabe gewählt."
-          publication: "Nachdem Sie eine Publikation gewählt haben, warten Sie bitte, bis die entsprechenden Rubriken geladen sind."
-          section: "Automatisch publizierte Eingaben werden in der als erstes ausgewählten Rubrik veröffentlicht. Falls mehrere Rubriken mit verschiedenen Sprachen ausgewählt sind, wird das System versuchen, die sinnvollste Sprachversion in Bezug auf die Eintragssprache zu finden. <br> Der Parser kann auch eine Rubrik zurückspielen, in der der Eintrag veröffentlich wird. Dabei werden die Einstellungen überschrieben."
-          url: "Dieses Feld kann leer bleiben, wenn die Parsers Inhalte abrufen."
+          mode: 'Wenn <em>manuell</em> ausgewählt ist, werden Eingaben aufgenommen und erscheinen im Reiter <strong>Eingaben</strong>. Wenn <em>automatisch</em> ausgewählt ist, werden die Feeds automatisch in der weiter unten ausgewählten Publikation und Rubrik veröffentlicht. Es wird immer die aktuelleste Ausgabe gewählt.'
+          publication: 'Nachdem Sie eine Publikation gewählt haben, warten Sie bitte, bis die entsprechenden Rubriken geladen sind.'
+          section: 'Automatisch publizierte Eingaben werden in der als erstes ausgewählten Rubrik veröffentlicht. Falls mehrere Rubriken mit verschiedenen Sprachen ausgewählt sind, wird das System versuchen, die sinnvollste Sprachversion in Bezug auf die Eintragssprache zu finden. <br> Der Parser kann auch eine Rubrik zurückspielen, in der der Eintrag veröffentlich wird. Dabei werden die Einstellungen überschrieben.'
+          url: 'Dieses Feld kann leer bleiben, wenn die Parsers Inhalte abrufen.'
       mode:
         auto: Automatisch
         manual: Manuell
@@ -80,19 +89,26 @@ plugin:
       notupdated: Noch nicht aktualisiert
       parser: Parser
       publication: Publikation
+      quick_edit_auto: Veröffentlichungsmodus auf automatisch umstellen
+      quick_edit_manual: Veröffentlichungsmodus auf manuell umstellen
       section: Rubrik(en)
       update: Feed aktualisieren
       update_all: Alle Feeds aktualisieren
       updated: Zuletzt aktualisiert
+      updatedinvalidmethod: Ungültige Methode angefragt.
+      updatedpropertyfailure: 'Das Merkmal "%property%" konnte nicht auf Wert "%value%" für %feed% aktualisiert werden!'
+      updatedpropertysucces: 'Das Merkmal "%property%" wurde erfolgreich auf Wert "%value%" für %feed% aktualisiert.'
+      updatedsuccess: Feed aktualisiert!
       url: URL
     header: Ingest Manager
     menu: Ingest Manager
     parsers:
       add: Parser hinzufügen
       delete: Parser löschen
+      deletedsuccess: Parser gelöscht!
       description: Beschreibung
       dialog:
-        body: "Sind Sie sicher, dass Sie diesen Parser löschen wollen? Mit dem Parser verbundene Feeds werden automatisch deaktiviert."
+        body: 'Sind Sie sicher, dass Sie diesen Parser löschen wollen? Mit dem Parser verbundene Feeds werden automatisch deaktiviert.'
         cancel: Abbrechen
         delete: Parser löschen
         title: Entfernen des Parsers bestätigen
@@ -103,10 +119,12 @@ plugin:
           cancel: Abbrechen
           install: Installieren
         label:
-          namespace: "Einen oder mehrere Parser zum Installeren auswählen"
+          namespace: Einen oder mehrere Parser zum Installeren auswählen
+      installedsuccess: Parser installiert!
       name: Name
       none: Keine Parser gefunden
-      nonew: "Es sind keine neuen Parser vorhanden. Um einen Parser zu installieren, kopieren Sie die Datei in das Parser-Verzeichnis."
+      nonew: 'Es sind keine neuen Parser vorhanden. Um einen Parser zu installieren, kopieren Sie die Datei in das Parser-Verzeichnis.'
+      parserfilenotexists: Parser-Datei existiert nicht.
     tabs:
       entries: Eingaben
       feeds: Feeds
