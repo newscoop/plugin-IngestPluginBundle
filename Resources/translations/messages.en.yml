@@ -79,7 +79,7 @@ plugin:
       deletedsuccess: "Feed deleted!"
       updatedpropertysucces: 'Succesfully updated property "%property%" to value "%value%" for %feed%.'
       updatedpropertyfailure: 'Could not update property "%property%" to value "%value%" for %feed%!'
-      updatedinvalidmethod: 'Invalied method called.'
+      updatedinvalidmethod: 'Invalid method called.'
       feedupdatedcount: "Number of feeds updated: %count%"
       feedupdated: "%feed% has been updated."
       feedupdateerror: "An error occured: %error%"
