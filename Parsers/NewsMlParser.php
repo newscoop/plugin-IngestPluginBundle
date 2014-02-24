@@ -7,12 +7,12 @@
 
 namespace Newscoop\IngestPluginBundle\Parsers;
 
-use Newscoop\Ingest\Parser;
+use Symfony\Component\Finder\Finder;
 
 /**
  * NewsML parser
  */
-class NewsMlParser implements Parser
+class SDAParser extends Parser
 {
     /**
      * Parser name
@@ -391,5 +391,16 @@ class NewsMlParser implements Parser
         $href = (string) $contentItem['Href'];
 
         return "$this->dir/$href";
+    }
+
+    /**
+     * Get string value of first matched element
+     *
+     * @param array $matches
+     * @return string
+     */
+    private function getString(array $matches)
+    {
+        return (string) array_shift($matches);
     }
 }
