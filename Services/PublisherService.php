@@ -349,6 +349,7 @@ class PublisherService
         $mappingArray = $this->atcf->getArticleTypeMapping();
 
         $data = $article->getArticleData();
+
         foreach ($mappingArray as $fieldID => $method) {
             if (method_exists($entry, $method)) {
                 $propertySet = $data->setProperty("F{$fieldID}", $entry->$method());
