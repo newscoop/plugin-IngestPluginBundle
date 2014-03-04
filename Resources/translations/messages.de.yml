@@ -12,8 +12,7 @@ plugin:
       cancel: Abbrechen
       delete: Löschen
     entries:
-      articlenotfound: 'Artikel konnte nicht gefunden werden. (Sprache: %language%,
-        Artikelnummer: %article%)'
+      articlenotfound: 'Artikel konnte nicht gefunden werden. (Sprache: %language%, Artikelnummer: %article%)'
       body: Body
       content: Inhalt
       created: Erstellt
