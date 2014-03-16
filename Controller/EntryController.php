@@ -89,8 +89,8 @@ class EntryController extends Controller
             }
         }
         $queryBuilder
-            ->orderBy('e.created', 'desc')
-            ->orderBy('e.id', 'desc');
+            ->addOrderBy('e.created', 'desc')
+            ->addOrderBy('e.id', 'desc');
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -180,7 +180,7 @@ class EntryController extends Controller
         if (!$article->exists()) {
             throw new Exception(
                 $this->container->get('translator')->trans(
-                    'plugin.indest.entries.articlenotfound',
+                    'plugin.ingest.entries.articlenotfound',
                     array('%language%' => $languageId, '%article%' => $articleNumber)
                 ),
                 1

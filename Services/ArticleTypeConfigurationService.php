@@ -30,43 +30,43 @@ class ArticleTypeConfigurationService
      * @var array
      */
     private $fieldArray = array(
-        'newsItemId' => array(
+        'NewsItemId' => array(
             'entryMethod' => 'getNewsItemId',
             'type' => 'text', 'max_size' => 255, 'is_hidden' => 1
         ),
-        'newsProduct' => array(
+        'NewsProduct' => array(
             'entryMethod' => 'getProduct',
             'type' => 'text', 'max_size' => 255, 'is_hidden' => 1
         ),
-        'status' => array(
+        'Status' => array(
             'entryMethod' => 'getStatus',
             'type' => 'text', 'max_size' => 255, 'is_hidden' => 1
         ),
-        'urgency' => array(
+        'Urgency' => array(
             'entryMethod' => 'getPriority',
             'type' => 'text', 'max_size' => 255, 'is_hidden' => 1
         ),
-        'headLine' => array(
+        'HeadLine' => array(
             'entryMethod' => 'getCatchline',
             'type' => 'text', 'max_size' => 255
         ),
-        'newsLineText' => array(
+        'NewsLineText' => array(
             'entryMethod' => 'getTitle',
             'type' => 'text', 'max_size' => 255
         ),
-        'dataLink' => array(
+        'DataLink' => array(
             'entryMethod' => 'getLink',
             'type' => 'text', 'max_size' => 255
         ),
-        'dataLead' => array(
+        'DataLead' => array(
             'entryMethod' => 'getSummary',
             'type' => 'body', 'field_type_param' => 'editor_size=250'
         ),
-        'dataContent' => array(
+        'DataContent' => array(
             'entryMethod' => 'getContent',
             'type' => 'body', 'field_type_param' => 'editor_size=500', 'is_content_field' => 1
         ),
-        'authorNames' => array(
+        'AuthorNames' => array(
             //'entryMethod' => 'getAuthors',
             'type' => 'text', 'max_size' => 255
         ),

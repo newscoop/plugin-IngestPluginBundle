@@ -228,7 +228,7 @@ class PublisherService
             return;
         }
 
-        $article = getArticleLegacy($entry->getLanguage()->getId(), $entry->getArticleId());
+        $article = $this->getArticleLegacy($entry->getLanguage()->getId(), $entry->getArticleId());
         if (!$article->exists()) {
             return;
         }

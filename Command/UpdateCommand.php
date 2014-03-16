@@ -40,6 +40,10 @@ EOT
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        global $g_ado_db;
+        $container = $this->getApplication()->getKernel()->getContainer();
+        $g_ado_db = $container->get('doctrine.adodb');
+
         $feedParam  = $input->getArgument('feed');
         $ingest     = $this->getContainer()->getService('newscoop_ingest_plugin.ingester');
 
