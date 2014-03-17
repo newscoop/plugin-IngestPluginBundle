@@ -92,7 +92,7 @@ class PublisherService
                 ->setIssue($latestIssue)
                 ->setSection($entry->getSection())
                 ->setKeywords($entry->getKeywords())
-                ->setCommentsEnabled(0);
+                ->setCommentsEnabled(1);
 
             $this->setArticleAuthors($article, $entry);
             $this->setArticleImages($article, $entry);
