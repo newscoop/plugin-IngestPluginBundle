@@ -165,7 +165,7 @@ class IngestService
                 } elseif (is_int($unparsedEntry->getSection())) {
                     // Try to find entity
                     $sectionEntity = $this->em->getRepository('Newscoop\Entity\Section')
-                        ->findOneById($unparsedEntry->getSection());
+                        ->findOneByNumber($unparsedEntry->getSection());
                 }
                 if ($sectionEntity === null) {
                     $sections = $feed->getSections();

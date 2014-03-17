@@ -286,6 +286,16 @@ class SDAParser extends Parser
      */
     public function getAuthors()
     {
+        // Override authors to it alwasy is sda
+        return array(array(
+            'firstname' => $this->getAttributeProvider() === 'Si' ? 'SI' : 'sda',
+            'lastname' => '',
+            'email' => '',
+            'link' => '',
+        ));
+
+        // Old code to retrieve author data
+        /*
         $authors = array();
         foreach ($this->xml->xpath('//AdministrativeMetadata/Property[@FormalName="author"]') as $author) {
             $authorName = $this->readName((string) $author['Value']);
@@ -298,6 +308,7 @@ class SDAParser extends Parser
         }
 
         return $authors;
+        */
     }
 
     /**
@@ -437,6 +448,10 @@ class SDAParser extends Parser
                 break;
         }
 
+        if ($this->getAttributeProvider() == 'Si') {
+            return 40;
+        }
+
         if ($this->getAttributeCountry() != 'CH')  {
             return 30;
         }
@@ -477,15 +492,13 @@ class SDAParser extends Parser
 
         if (count($xmlImages) > 0) {
 
-            echo $this->getTitle(). ' has images.'."\n";
-
             foreach ($xmlImages AS $image) {
 
                 $images[] = array(
-                    'url' => $image->getAttributePath(),
-                    'title' => $image->getTitle(),
+                    'location' => $image->getAttributePath(),
+                    'description' => $image->getTitle(),
                     'copyright' => '',
-                    'photographer' => $this->getAttributeProvider() === 'Si' ? 'Si' : 'sda',
+                    'photographer' => $this->getAttributeProvider() === 'Si' ? 'SI' : 'sda',
                 );
             }
         }
