@@ -57,11 +57,11 @@ class SDAParser extends Parser
     public static function getStories(\Newscoop\IngestPluginBundle\Entity\Feed $feed)
     {
         $finder = new Finder();
-
         $entries = array();
-        $finder->files()->in(__DIR__ . self::FEEDS_PATH)->name('*.xml');
 
-         foreach ($finder as $file) {
+        $finder->files()->in(__DIR__ . self::FEEDS_PATH)->name('*.xml')->sortByName();
+
+        foreach ($finder as $file) {
 
             $filePath = $file->getRealpath();
 
