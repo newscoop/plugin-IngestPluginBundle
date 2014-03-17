@@ -61,7 +61,7 @@
                             {% if entry.status == 'usable' %}
                                 {% if entry.published is empty and entry.articleId is empty %}
                                     <a href="{{ path('newscoop_ingestplugin_entry_publish', {'id': entry.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.publish'|trans|e }}">
-                                        <span class="glyphicon glyphicon-fire"></span>
+                                        <span class="glyphicon glyphicon-import"></span>
                                     </a>
                                 {% endif %}
                                 {% if entry.articleId is empty %}
