@@ -62,29 +62,25 @@ class SDAParser extends Parser
         $finder->files()->in(__DIR__ . self::FEEDS_PATH)->name('*.xml');
 
         $i = 0;
-        $lastUpdated = new \DateTime('2014-03-15 12:00:00');
 
         foreach ($finder as $file) {
 
-            // echo $file."\n";
-
-            // $i++;
-            // if ($i > 10) {
-            //     continue;
-            // }
+            $i++;
+            if ($i > 10) {
+                continue;
+            }
 
             $filePath = $file->getRealpath();
 
-            // if ($feed->getUpdated() && $feed->getUpdated()->getTimestamp() > filectime($filePath) + self::IMPORT_DELAY) {
-            //     echo "Feed update timestamp newer the file timestamp.\n";
-            //     continue;
-            // }
+            if ($feed->getUpdated() && $feed->getUpdated()->getTimestamp() > filectime($filePath) + self::IMPORT_DELAY) {
+                echo "File timestamp is older then feed updated timestamp.\n";
+                continue;
+            }
 
-            // if (time() < filectime($filePath) + self::IMPORT_DELAY) {
-            //     echo "Import delay continue.\n";
-            //     continue;
-            // }
-
+            if (time() < filectime($filePath) + self::IMPORT_DELAY) {
+                echo "Waiting to import, will be imported on next call.\n";
+                continue;
+            }
 
             $handle = fopen($filePath, 'r');
             if (flock($handle, LOCK_EX | LOCK_NB)) {
@@ -105,10 +101,6 @@ class SDAParser extends Parser
                 fclose($handle);
             }
         }
-
-        // echo 'Count: '.count($entries)."\n";
-
-        // $entries = array();
 
         return $entries;
     }
