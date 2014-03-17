@@ -61,24 +61,17 @@ class SDAParser extends Parser
         $entries = array();
         $finder->files()->in(__DIR__ . self::FEEDS_PATH)->name('*.xml');
 
-        $i = 0;
-
         foreach ($finder as $file) {
-
-            $i++;
-            if ($i > 10) {
-                continue;
-            }
 
             $filePath = $file->getRealpath();
 
             if ($feed->getUpdated() && $feed->getUpdated()->getTimestamp() > filectime($filePath) + self::IMPORT_DELAY) {
-                echo "File timestamp is older then feed updated timestamp.\n";
+                // File timestamp is older then feed updated timestamp
                 continue;
             }
 
             if (time() < filectime($filePath) + self::IMPORT_DELAY) {
-                echo "Waiting to import, will be imported on next call.\n";
+                // Waiting to import, will be imported on next call
                 continue;
             }
 
@@ -86,14 +79,6 @@ class SDAParser extends Parser
             if (flock($handle, LOCK_EX | LOCK_NB)) {
 
                 $tempEntry = new SDAParser($filePath);
-
-                if ($tempEntry->getUpdated() < $lastUpdated) {
-                    continue;
-                }
-
-                // echo $file."\n";
-                // echo $tempEntry->getCreated()->format('Y-m-d H:i:s')."\n";
-                // echo $tempEntry->getUpdated()->format('Y-m-d H:i:s')."\n";
 
                 $entries[]= new SDAParser($filePath);
 
