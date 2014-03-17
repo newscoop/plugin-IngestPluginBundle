@@ -242,8 +242,8 @@ abstract class Parser
      * Get images
      *
      * @return array Each entry should be an array. The array must have at least
-     *               one key: url (to the image). Possible other keys are:
-     *               title, copyright, photographer.
+     *               one key: location (to the image). Possible other keys are:
+     *               description, copyright, photographer.
      */
     public function getImages()
     {
