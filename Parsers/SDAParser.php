@@ -61,26 +61,30 @@ class SDAParser extends Parser
         $entries = array();
         $finder->files()->in(__DIR__ . self::FEEDS_PATH)->name('*.xml');
 
-        foreach ($finder as $file) {
+         foreach ($finder as $file) {
 
             $filePath = $file->getRealpath();
 
             if ($feed->getUpdated() && $feed->getUpdated()->getTimestamp() > filectime($filePath) + self::IMPORT_DELAY) {
-                // File timestamp is older then feed updated timestamp
+                // echo "File timestamp is older then feed updated timestamp.\n";
                 continue;
             }
 
             if (time() < filectime($filePath) + self::IMPORT_DELAY) {
-                // Waiting to import, will be imported on next call
+                // echo "Waiting to import, will be imported on next call.\n";
                 continue;
             }
 
             $handle = fopen($filePath, 'r');
             if (flock($handle, LOCK_EX | LOCK_NB)) {
 
-                $tempEntry = new SDAParser($filePath);
+                $parsedEntry = new SDAParser($filePath);
 
-                $entries[]= new SDAParser($filePath);
+                if ($parsedEntry->isImage()) {
+                    continue;
+                }
+
+                $entries[]= $parsedEntry;
 
                 flock($handle, LOCK_UN);
                 fclose($handle);
@@ -95,7 +99,7 @@ class SDAParser extends Parser
      */
     public function __construct($content)
     {
-        $this->xml = simplexml_load_file($content);
+        $this->xml = @simplexml_load_file($content);
         $this->dir = dirname($content);
     }
 
@@ -412,6 +416,11 @@ class SDAParser extends Parser
         return "$this->dir/$href";
     }
 
+    /**
+     * Get section number for entry
+     *
+     * @return int Section Number
+     */
     public function getSection()
     {
         if (strpos($this->getNewsItemId(), 'lto') !== false) {
@@ -437,6 +446,51 @@ class SDAParser extends Parser
         }
 
         return 20;
+    }
+
+    /**
+     * Test if is image
+     *
+     * @return bool
+     */
+    public function isImage()
+    {
+        $mainRole = array_pop($this->xml->xpath('//NewsComponent/Role[@FormalName="Main"]'));
+        return $mainRole && $mainRole->xpath('following::ContentItem/MediaType[@FormalName="Photo"]');
+    }
+
+    /**
+     * Get images
+     *
+     * @return array
+     */
+    public function getImages()
+    {
+        $images = array();
+        $xmlImages = array();
+        foreach ($this->xml->xpath('//NewsManagement/AssociatedWith') as $assoc) {
+            list(,,,$dateId, $newsItemId) = explode(':', (string) $assoc['NewsItem']);
+            foreach (glob("{$this->dir}/{$dateId}*_{$newsItemId}.xml") as $imageNewsMl) {
+                $xmlImages[] = new self($imageNewsMl);
+            }
+        }
+
+        if (count($xmlImages) > 0) {
+
+            echo $this->getTitle(). ' has images.'."\n";
+
+            foreach ($xmlImages AS $image) {
+
+                $images[] = array(
+                    'url' => $image->getAttributePath(),
+                    'title' => $image->getTitle(),
+                    'copyright' => '',
+                    'photographer' => $this->getAttributeProvider() === 'Si' ? 'Si' : 'sda',
+                );
+            }
+        }
+
+        return $images;
     }
 
     /**
