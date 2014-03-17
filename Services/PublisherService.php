@@ -195,7 +195,7 @@ class PublisherService
         );
         $article->setWorkflowStatus('N');
         $article->setKeywords(implode(',', $entry->getKeywords()));
-        $article->setCommentsEnabled(0);
+        $article->setCommentsEnabled(1);
 
         // ArticleType data
         $this->setArticleDataLegacy($article, $entry);
@@ -455,6 +455,7 @@ class PublisherService
             }
 
             $imagePath = '';
+
             if ($filesystem->exists($image['location'])) {
                 $basename = basename($image['location']);
                 $imagePath = $image['location'];
