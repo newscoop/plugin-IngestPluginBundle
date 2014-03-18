@@ -114,6 +114,16 @@ class SDAParser extends Parser
     }
 
     /**
+     * Get date id
+     *
+     * @return string
+     */
+    public function getDateId()
+    {
+        return $this->getString($this->xml->xpath('//Identification/NewsIdentifier/DateId'));
+    }
+
+    /**
      * Get title
      *
      * @return string

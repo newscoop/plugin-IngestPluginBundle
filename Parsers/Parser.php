@@ -74,6 +74,16 @@ abstract class Parser
     }
 
     /**
+     * Get date id for this article
+     *
+     * @return string
+     */
+    public function getDateId()
+    {
+        return '';
+    }
+
+    /**
      * Get language
      *
      * @return string

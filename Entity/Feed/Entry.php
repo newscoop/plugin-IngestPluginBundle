@@ -41,6 +41,12 @@ class Entry
     private $newsItemId;
 
     /**
+     * @ORM\Column(name="date_id", type="string")
+     * @var string
+     */
+    private $dateId;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      * @var int
      */
@@ -151,12 +157,6 @@ class Entry
     private $link;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     * @var string
-     */
-    private $date_id;
-
-    /**
      * @ORM\Column(type="array", nullable=true)
      * @var array
      */
@@ -243,6 +243,31 @@ class Entry
 
         return $this;
     }
+
+    /**
+     * Getter for dateId
+     *
+     * @return string
+     */
+    public function getDateId()
+    {
+        return $this->dateId;
+    }
+
+    /**
+     * Setter for dateId
+     *
+     * @param string $dateId Value to set
+     *
+     * @return self
+     */
+    public function setDateId($dateId)
+    {
+        $this->dateId = $dateId;
+
+        return $this;
+    }
+
 
     /**
      * Getter for articleId
@@ -411,18 +436,6 @@ class Entry
         $this->created = $created;
 
         return $this;
-    }
-
-    /**
-     * Get date id
-     *
-     * @return string
-     */
-    public function getDateId()
-    {
-        $date = $this->getCreated();
-
-        return $date->format('dmY');
     }
 
     /**
@@ -764,89 +777,4 @@ class Entry
     {
         return array_key_exists($name, $this->attributes);
     }
-
-    /**
-     * Update entry
-     *
-     * @param Newscoop\IngestPluginBundle\Parser $parser
-     * @return self
-     */
-    // public function update(\Newscoop\IngestPluginBundle\Parser $parser)
-    // {
-    //     $this->updated = $parser->getUpdated();
-    //     $this->title = $parser->getTitle();
-    //     $this->content = $parser->getContent();
-    //     $this->priority = $parser->getPriority();
-    //     $this->summary = (string) $parser->getSummary();
-    //     $this->status = (string) $parser->getStatus();
-    //     $this->embargoed = $parser->getLiftEmbargo();
-    //     self::setAttributes($this, $parser);
-    //     self::setImages($this, $parser);
-    //     return $this;
-    // }
-
-    /**
-     * Entry factory
-     *
-     * @param Newscoop\IngestPluginBundle\Parser $parser
-     * @return Newscoop\IngestPluginBundle\Entity\Feed\Entry
-     */
-    // public static function create(Newscoop\IngestPluginBundle\Parser $parser)
-    // {
-    //     $entry = new self($parser->getTitle(), $parser->getContent());
-    //     $entry->created = $parser->getCreated() ?: $entry->created;
-    //     $entry->updated = $parser->getUpdated() ?: $entry->updated;
-    //     $entry->priority = (int) $parser->getPriority();
-    //     $entry->summary = (string) $parser->getSummary();
-    //     $entry->date_id = (string) $parser->getDateId();
-    //     $entry->news_item_id = (string) $parser->getNewsItemId();
-    //     $entry->status = (string) $parser->getStatus();
-    //     $entry->embargoed = $parser->getLiftEmbargo();
-    //     self::setAttributes($entry, $parser);
-    //     self::setImages($entry, $parser);
-    //     return $entry;
-    // }
-
-    /**
-     * Set entry attributes
-     *
-     * @param Newscoop\IngestPluginBundle\Entity\Ingest\Entry $entry
-     * @param Newscoop\IngestPluginBundle\Ingest\Parser $parser
-     */
-    // private static function setAttributes(self $entry, Parser $parser)
-    // {
-    //     $entry->setAttribute('service', (string) $parser->getService());
-    //     $entry->setAttribute('language', (string) $parser->getLanguage());
-    //     $entry->setAttribute('subject', (string) $parser->getSubject());
-    //     $entry->setAttribute('country', (string) $parser->getCountry());
-    //     $entry->setAttribute('product', (string) $parser->getProduct());
-    //     $entry->setAttribute('subtitle', (string) $parser->getSubtitle());
-    //     $entry->setAttribute('provider_id', (string) $parser->getProviderId());
-    //     $entry->setAttribute('revision_id', (string) $parser->getRevisionId());
-    //     $entry->setAttribute('location', (string) $parser->getLocation());
-    //     $entry->setAttribute('provider', (string) $parser->getProvider());
-    //     $entry->setAttribute('source', (string) $parser->getSource());
-    //     $entry->setAttribute('catch_line', (string) $parser->getCatchLine());
-    //     $entry->setAttribute('catch_word', (string) $parser->getCatchWord());
-    //     $entry->setAttribute('authors', (string) $parser->getAuthors());
-    // }
-
-    /**
-     * Set entry images
-     *
-     * @param Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
-     * @param Newscoop\IngestPluginBundle\Parser $parser
-     */
-    // private static function setImages(self $entry, Parser $parser)
-    // {
-    //     $images = array();
-    //     $parserImages = $parser->getImages();
-    //     if (is_array($parserImages)) {
-    //         foreach ($parserImages as $image) {
-    //             $images[basename($image->getPath())] = $image->getTitle();
-    //         }
-    //     }
-
-    //     $entry->setAttribute('images', $images);
-    // }
 }

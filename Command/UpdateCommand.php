@@ -20,7 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class UpdateCommand extends ContainerAwareCommand
 {
     /**
-     * @see Console\Command\Command
+     * Configuration of command
      */
     protected function configure()
     {
@@ -32,11 +32,11 @@ Use value <info>all</info> as parameter to update all feeds or specify a specifi
 EOT
         )
         ->addArgument('feed', InputArgument::REQUIRED, 'Which feed do you want to update?');
-
     }
 
     /**
-     * @see Console\Command\Command
+     * @param Symfony\Component\Console\Input\InputInterface $input
+     * @param Symfony\Component\Console\Output\OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {

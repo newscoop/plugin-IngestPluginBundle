@@ -132,7 +132,8 @@ class IngestService
             $entry = $repository->findOneBy(
                 array(
                     'feed' => $feed,
-                    'newsItemId' => $unparsedEntry->getNewsItemId()
+                    'newsItemId' => $unparsedEntry->getNewsItemId(),
+                    'dateId' =>  $unparsedEntry->getDateId()
                 )
             );
 
@@ -140,6 +141,7 @@ class IngestService
                 $entry = new \Newscoop\IngestPluginBundle\Entity\Feed\Entry();
                 $entry->setFeed($feed);
                 $entry->setNewsItemId($unparsedEntry->getNewsItemId());
+                $entry->setDateId($unparsedEntry->getDateId());
             }
 
             if ($unparsedEntry->getInstruction() == 'delete') {
