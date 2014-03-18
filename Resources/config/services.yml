@@ -32,6 +32,14 @@ services:
         arguments:
             - "@em"
 
+    newscoop_ingest_plugin.article_subscriber:
+        class:      Newscoop\IngestPluginBundle\EventListener\ArticleSubscriber
+        arguments:  ["@em"]
+        tags:
+            -  { name: kernel.event_listener, event: article.publish, method: publish }
+            -  { name: kernel.event_listener, event: article.published, method: publish }
+            -  { name: kernel.event_listener, event: article.delete, method: delete }
+
     # newscoop_ingest_plugin.articlesubscriber:
     #     class:      Newscoop\IngestPluginBundle\EventListener\ArticleSubscriber
     #     arguments:

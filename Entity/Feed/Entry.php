@@ -261,7 +261,7 @@ class Entry
      *
      * @return self
      */
-    public function setArticleId($articleId)
+    public function setArticleId($articleId = null)
     {
         $this->articleId = $articleId;
 
@@ -466,7 +466,7 @@ class Entry
      *
      * @return self
      */
-    public function setPublished(\DateTime $published)
+    public function setPublished(\DateTime $published = null)
     {
         $this->published = $published;
 
