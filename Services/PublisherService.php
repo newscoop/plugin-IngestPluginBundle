@@ -62,10 +62,12 @@ class PublisherService
             $publication = $entry->getFeed()->getPublication();
             $latestIssue = $this->em
                 ->getRepository('\Newscoop\Entity\Issue')
-                ->getLatestBy(array(
+                ->findOneBy(array(
                     'publication' => $publication,
                     'language' => $entry->getLanguage(),
                     'workflowStatus' => 'Y'
+                ), array(
+                    'number' => 'DESC'
                 ));
             $articleType = $this->em
                 ->getRepository('\Newscoop\Entity\ArticleType')
@@ -176,10 +178,12 @@ class PublisherService
         $publication = $entry->getFeed()->getPublication();
         $latestIssue = $this->em
             ->getRepository('\Newscoop\Entity\Issue')
-            ->getLatestBy(array(
+            ->findOneBy(array(
                 'publication' => $publication,
                 'language' => $entry->getLanguage(),
                 'workflowStatus' => 'Y'
+            ), array(
+                'number' => 'DESC'
             ));
         $articleType = $this->em
             ->getRepository('\Newscoop\Entity\ArticleType')
