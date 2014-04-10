@@ -237,7 +237,7 @@ class FeedController extends Controller
 
             $this->get('session')->getFlashBag()->add(
                 'notice',
-                $this->container->get('translator')->get(
+                $this->container->get('translator')->trans(
                     'plugin.ingest.feeds.feedupdated',
                     array('%feed%' => $feed->getName())
                 )
