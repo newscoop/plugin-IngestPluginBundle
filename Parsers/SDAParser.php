@@ -130,7 +130,7 @@ class SDAParser extends Parser
      */
     public function getTitle()
     {
-        return $this->getString($this->xml->xpath('//HeadLine'));
+        return $this->replaceQuotes($this->getString($this->xml->xpath('//HeadLine')));
     }
 
     /**
@@ -145,7 +145,11 @@ class SDAParser extends Parser
             $content[] = $element->asXML();
         }
 
-        return str_replace('hl2>', 'h4>', implode("\n", $content));
+        $content = implode("\n", $content);
+        $content = str_replace('hl2>', 'h4>', $content);
+        $content = $this->replaceQuotes($content);
+
+        return $content;
     }
 
     /**
@@ -158,7 +162,7 @@ class SDAParser extends Parser
         $catchLine = $this->xml->xpath('//NewsLines/NewsLine/NewsLineType[@FormalName="CatchLine"]');
 
         if (!empty($catchLine)) {
-            return $this->getString(array_shift($catchLine)->xpath('following::NewsLineText'));
+            return $this->replaceQuotes($this->getString(array_shift($catchLine)->xpath('following::NewsLineText')));
         }
 
         return  '';
@@ -171,7 +175,7 @@ class SDAParser extends Parser
      */
     public function getSummary()
     {
-        return $this->getString($this->xml->xpath('//p[@lede="true"]'));
+        return $this->replaceQuotes($this->getString($this->xml->xpath('//p[@lede="true"]')));
     }
 
     /**
@@ -383,8 +387,10 @@ class SDAParser extends Parser
     public function getAttributeSubject()
     {
         $subject = array_shift($this->xml->xpath('//DescriptiveMetadata/SubjectCode/Subject'));
+        $subject = (string) $subject['FormalName'];
+        $subject = $this->replaceQuotes($subject);
 
-        return (string) $subject['FormalName'];
+        return $subject;
     }
 
     /**
@@ -421,7 +427,7 @@ class SDAParser extends Parser
      */
     public function getAttributeSubTitle()
     {
-        return $this->getString($this->xml->xpath('//NewsLines/SubHeadLine'));
+        return $this->replaceQuotes($this->getString($this->xml->xpath('//NewsLines/SubHeadLine')));
     }
 
     /**
@@ -525,5 +531,17 @@ class SDAParser extends Parser
     private function getString(array $matches)
     {
         return (string) array_shift($matches);
+    }
+
+    /**
+     * Convert lower and higher double quotes matches to « and »
+     *
+     * @param  string $text
+     *
+     * @return string
+     */
+    private function replaceQuotes($text)
+    {
+        return preg_replace('/[\x{22}\x{201c}\x{201d}](.*?)[\x{22}\x{201d}\x{201c}]/u', '«$1»', $text);
     }
 }
