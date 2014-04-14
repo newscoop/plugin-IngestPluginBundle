@@ -31,6 +31,7 @@ services:
         class:      Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService
         arguments:
             - "@em"
+            - "@doctrine.adodb"
 
     newscoop_ingest_plugin.article_subscriber:
         class:      Newscoop\IngestPluginBundle\EventListener\ArticleSubscriber

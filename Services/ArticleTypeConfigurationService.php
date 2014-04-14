@@ -75,10 +75,14 @@ class ArticleTypeConfigurationService
     /**
      * Initialize service
      */
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManager $em, $ado_db)
     {
         $this->em = $em;
         $this->connection = $em->getConnection();
+        $this->ado_db = $ado_db;
+
+        global $g_ado_db;
+        $g_ado_db = $this->ado_db;
     }
 
     /**
