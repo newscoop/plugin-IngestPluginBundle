@@ -12,7 +12,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * NewsML parser
  */
-class SDAParser extends Parser
+class NewsMlParser extends Parser
 {
     /**
      * Parser name
