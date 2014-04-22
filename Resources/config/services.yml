@@ -20,6 +20,7 @@ services:
             - "@em"
             - "@newscoop_ingest_plugin.publisher"
             - "@newscoop_ingest_plugin.articletypeconfigurator"
+            - "@logger"
 
     newscoop_ingest_plugin.publisher:
         class:      Newscoop\IngestPluginBundle\Services\PublisherService

@@ -10,12 +10,14 @@
 namespace Newscoop\IngestPluginBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Bridge\Monolog\Logger;
 use Newscoop\IngestPluginBundle\Entity\Ingest\Feed;
 use Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry;
 use Newscoop\IngestPluginBundle\Parser;
 use Newscoop\IngestPluginBundle\Services\PublisherService;
 use Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
 use Newscoop\NewscoopException;
+use Exception;
 
 /**
  * Ingest service
@@ -37,6 +39,20 @@ class IngestService
     private $publisher;
 
     /**
+     * Article type configuration service
+     *
+     * @var Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService
+     */
+    private $articleTypeConfigurator;
+
+    /**
+     * Logger
+     *
+     * @var Symfony\Bridge\Monolog\Logger
+     */
+    private $logger;
+
+    /**
      * List of all languages for current feed (based on sections)
      *
      * @var array
@@ -53,11 +69,13 @@ class IngestService
     public function __construct(
         EntityManager $em,
         PublisherService $publisher,
-        ArticleTypeConfigurationService $articleTypeConfService
+        ArticleTypeConfigurationService $articleTypeConfService,
+        Logger $logger
     ) {
         $this->em = $em;
         $this->publisher = $publisher;
         $this->articleTypeConfigurator = $articleTypeConfService;
+        $this->logger = $logger;
     }
 
     /**
@@ -105,7 +123,7 @@ class IngestService
     public function updateFeed(\Newscoop\IngestPluginBundle\Entity\Feed $feed, $liftEmbargo = true)
     {
         if (!$feed->isEnabled()) {
-            throw new \Exception('The feed '.$feed->getName().' is not enabled and will not be updated.', 1);
+            throw new Exception('The feed '.$feed->getName().' is not enabled and will not be updated.', 1);
         }
 
         $parser  = $feed->getParser();
@@ -125,7 +143,7 @@ class IngestService
         foreach ($unparsedEntries as $unparsedEntry) {
 
             if ($unparsedEntry->getNewsItemId() === '' || $unparsedEntry->getNewsItemId() === null) {
-                throw new NewscoopException('Skipped parsing feed entry. Method getNewsItemId returns invalid value.', 0);
+                $this->logger->error(__METHOD__ .': Skipped entry. Method getNewsItemId returns invalid value. (Title: '.$unparsedEntry->getTitle().')');
                 continue;
             }
 
@@ -248,12 +266,22 @@ class IngestService
         if ($language !== null && $language !== '') {
             if ($language instanceof \Newscoop\Entity\Language) {
                 $languageEntity = $language;
-            } else {
+            } elseif (strpos($language, '-') !== false && count($language) === 2) {
                 $languageEntity = $this
                     ->em->getRepository('\Newscoop\Entity\Language')
-                    ->findByRFC3066bis($language);
+                    ->findByCode($language);
+            } else {
+                try {
+                    $languageEntity = $this
+                        ->em->getRepository('\Newscoop\Entity\Language')
+                        ->findByRFC3066bis($language);
+                } catch(Exception $e) {
+                    $languageEntity = null;
+                    $this->logger->info(__METHOD__ . ': Language for entry could not be found. Reverting to default language.');
+                }
             }
         }
+
         // Use default language if no language is set or if the found
         // languages are not allowed in our selected languages
         if (!in_array($languageEntity, $this->allowedLanguages)) {
