@@ -142,99 +142,105 @@ class IngestService
 
         foreach ($unparsedEntries as $unparsedEntry) {
 
-            if ($unparsedEntry->getNewsItemId() === '' || $unparsedEntry->getNewsItemId() === null) {
-                $this->logger->error(__METHOD__ .': Skipped entry. Method getNewsItemId returns invalid value. (Title: '.$unparsedEntry->getTitle().')');
-                continue;
-            }
-
-            $entry = $repository->findOneBy(
-                array(
-                    'feed' => $feed,
-                    'newsItemId' => $unparsedEntry->getNewsItemId(),
-                    'dateId' =>  $unparsedEntry->getDateId()
-                )
-            );
-
-            if ($entry === null) {
-                $entry = new \Newscoop\IngestPluginBundle\Entity\Feed\Entry();
-                $entry->setFeed($feed);
-                $entry->setNewsItemId($unparsedEntry->getNewsItemId());
-                $entry->setDateId($unparsedEntry->getDateId());
-            }
-
-            if ($unparsedEntry->getInstruction() == 'delete') {
-                if ($entry->getId() !== null) {
-                    $this->em->remove($entry);
-                    if ($entry->getArticleId() !== null) {
-                        $this->publisher->remove($entry);
-                    }
+            try {
+                if ($unparsedEntry->getNewsItemId() === '' || $unparsedEntry->getNewsItemId() === null) {
+                    throw new NewscoopException('Skipped entry. Method getNewsItemId returns invalid value. (Entry title: '.$unparsedEntry->getTitle().')');
                 }
-            } else {
 
-                $languageEntity = $this->getLanguage(
-                    $unparsedEntry->getLanguage(),
-                    $feed->getPublication()->getDefaultLanguage()
+                $entry = $repository->findOneBy(
+                    array(
+                        'feed' => $feed,
+                        'newsItemId' => $unparsedEntry->getNewsItemId(),
+                        'dateId' =>  $unparsedEntry->getDateId()
+                    )
                 );
 
-                // only add entry
-                $entry->setLanguage($languageEntity);
-
-                $sectionEntity  = null; // Default can be null, but not for autopublishing
-                if ($unparsedEntry->getSection() instanceof \Newscoop\Entity\Section) {
-                    $sectionEntity = $unparsedEntry->getSection();
-                } elseif (is_int($unparsedEntry->getSection())) {
-                    // Try to find entity
-                    $sectionEntity = $this->em->getRepository('Newscoop\Entity\Section')
-                        ->findOneByNumber($unparsedEntry->getSection());
+                if ($entry === null) {
+                    $entry = new \Newscoop\IngestPluginBundle\Entity\Feed\Entry();
+                    $entry->setFeed($feed);
+                    $entry->setNewsItemId($unparsedEntry->getNewsItemId());
+                    $entry->setDateId($unparsedEntry->getDateId());
                 }
-                if ($sectionEntity === null) {
-                    $sections = $feed->getSections();
-                    foreach ($sections as $section) {
-                        if ($section->getLanguage() == $languageEntity) {
-                            $sectionEntity = $section;
-                            break;
+
+                if ($unparsedEntry->getInstruction() == 'delete') {
+                    if ($entry->getId() !== null) {
+                        try {
+                            $this->em->remove($entry);
+                            if ($entry->getArticleId() !== null) {
+                                $this->publisher->remove($entry);
+                            }
+                        } catch (Exception $e) {
+                            throw new NewscoopException('Coult not remove entry. ('.$entry->getId().')');
                         }
                     }
-                }
+                } else {
 
-                $entry->setSection($sectionEntity);
-                $entry->setCreated($unparsedEntry->getCreated());
+                    $languageEntity = $this->getLanguage(
+                        $unparsedEntry->getLanguage(),
+                        $feed->getPublication()->getDefaultLanguage()
+                    );
 
-                $entry->setTitle($unparsedEntry->getTitle());
-                $entry->setContent($unparsedEntry->getContent());
-                $entry->setCatchLine($unparsedEntry->getCatchLine());
-                $entry->setSummary($unparsedEntry->getSummary());
+                    // only add entry
+                    $entry->setLanguage($languageEntity);
 
-                $entry->setUpdated($unparsedEntry->getUpdated());
-                $entry->setEmbargoed($unparsedEntry->getLiftEmbargo());
-
-                $entry->setProduct($unparsedEntry->getProduct());
-                $entry->setStatus($unparsedEntry->getStatus());
-                $entry->setPriority($unparsedEntry->getPriority());
-                $entry->setKeywords($unparsedEntry->getKeywords());
-                $entry->setAuthors($unparsedEntry->getAuthors());
-                $entry->setImages($unparsedEntry->getImages());
-
-                $entry->setLink($unparsedEntry->getLink());
-
-                $entry->setAttributes($unparsedEntry->setAllAttributes()->getAttributes());
-
-                $this->em->persist($entry);
-
-                try {
-                    if ($entry->isPublished()) {
-                        $this->publisher->update($entry);
-                    } elseif ($feed->isAutoMode()) {
-                        $this->publisher->publish($entry);
+                    $sectionEntity  = null; // Default can be null, but not for autopublishing
+                    if ($unparsedEntry->getSection() instanceof \Newscoop\Entity\Section) {
+                        $sectionEntity = $unparsedEntry->getSection();
+                    } elseif (is_int($unparsedEntry->getSection())) {
+                        // Try to find entity
+                        $sectionEntity = $this->em->getRepository('Newscoop\Entity\Section')
+                            ->findOneByNumber($unparsedEntry->getSection());
                     }
-                } catch (Exception $e) {
-                    $this->logger->error(__METHOD__ .': Could not publish or update entry '.$unparsedEntry->getNewsItemId().'. ('.$e->getMessage().')');
-                    continue;
-                }
-            }
+                    if ($sectionEntity === null) {
+                        $sections = $feed->getSections();
+                        foreach ($sections as $section) {
+                            if ($section->getLanguage() == $languageEntity) {
+                                $sectionEntity = $section;
+                                break;
+                            }
+                        }
+                    }
 
-            // Flush each time to prevent inconsistencies
-            $this->em->flush();
+                    $entry->setSection($sectionEntity);
+                    $entry->setCreated($unparsedEntry->getCreated());
+
+                    $entry->setTitle($unparsedEntry->getTitle());
+                    $entry->setContent($unparsedEntry->getContent());
+                    $entry->setCatchLine($unparsedEntry->getCatchLine());
+                    $entry->setSummary($unparsedEntry->getSummary());
+
+                    $entry->setUpdated($unparsedEntry->getUpdated());
+                    $entry->setEmbargoed($unparsedEntry->getLiftEmbargo());
+
+                    $entry->setProduct($unparsedEntry->getProduct());
+                    $entry->setStatus($unparsedEntry->getStatus());
+                    $entry->setPriority($unparsedEntry->getPriority());
+                    $entry->setKeywords($unparsedEntry->getKeywords());
+                    $entry->setAuthors($unparsedEntry->getAuthors());
+                    $entry->setImages($unparsedEntry->getImages());
+
+                    $entry->setLink($unparsedEntry->getLink());
+
+                    $entry->setAttributes($unparsedEntry->setAllAttributes()->getAttributes());
+
+                    $this->em->persist($entry);
+
+                    try {
+                        if ($entry->isPublished()) {
+                            $this->publisher->update($entry);
+                        } elseif ($feed->isAutoMode()) {
+                            $this->publisher->publish($entry);
+                        }
+                    } catch (Exception $e) {
+                        throw new NewscoopException('Could not publish or update entry '.$unparsedEntry->getNewsItemId().'.');
+                    }
+                }
+
+                // Flush each time to prevent inconsistencies
+                $this->em->flush();
+            } catch(Exception $e) {
+                $this->logger->error(__METHOD__ .': '.$e->getMessage());
+            }
         }
 
         $feed->setUpdated(new \DateTime());
