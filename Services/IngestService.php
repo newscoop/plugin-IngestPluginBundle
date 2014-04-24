@@ -221,10 +221,15 @@ class IngestService
 
                 $this->em->persist($entry);
 
-                if ($entry->isPublished()) {
-                    $this->publisher->update($entry);
-                } elseif ($feed->isAutoMode()) {
-                    $this->publisher->publish($entry);
+                try {
+                    if ($entry->isPublished()) {
+                        $this->publisher->update($entry);
+                    } elseif ($feed->isAutoMode()) {
+                        $this->publisher->publish($entry);
+                    }
+                } catch (Exception $e) {
+                    $this->logger->error(__METHOD__ .': Could not publish or update entry '.$unparsedEntry->getNewsItemId().'. ('.$e->getMessage().')');
+                    continue;
                 }
             }
 
