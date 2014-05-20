@@ -1,131 +1,131 @@
-Plugins: "Plugins"
+Plugins: Plugins
 plugin:
     ingest:
-        title: "Ingest Manager"
-        header: "Ingest Manager"
-        menu: "Ingest Manager"
+        title: 'Ingest Manager'
+        header: 'Ingest Manager'
+        menu: 'Ingest Manager'
         tabs:
-            entries: "Eingaben"
-            feeds: "Feeds"
-            parsers: "Parsers"
+            entries: Eingaben
+            feeds: Feeds
+            parsers: Parsers
         dialog:
-            delete: "Löschen"
-            cancel: "Abbrechen"
+            delete: Löschen
+            cancel: Abbrechen
         entries:
-            none: "Es wurden keine Eingaben gefunden"
-            publish: "Eingabe publizieren"
-            edit: "Eingabe vorbereiten"
-            delete: "Eingabe löschen"
-            view: "Artikel ansehen"
-            nosection: "Keine Rubrik"
-            enabled: "Aktiviert"
-            feed: "Feed"
-            title: "Titel"
-            language: "Sprache"
-            body: "Body"
-            section: "Rubrik"
-            created: "Erstellt"
-            published: "Veröffentlicht"
-            notpublished: "Nicht veröffentlicht"
-            nocontent: "Kein Inhalt"
-            content: "Inhalt"
-            summary: "Zusammenfassung"
-            link: "Link"
-            articlenotfound: "Artikel konnte nicht gefunden werden. (Sprache: %language%, Artikelnummer: %article%)"
-            removedsuccess: "Eingabe erfolgreich entfernt!"
-            publishedsuccess: "Eingabe erfolgreich publiziert!"
+            none: 'Es wurden keine Eingaben gefunden'
+            publish: 'Eingabe publizieren'
+            edit: 'Eingabe vorbereiten'
+            delete: 'Eingabe löschen'
+            view: 'Artikel ansehen'
+            nosection: 'Keine Rubrik'
+            enabled: Aktiviert
+            feed: Feed
+            title: Titel
+            language: Sprache
+            body: Body
+            section: Rubrik
+            created: Erstellt
+            published: Veröffentlicht
+            notpublished: 'Nicht veröffentlicht'
+            nocontent: 'Kein Inhalt'
+            content: Inhalt
+            summary: Zusammenfassung
+            link: Link
+            articlenotfound: 'Artikel konnte nicht gefunden werden. (Sprache: %language%, Artikelnummer: %article%)'
+            removedsuccess: 'Eingabe erfolgreich entfernt!'
+            publishedsuccess: 'Eingabe erfolgreich publiziert!'
             filter:
-                feeds: "Feeds"
-                all_feeds: "Alle Feeds"
-                published: "Veröffentlicht"
-                yes: "Veröffentlicht: Ja"
-                no: "Veröffentlicht: Nein"
-                all: "Veröffentlicht: beliebig"
-                filter: "Filter"
-                view: "Ansicht"
-                slim: "Schmale Ansicht"
-                expanded: "Erweiterte Ansicht"
+                feeds: Feeds
+                all_feeds: 'Alle Feeds'
+                published: Veröffentlicht
+                yes: 'Veröffentlicht: Ja'
+                no: 'Veröffentlicht: Nein'
+                all: 'Veröffentlicht: beliebig'
+                filter: Filter
+                view: Ansicht
+                slim: 'Schmale Ansicht'
+                expanded: 'Erweiterte Ansicht'
             dialog:
-                title: "Entfernen des Eintrags bestätigen"
-                body: "Sind Sie sicher, dass dieser Eintrag gelöscht werden soll? Falls dieser Eintrag publiziert oder angelegt wurde, wird der zugehörige Artikel ebenfalls entfernt."
-                delete: "Eintrag löschen"
-                cancel: "Abbrechen"
+                title: 'Entfernen des Eintrags bestätigen'
+                body: 'Sind Sie sicher, dass dieser Eintrag gelöscht werden soll? Falls dieser Eintrag publiziert oder angelegt wurde, wird der zugehörige Artikel ebenfalls entfernt.'
+                delete: 'Eintrag löschen'
+                cancel: Abbrechen
         feeds:
-            none: "Es wurden keine Feeds gefunden"
-            add: "Feed hinzufügen"
-            edit: "Feed bearbeiten"
-            quick_edit_auto: "Veröffentlichungsmodus auf automatisch umstellen"
-            quick_edit_manual: "Veröffentlichungsmodus auf manuell umstellen"
-            delete: "Feed löschen"
-            update: "Feed aktualisieren"
-            update_all: "Alle Feeds aktualisieren"
-            name: "Name"
-            url: "URL"
+            none: 'Es wurden keine Feeds gefunden'
+            add: 'Feed hinzufügen'
+            edit: 'Feed bearbeiten'
+            quick_edit_auto: 'Veröffentlichungsmodus auf automatisch umstellen'
+            quick_edit_manual: 'Veröffentlichungsmodus auf manuell umstellen'
+            delete: 'Feed löschen'
+            update: 'Feed aktualisieren'
+            update_all: 'Alle Feeds aktualisieren'
+            name: Name
+            url: URL
             mode:
-                name: "Veröffentlichungsmodus"
-                auto: "Automatisch"
-                manual: "Manuell"
-            publication: "Publikation"
-            section: "Rubrik(en)"
-            updated: "Zuletzt aktualisiert"
-            notupdated: "Noch nicht aktualisiert"
-            parser: "Parser"
-            nosections: "Keine Rubriken"
-            choose_publication: "Wählen Sie eine Publikation"
-            enabled: "Aktiviert"
-            disabled: "Deaktiviert"
-            addedsuccess: "Feed hinzugefügt!"
-            updatedsuccess: "Feed aktualisiert!"
-            deletedsuccess: "Feed gelöscht!"
+                name: Veröffentlichungsmodus
+                auto: Automatisch
+                manual: Manuell
+            publication: Publikation
+            section: Rubrik(en)
+            updated: 'Zuletzt aktualisiert'
+            notupdated: 'Noch nicht aktualisiert'
+            parser: Parser
+            nosections: 'Keine Rubriken'
+            choose_publication: 'Wählen Sie eine Publikation'
+            enabled: Aktiviert
+            disabled: Deaktiviert
+            addedsuccess: 'Feed hinzugefügt!'
+            updatedsuccess: 'Feed aktualisiert!'
+            deletedsuccess: 'Feed gelöscht!'
             updatedpropertysucces: 'Das Merkmal "%property%" wurde erfolgreich auf Wert "%value%" für %feed% aktualisiert.'
             updatedpropertyfailure: 'Das Merkmal "%property%" konnte nicht auf Wert "%value%" für %feed% aktualisiert werden!'
-            updatedinvalidmethod: "Ungültige Methode angefragt."
-            feedupdatedcount: "Anzahl der Feeds aktualisiert: %count%"
-            feedupdated: "%feed% wurde aktualisiert."
-            feedupdateerror: "Ein Fehler ist aufgetreten: %error%"
+            updatedinvalidmethod: 'Ungültige Methode angefragt.'
+            feedupdatedcount: 'Anzahl der Feeds aktualisiert: %count%'
+            feedupdated: '%feed% wurde aktualisiert.'
+            feedupdateerror: 'Ein Fehler ist aufgetreten: %error%'
             dialog:
-                title: "Entfernen des Feeds bestätigen"
-                body: "Sind Sie sicher, dass Sie diesen Feed löschen wollen?"
-                delete: "Nur Feed löschen"
-                delete_all: "Feed und Eingaben löschen"
-                cancel: "Abbrechen"
+                title: 'Entfernen des Feeds bestätigen'
+                body: 'Sind Sie sicher, dass Sie diesen Feed löschen wollen?'
+                delete: 'Nur Feed löschen'
+                delete_all: 'Feed und Eingaben löschen'
+                cancel: Abbrechen
             form:
                 help:
-                    url: "Dieses Feld kann leer bleiben, wenn die Parsers Inhalte abrufen."
-                    mode: "Wenn <em>manuell</em> ausgewählt ist, werden Eingaben aufgenommen und erscheinen im Reiter <strong>Eingaben</strong>. Wenn <em>automatisch</em> ausgewählt ist, werden die Feeds automatisch in der weiter unten ausgewählten Publikation und Rubrik veröffentlicht. Es wird immer die aktuelleste Ausgabe gewählt."
-                    publication: "Nachdem Sie eine Publikation gewählt haben, warten Sie bitte, bis die entsprechenden Rubriken geladen sind."
-                    section: "Automatisch publizierte Eingaben werden in der als erstes ausgewählten Rubrik veröffentlicht. Falls mehrere Rubriken mit verschiedenen Sprachen ausgewählt sind, wird das System versuchen, die sinnvollste Sprachversion in Bezug auf die Eintragssprache zu finden. <br> Der Parser kann auch eine Rubrik zurückspielen, in der der Eintrag veröffentlich wird. Dabei werden die Einstellungen überschrieben."
+                    url: 'Dieses Feld kann leer bleiben, wenn die Parsers Inhalte abrufen.'
+                    mode: 'Wenn <em>manuell</em> ausgewählt ist, werden Eingaben aufgenommen und erscheinen im Reiter <strong>Eingaben</strong>. Wenn <em>automatisch</em> ausgewählt ist, werden die Feeds automatisch in der weiter unten ausgewählten Publikation und Rubrik veröffentlicht. Es wird immer die aktuelleste Ausgabe gewählt.'
+                    publication: 'Nachdem Sie eine Publikation gewählt haben, warten Sie bitte, bis die entsprechenden Rubriken geladen sind.'
+                    section: 'Automatisch publizierte Eingaben werden in der als erstes ausgewählten Rubrik veröffentlicht. Falls mehrere Rubriken mit verschiedenen Sprachen ausgewählt sind, wird das System versuchen, die sinnvollste Sprachversion in Bezug auf die Eintragssprache zu finden. <br> Der Parser kann auch eine Rubrik zurückspielen, in der der Eintrag veröffentlich wird. Dabei werden die Einstellungen überschrieben.'
                 button:
-                    add: "Hinzufügen"
-                    save: "Speichern"
-                    cancel: "Abbrechen"
+                    add: Hinzufügen
+                    save: Speichern
+                    cancel: Abbrechen
         parsers:
-            none: "Keine Parser gefunden"
-            name: "Name"
-            description: "Beschreibung"
-            domain: "Domain"
-            feeds: "In Gebrauch"
-            add: "Parser hinzufügen"
-            delete: "Parser löschen"
-            nonew: "Es sind keine neuen Parser vorhanden. Um einen Parser zu installieren, kopieren Sie die Datei in das Parser-Verzeichnis."
-            parserfilenotexists: "Parser-Datei existiert nicht."
-            installedsuccess: "Parser installiert!"
-            deletedsuccess: "Parser gelöscht!"
+            none: 'Keine Parser gefunden'
+            name: Name
+            description: Beschreibung
+            domain: Domain
+            feeds: 'In Gebrauch'
+            add: 'Parser hinzufügen'
+            delete: 'Parser löschen'
+            nonew: 'Es sind keine neuen Parser vorhanden. Um einen Parser zu installieren, kopieren Sie die Datei in das Parser-Verzeichnis.'
+            parserfilenotexists: 'Parser-Datei existiert nicht.'
+            installedsuccess: 'Parser installiert!'
+            deletedsuccess: 'Parser gelöscht!'
             form:
                 label:
-                    namespace: "Einen oder mehrere Parser zum Installeren auswählen"
+                    namespace: 'Einen oder mehrere Parser zum Installeren auswählen'
                 button:
-                    install: "Installieren"
-                    cancel: "Abbrechen"
+                    install: Installieren
+                    cancel: Abbrechen
             dialog:
-                title: "Entfernen des Parsers bestätigen"
-                body: "Sind Sie sicher, dass Sie diesen Parser löschen wollen? Mit dem Parser verbundene Feeds werden automatisch deaktiviert."
-                delete: "Parser löschen"
-                cancel: "Abbrechen"
+                title: 'Entfernen des Parsers bestätigen'
+                body: 'Sind Sie sicher, dass Sie diesen Parser löschen wollen? Mit dem Parser verbundene Feeds werden automatisch deaktiviert.'
+                delete: 'Parser löschen'
+                cancel: Abbrechen
         btn:
-            add: "Feed hinzufügen"
-            delete: "Löschen"
-            cancel: "Abbrechen"
-            deleteall: "Alle löschen"
-            remove: "Entfernen"
-            save: "Speichern"
+            add: 'Feed hinzufügen'
+            delete: Löschen
+            cancel: Abbrechen
+            deleteall: 'Alle löschen'
+            remove: Entfernen
+            save: Speichern
