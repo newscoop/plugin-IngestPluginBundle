@@ -5,32 +5,32 @@ plugin:
         header: null
         menu: null
         tabs:
-            entries: null
+            entries: Gegevens
             feeds: null
             parsers: null
         dialog:
-            delete: null
-            cancel: null
+            delete: Verwijderen
+            cancel: Annuleren
         entries:
-            none: null
+            none: 'Geen gegevens gevonden'
             publish: null
             edit: null
-            delete: null
-            view: null
-            nosection: null
-            enabled: null
+            delete: 'Verwijder regel'
+            view: 'Bekijk artikel'
+            nosection: 'Geen rubriek'
+            enabled: Geactiveerd
             feed: null
-            title: null
-            language: null
+            title: Titel
+            language: Taal
             body: null
-            section: null
-            created: null
-            published: null
-            notpublished: null
-            nocontent: null
-            content: null
-            summary: null
-            link: null
+            section: Rubriek
+            created: Aangemaakt
+            published: Gepubliceerd
+            notpublished: 'Niet gepubliceerd'
+            nocontent: 'Geen inhoud'
+            content: Inhoud
+            summary: Samenvatting
+            link: Koppeling
             articlenotfound: null
             removedsuccess: null
             publishedsuccess: null
@@ -101,31 +101,31 @@ plugin:
                     cancel: null
         parsers:
             none: null
-            name: null
-            description: null
-            domain: null
-            feeds: null
-            add: null
-            delete: null
+            name: Naam
+            description: Beschrijving
+            domain: Domein
+            feeds: 'In gebruik'
+            add: 'Parser toevoegen'
+            delete: 'Parser verwijderen'
             nonew: null
             parserfilenotexists: null
             installedsuccess: null
             deletedsuccess: null
             form:
                 label:
-                    namespace: null
+                    namespace: 'Selecteer een of meerdere parsers om te installeren'
                 button:
-                    install: null
-                    cancel: null
+                    install: Installeren
+                    cancel: Annuleren
             dialog:
-                title: null
-                body: null
-                delete: null
-                cancel: null
+                title: 'Bevestig het verwijderen van de parser'
+                body: 'Weet u zeker dat u deze parser wilt verwijderen? Alle feeds gerelateerd aan deze parser worden dan automatisch gedeactiveerd.'
+                delete: 'Parser verwijderen'
+                cancel: Annuleren
         btn:
-            add: null
-            delete: null
-            cancel: null
-            deleteall: null
-            remove: null
-            save: null
+            add: 'Feed toevoegen'
+            delete: Verwijderen
+            cancel: Annuleren
+            deleteall: 'Alles verwijderen'
+            remove: Verwijderen
+            save: Opslaan
