@@ -92,7 +92,7 @@ plugin:
             form:
                 help:
                     url: 'Dieses Feld kann leer bleiben, wenn die Parsers Inhalte abrufen.'
-                    mode: 'Wenn <em>manuell</em> ausgewählt ist, werden Eingaben aufgenommen und erscheinen im Reiter <strong>Eingaben</strong>. Wenn <em>automatisch</em> ausgewählt ist, werden die Feeds automatisch in der weiter unten ausgewählten Publikation und Rubrik veröffentlicht. Es wird immer die aktuelleste Ausgabe gewählt.'
+                    mode: null
                     publication: 'Nachdem Sie eine Publikation gewählt haben, warten Sie bitte, bis die entsprechenden Rubriken geladen sind.'
                     section: 'Automatisch publizierte Eingaben werden in der als erstes ausgewählten Rubrik veröffentlicht. Falls mehrere Rubriken mit verschiedenen Sprachen ausgewählt sind, wird das System versuchen, die sinnvollste Sprachversion in Bezug auf die Eintragssprache zu finden. <br> Der Parser kann auch eine Rubrik zurückspielen, in der der Eintrag veröffentlich wird. Dabei werden die Einstellungen überschrieben.'
                 button:
