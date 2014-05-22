@@ -92,7 +92,7 @@ plugin:
             form:
                 help:
                     url: 'This can be left empty if the parsers handle retrieval of content.'
-                    mode: null
+                    mode: 'If <em>manual</em> is selected, entries will be ingested and appear in the <strong>Entries</strong> tab. If <em>automatic</em> is selected, feeds will automatically be published in the publication and section chosen below. The system will always use the latest published Issue.'
                     publication: 'After selecting a publication, please wait untill the corresponding sections have been loaded.'
                     section: 'Automatically published entries will be published in the first selected section. If multiple sections with different languages are selected, then the system will try to find the best suited language according to the entry language.<br> The parser can also return a section for the entry to be published in. This will override all settings.'
                 button:
