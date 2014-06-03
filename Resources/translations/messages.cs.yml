@@ -5,90 +5,90 @@ plugin:
         header: null
         menu: null
         tabs:
-            entries: null
+            entries: Záznamy
             feeds: null
             parsers: null
         dialog:
-            delete: null
-            cancel: null
+            delete: Smazat
+            cancel: Zrušit
         entries:
-            none: null
-            publish: null
-            edit: null
-            delete: null
-            view: null
-            nosection: null
-            enabled: null
+            none: 'Žádné záznamy nenalezeny'
+            publish: 'Zveřejnit záznam'
+            edit: 'Připravit záznam'
+            delete: 'Odstranit záznam'
+            view: 'Ukázat článek'
+            nosection: 'Žádné rubriky'
+            enabled: Zapnuto
             feed: null
-            title: null
-            language: null
-            body: null
-            section: null
-            created: null
-            published: null
-            notpublished: null
-            nocontent: null
-            content: null
-            summary: null
-            link: null
-            articlenotfound: null
-            removedsuccess: null
-            publishedsuccess: null
+            title: Název
+            language: Jazyk
+            body: 'Hlavní část'
+            section: Rubrika
+            created: Vytvořeno
+            published: Zveřejněno
+            notpublished: Nezveřejněno
+            nocontent: 'Bez obsahu'
+            content: Obsah
+            summary: Souhrn
+            link: Odkaz
+            articlenotfound: 'Článek nebyl nalezen. (Jazyk: %jazyk%, Číslo článku: %článek%)'
+            removedsuccess: 'Záznam úspěšně odstraněn!'
+            publishedsuccess: 'Záznam úspěšně publikován!'
             filter:
                 feeds: null
                 all_feeds: null
-                published: null
-                yes: null
-                no: null
-                all: null
-                filter: null
-                view: null
-                slim: null
-                expanded: null
+                published: Zveřejněno
+                yes: 'Zveřejněno: Ano'
+                no: 'Zveřejněno: Ne'
+                all: 'Zveřejněno: Jakýkoli'
+                filter: Filtrovat
+                view: Náhled
+                slim: 'Malý náhled'
+                expanded: 'Rozšířený náhled'
             dialog:
-                title: null
-                body: null
-                delete: null
-                cancel: null
+                title: 'Potvrdit odstranění záznamu'
+                body: 'Opravdu chcete odstranit záznam? Pokud je záznam zveřejněný nebo připravovaný, jeho přidružený článek bude odstraněn také.'
+                delete: 'Odstranit záznam'
+                cancel: Zrušit
         feeds:
             none: null
             add: null
             edit: null
-            quick_edit_auto: null
-            quick_edit_manual: null
+            quick_edit_auto: 'Změnit režim publikace na automatický'
+            quick_edit_manual: 'Změnit režim publikace na manuální'
             delete: null
             update: null
             update_all: null
-            name: null
-            url: null
+            name: Název
+            url: URL
             mode:
-                name: null
-                auto: null
-                manual: null
-            publication: null
-            section: null
-            updated: null
-            notupdated: null
+                name: 'Režim publikace'
+                auto: Automatický
+                manual: Manuální
+            publication: Publikace
+            section: Rubriky
+            updated: 'Naposledy aktualizováno'
+            notupdated: 'Zatím neaktualizováno'
             parser: null
-            nosections: null
-            choose_publication: null
-            enabled: null
-            disabled: null
+            nosections: 'Žádné rubriky'
+            choose_publication: 'Vybrat publikaci'
+            enabled: Zapnuto
+            disabled: Vypnuto
             addedsuccess: null
             updatedsuccess: null
             deletedsuccess: null
             updatedpropertysucces: null
             updatedpropertyfailure: null
-            updatedinvalidmethod: null
+            updatedinvalidmethod: 'Neplatná metoda.'
             feedupdatedcount: null
             feedupdated: null
-            feedupdateerror: null
+            feedupdateerror: 'Objevila se chyba: %error%'
             dialog:
                 title: null
                 body: null
                 delete: null
                 delete_all: null
-                cancel: null
+                cancel: Zrušit
             form:
                 help:
                     url: null
@@ -96,15 +96,15 @@ plugin:
                     publication: null
                     section: null
                 button:
-                    add: null
-                    save: null
-                    cancel: null
+                    add: Přidat
+                    save: Uložit
+                    cancel: Zrušit
         parsers:
             none: null
-            name: null
-            description: null
-            domain: null
-            feeds: null
+            name: Název
+            description: Popis
+            domain: Doména
+            feeds: 'Používá se'
             add: null
             delete: null
             nonew: null
@@ -115,17 +115,17 @@ plugin:
                 label:
                     namespace: null
                 button:
-                    install: null
-                    cancel: null
+                    install: Instalovat
+                    cancel: Zrušit
             dialog:
                 title: null
                 body: null
                 delete: null
-                cancel: null
+                cancel: Zrušit
         btn:
             add: null
-            delete: null
-            cancel: null
-            deleteall: null
-            remove: null
-            save: null
+            delete: Smazat
+            cancel: Zrušit
+            deleteall: 'Smazat vše'
+            remove: Odstranit
+            save: Uložit
