@@ -1,94 +1,94 @@
-Plugins: null
+Plugins: Plugins
 plugin:
     ingest:
         title: null
         header: null
         menu: null
         tabs:
-            entries: null
-            feeds: null
-            parsers: null
+            entries: Poster
+            feeds: Feeds
+            parsers: Parsere
         dialog:
-            delete: null
-            cancel: null
+            delete: Slet
+            cancel: Annullér
         entries:
-            none: null
-            publish: null
-            edit: null
-            delete: null
-            view: null
-            nosection: null
-            enabled: null
-            feed: null
-            title: null
-            language: null
-            body: null
-            section: null
-            created: null
-            published: null
-            notpublished: null
-            nocontent: null
-            content: null
-            summary: null
-            link: null
+            none: 'Ingen poster fundet'
+            publish: 'Udgav post'
+            edit: 'Forbered post'
+            delete: 'Slet post'
+            view: 'Se artikel'
+            nosection: 'Ingen sektion'
+            enabled: 'Slået til'
+            feed: Feed
+            title: Titel
+            language: Sprog
+            body: Brødtekst
+            section: Sektion
+            created: Oprettet
+            published: Udgivet
+            notpublished: 'Ikke udgivet'
+            nocontent: 'Intet indhold'
+            content: Indhold
+            summary: Resume
+            link: Link
             articlenotfound: null
-            removedsuccess: null
-            publishedsuccess: null
+            removedsuccess: 'Posten blev fjernet!'
+            publishedsuccess: 'Posten blev udgivet!'
             filter:
-                feeds: null
-                all_feeds: null
-                published: null
-                yes: null
-                no: null
-                all: null
-                filter: null
-                view: null
-                slim: null
-                expanded: null
+                feeds: Feeds
+                all_feeds: 'Alle feeds'
+                published: Udgivet
+                yes: 'Udgivet: Ja'
+                no: 'Udgivet: Nej'
+                all: 'Udgivet: Ja/Nej'
+                filter: Filtrér
+                view: Se
+                slim: 'Kort visning'
+                expanded: 'Udvidet visning'
             dialog:
-                title: null
-                body: null
-                delete: null
-                cancel: null
+                title: 'Bekræft fjernelse af post'
+                body: 'Er du sikker på du vil slette denne post? Hvis posten er udgivet eller forberedt bliver den relaterede artikel også fjernet'
+                delete: 'Slet post'
+                cancel: Annullér
         feeds:
-            none: null
-            add: null
-            edit: null
-            quick_edit_auto: null
-            quick_edit_manual: null
-            delete: null
-            update: null
-            update_all: null
-            name: null
-            url: null
+            none: 'Ingen feeds fundet'
+            add: 'Tilføj feed'
+            edit: 'Rediger feed'
+            quick_edit_auto: 'Skift til automatisk udgivelse'
+            quick_edit_manual: 'Skift til manuel udgivelse'
+            delete: 'Slet feed'
+            update: 'Opdater feed'
+            update_all: 'Opdater alle feeds'
+            name: Navn
+            url: URL
             mode:
-                name: null
-                auto: null
-                manual: null
-            publication: null
-            section: null
-            updated: null
-            notupdated: null
-            parser: null
-            nosections: null
-            choose_publication: null
-            enabled: null
-            disabled: null
-            addedsuccess: null
-            updatedsuccess: null
-            deletedsuccess: null
-            updatedpropertysucces: null
-            updatedpropertyfailure: null
-            updatedinvalidmethod: null
-            feedupdatedcount: null
-            feedupdated: null
-            feedupdateerror: null
+                name: 'Udgivelses indstilling'
+                auto: Automatisk
+                manual: Manuel
+            publication: Publikation
+            section: Sektion(er)
+            updated: 'Sidst opdateret'
+            notupdated: 'Endnu ikke opdateret'
+            parser: Parser
+            nosections: 'Ingen sektioner'
+            choose_publication: 'Vælg en publikation'
+            enabled: 'Slået til'
+            disabled: 'Slået fra'
+            addedsuccess: 'Feed tilføjet!'
+            updatedsuccess: 'Feed opdateret!'
+            deletedsuccess: 'Feed slettet!'
+            updatedpropertysucces: 'Egenskaben "%property%" for %feed% blev opdateret til "%value%".'
+            updatedpropertyfailure: 'Egenskaben "%property%" for %feed% kunne ikke opdateres til "%value%".'
+            updatedinvalidmethod: 'Kald til ugyldig metode.'
+            feedupdatedcount: 'Antal opdaterede feeds: %count%'
+            feedupdated: '%feed% blev opdateret.'
+            feedupdateerror: 'Fejl: %error%'
             dialog:
-                title: null
-                body: null
-                delete: null
-                delete_all: null
-                cancel: null
+                title: 'Bekræft fjernelse af feed'
+                body: 'Er du sikker på du vil slette denne feed?'
+                delete: 'Slet kun feed'
+                delete_all: 'Slet feed og poster'
+                cancel: Annullér
             form:
                 help:
                     url: null
@@ -96,36 +96,36 @@ plugin:
                     publication: null
                     section: null
                 button:
-                    add: null
-                    save: null
-                    cancel: null
+                    add: Tilføj
+                    save: Gem
+                    cancel: Annullér
         parsers:
-            none: null
-            name: null
-            description: null
-            domain: null
-            feeds: null
-            add: null
-            delete: null
-            nonew: null
-            parserfilenotexists: null
-            installedsuccess: null
-            deletedsuccess: null
+            none: 'Ingen parsere fundet'
+            name: Navn
+            description: Beskrivelse
+            domain: Domæne
+            feeds: 'I brug'
+            add: 'Tilføj parser'
+            delete: 'Slet parser'
+            nonew: 'Ingen nye parsere. Kopier filen til Parsers mappen for at installere den.'
+            parserfilenotexists: 'Parser filen findes ikke.'
+            installedsuccess: 'Parser(e) installeret!'
+            deletedsuccess: 'Parser slettet!'
             form:
                 label:
-                    namespace: null
+                    namespace: 'Vælg en eller flere parsere at installere'
                 button:
-                    install: null
-                    cancel: null
+                    install: Installer
+                    cancel: Annullér
             dialog:
-                title: null
-                body: null
-                delete: null
-                cancel: null
+                title: 'Bekræft fjernelse af parser'
+                body: 'Er du sikker på du vil slette denne parser? Feeds forbundet til denne parser bliver automatisk slået fra.'
+                delete: 'Slet parser'
+                cancel: Annullér
         btn:
-            add: null
-            delete: null
-            cancel: null
-            deleteall: null
-            remove: null
-            save: null
+            add: 'Tilføj feed'
+            delete: Slet
+            cancel: Annullér
+            deleteall: 'Slet alle'
+            remove: Fjern
+            save: Gem
