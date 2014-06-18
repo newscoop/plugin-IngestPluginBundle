@@ -80,7 +80,7 @@ class SDAParser extends Parser
 
                 $parsedEntry = new SDAParser($filePath);
 
-                if ($parsedEntry->isImage()) {
+                if ($parsedEntry->isSkippable()) {
                     continue;
                 }
 
@@ -477,6 +477,25 @@ class SDAParser extends Parser
         }
 
         return 20;
+    }
+
+    /**
+     * Determine whether this entry should be skipped. Add all logic for
+     * skipping entries here.
+     *
+     * @return boolean
+     */
+    public function isSkippable() {
+
+        if ($this->isImage()) {
+            return true;
+        }
+
+        if ($this->getProduct() == "Si-Online Tabellen/Tableau") {
+            return true;
+        }
+
+        return false;
     }
 
     /**
