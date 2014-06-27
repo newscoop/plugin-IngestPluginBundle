@@ -1,11 +1,11 @@
-Plugins: null
+Plugins: 'وحدات قابسة'
 plugin:
     ingest:
         title: null
         header: null
         menu: null
         tabs:
-            entries: null
+            entries: إدخالات
             feeds: null
             parsers: null
         dialog:
