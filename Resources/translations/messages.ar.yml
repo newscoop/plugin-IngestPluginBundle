@@ -6,88 +6,88 @@ plugin:
         menu: null
         tabs:
             entries: إدخالات
-            feeds: null
-            parsers: null
+            feeds: تلقيمات
+            parsers: محللون
         dialog:
-            delete: null
-            cancel: null
+            delete: حذف
+            cancel: إلغاء
         entries:
-            none: null
-            publish: null
-            edit: null
-            delete: null
-            view: null
-            nosection: null
-            enabled: null
-            feed: null
-            title: null
-            language: null
-            body: null
-            section: null
-            created: null
-            published: null
-            notpublished: null
-            nocontent: null
-            content: null
-            summary: null
-            link: null
-            articlenotfound: null
-            removedsuccess: null
-            publishedsuccess: null
+            none: 'لم يتم العثور على إدخالات'
+            publish: 'أُنشر الإدخال'
+            edit: 'أعد الإدخال'
+            delete: 'إحذف الإدخال'
+            view: 'إعرض المقال'
+            nosection: 'لا يوجد قسم'
+            enabled: 'تم التمكين'
+            feed: التلقيم
+            title: العنوان
+            language: اللغة
+            body: 'محتوى النص.'
+            section: القسم
+            created: 'تم الانشاء'
+            published: 'تم النشر'
+            notpublished: 'لم تتم عملية النشر.'
+            nocontent: 'لا يوجد محتوى.'
+            content: المحتوى
+            summary: ملخص
+            link: رابظ
+            articlenotfound: 'لم يتم العثور على المقال. (اللغة: %language%، رقم المقال: %article%)'
+            removedsuccess: 'تم إزالة الإدخال بنجاح!'
+            publishedsuccess: 'تم نشر الإدخال بنجاح!'
             filter:
-                feeds: null
-                all_feeds: null
-                published: null
-                yes: null
-                no: null
-                all: null
-                filter: null
-                view: null
-                slim: null
-                expanded: null
+                feeds: تلقيمات
+                all_feeds: 'جميع التلقيمات'
+                published: 'تم النشر'
+                yes: 'تم النشر: نعم'
+                no: 'تم النشر: لا'
+                all: 'تم النشر: أي'
+                filter: التصفية
+                view: عرض
+                slim: 'عرض ضيق'
+                expanded: 'عرض موسع'
             dialog:
-                title: null
-                body: null
-                delete: null
-                cancel: null
+                title: 'أكّد إزالة الإدخال'
+                body: 'هل أنت متأكد أنك تريد أن تحذف هذا الإدخال؟ إذا  كان هذا الإدخال منشوراً أو معداً، فسوف يتم إزالة هذا  المقال المعلق أيضاً.'
+                delete: 'إحذف الإدخال'
+                cancel: إلغاء
         feeds:
-            none: null
-            add: null
-            edit: null
-            quick_edit_auto: null
-            quick_edit_manual: null
-            delete: null
-            update: null
-            update_all: null
-            name: null
-            url: null
+            none: 'لم يتم العثور على أي تلقيمات'
+            add: 'أضف تلقيم'
+            edit: 'حرر التلقيم'
+            quick_edit_auto: 'غيّر أسلوب النشر  لأوتوماتيكي'
+            quick_edit_manual: 'غيّر أسلوب النشر ليدوي'
+            delete: 'إحذف التلقيم'
+            update: 'حدّث التلقيم'
+            update_all: 'حدّث جميع التلقيمات'
+            name: اسم
+            url: 'عنوان الرابط'
             mode:
-                name: null
-                auto: null
-                manual: null
-            publication: null
-            section: null
-            updated: null
-            notupdated: null
-            parser: null
-            nosections: null
-            choose_publication: null
-            enabled: null
-            disabled: null
-            addedsuccess: null
-            updatedsuccess: null
-            deletedsuccess: null
-            updatedpropertysucces: null
-            updatedpropertyfailure: null
-            updatedinvalidmethod: null
-            feedupdatedcount: null
-            feedupdated: null
-            feedupdateerror: null
+                name: 'أسلوب النشر'
+                auto: أوتوماتيكي
+                manual: يدوي
+            publication: المنشور
+            section: 'قسم (أقسام)'
+            updated: 'آخر تحديث'
+            notupdated: 'لم يحدّث بعد'
+            parser: محلل
+            nosections: 'لا توجد أقسام.'
+            choose_publication: 'إختر منشور'
+            enabled: 'تم التمكين'
+            disabled: 'تم المنع من العمل'
+            addedsuccess: 'تم إضافة التلقيم!'
+            updatedsuccess: 'تم تحديث التلقيم!'
+            deletedsuccess: 'تم حذف التلقيم!'
+            updatedpropertysucces: 'تم تحديث ممتلك "%property%" لقيمة "%value%" لـ%feed%.'
+            updatedpropertyfailure: 'لم يتم تحديث الممتلك "%property%" لقيمة "%value%" لـ%feed%!'
+            updatedinvalidmethod: 'أسلوب غير صالح مستدعى.'
+            feedupdatedcount: 'رقم التلقيمات المحدثة: %count%'
+            feedupdated: 'تم تحديث %feed%.'
+            feedupdateerror: 'حدث خطأ: %error%'
             dialog:
-                title: null
-                body: null
-                delete: null
-                delete_all: null
+                title: 'أكّد إزالة التلقيم'
+                body: 'هل أنت متأكد أنك تريد أن تحذف هذا التلقيم؟'
+                delete: 'إحذف التلقيم الوحيد'
+                delete_all: 'إحذف التلقيم والإدخالات'
                 cancel: null
             form:
                 help:
