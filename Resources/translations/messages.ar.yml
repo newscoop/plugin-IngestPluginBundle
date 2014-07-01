@@ -1,7 +1,7 @@
 Plugins: 'وحدات قابسة'
 plugin:
     ingest:
-        title: null
+        title: 'مدير إنجاست'
         header: null
         menu: null
         tabs:
@@ -88,7 +88,7 @@ plugin:
                 body: 'هل أنت متأكد أنك تريد أن تحذف هذا التلقيم؟'
                 delete: 'إحذف التلقيم الوحيد'
                 delete_all: 'إحذف التلقيم والإدخالات'
-                cancel: null
+                cancel: إلغاء
             form:
                 help:
                     url: null
