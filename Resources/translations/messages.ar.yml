@@ -2,8 +2,8 @@ Plugins: 'وحدات قابسة'
 plugin:
     ingest:
         title: 'مدير إنجاست'
-        header: null
-        menu: null
+        header: 'مدير المراجعة.'
+        menu: 'مدير المراجعة.'
         tabs:
             entries: إدخالات
             feeds: تلقيمات
@@ -101,31 +101,31 @@ plugin:
                     cancel: إلغاء
         parsers:
             none: 'لم يتم العثور على أي محللين'
-            name: null
-            description: null
-            domain: null
-            feeds: null
-            add: null
-            delete: null
-            nonew: null
-            parserfilenotexists: null
-            installedsuccess: null
-            deletedsuccess: null
+            name: اسم
+            description: وصف
+            domain: حقل
+            feeds: 'قيد الاستعمال'
+            add: 'أضف محلل'
+            delete: 'إحذف محلل'
+            nonew: 'لا يوجد محللون جدد. لتركيب محلل، إنسخ الملف إلى دليل المحللين.'
+            parserfilenotexists: 'ملف المحلل غير موجود.'
+            installedsuccess: 'تم تثبيت المحلل(ين)!'
+            deletedsuccess: 'تم حذف المحلل!'
             form:
                 label:
-                    namespace: null
+                    namespace: 'إختر محللا أو أكثر للتثبيت.'
                 button:
-                    install: null
-                    cancel: null
+                    install: التثبيت.
+                    cancel: إلغاء
             dialog:
-                title: null
-                body: null
-                delete: null
-                cancel: null
+                title: 'أكّد إلغاء المحلل'
+                body: 'هل أنت متأكد أنك تريد أن تحذف هذا المحلل؟ ستكون التلقيمات المرتبطة بهذا المحلل معطلة تلقائياً.'
+                delete: 'إحذف المحلل'
+                cancel: إلغاء
         btn:
-            add: null
-            delete: null
-            cancel: null
-            deleteall: null
-            remove: null
-            save: null
+            add: 'أضف تلقيم'
+            delete: حذف
+            cancel: إلغاء
+            deleteall: 'إحذف الجميع'
+            remove: إزالة
+            save: حفظ
