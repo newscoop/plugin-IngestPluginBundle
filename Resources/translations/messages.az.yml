@@ -1,131 +1,131 @@
-Plugins: null
+Plugins: Plaqinlər
 plugin:
     ingest:
-        title: null
-        header: null
-        menu: null
+        title: 'Ingest idarəçisi'
+        header: 'Ingest idarəçisi'
+        menu: 'Ingest idarəçisi'
         tabs:
-            entries: null
-            feeds: null
-            parsers: null
+            entries: Girişlər
+            feeds: Keçidlər
+            parsers: Ayırıcı
         dialog:
-            delete: null
-            cancel: null
+            delete: Sil
+            cancel: 'Ləğv et'
         entries:
-            none: null
-            publish: null
-            edit: null
-            delete: null
-            view: null
-            nosection: null
-            enabled: null
-            feed: null
-            title: null
-            language: null
-            body: null
-            section: null
-            created: null
-            published: null
-            notpublished: null
-            nocontent: null
-            content: null
-            summary: null
-            link: null
-            articlenotfound: null
-            removedsuccess: null
-            publishedsuccess: null
+            none: 'Giriş tapılmadı'
+            publish: 'Girişi nümayiş et'
+            edit: 'Girişi hazırla'
+            delete: 'Girişi sil'
+            view: 'Məqaləyə bax'
+            nosection: 'Bölmə yoxdur'
+            enabled: 'İcazə Verildi'
+            feed: Keçid
+            title: Başlıq
+            language: Dil
+            body: Gövdə
+            section: Bölmə
+            created: Yaradıldı
+            published: 'Nümayiş edildi'
+            notpublished: 'Nümayiş edilmədi'
+            nocontent: 'Məzmun yoxdur'
+            content: Məzmun
+            summary: Sonluq
+            link: Link
+            articlenotfound: 'Məqalə tapılmadı. (Dil: %language%, MəqaləNömrəsi: %article%)'
+            removedsuccess: 'Giriş müvəffəqiyyətlə xaric edildi!'
+            publishedsuccess: 'Giriş müvəffəqiyyətlə nümayiş edildi!'
             filter:
-                feeds: null
-                all_feeds: null
-                published: null
-                yes: null
-                no: null
-                all: null
-                filter: null
-                view: null
-                slim: null
-                expanded: null
+                feeds: Keçidlər
+                all_feeds: 'Bütün keçidlər'
+                published: 'Nümayiş edildi'
+                yes: 'Nümayiş edildi: Bəli'
+                no: 'Nümayiş edildi: Xeyr'
+                all: 'Nümayiş edildi: Hər hansı'
+                filter: Filtr
+                view: Bax
+                slim: 'Dar baxış'
+                expanded: 'Geniş baxış'
             dialog:
-                title: null
-                body: null
-                delete: null
-                cancel: null
+                title: 'Girişin xaric edilməsini təsdiqlə'
+                body: 'Bü girişi silmək istədiyinə əminsən? Giriş nümayiş edilsə, ya da hazırlansa, əlaqəli məqalə də xaric ediləcək'
+                delete: 'Girişi sil'
+                cancel: 'Ləğv et'
         feeds:
-            none: null
-            add: null
-            edit: null
-            quick_edit_auto: null
-            quick_edit_manual: null
-            delete: null
-            update: null
-            update_all: null
-            name: null
-            url: null
+            none: 'Keçid tapılmadı'
+            add: 'Axın əlavə et'
+            edit: 'Keçidi dəyiş'
+            quick_edit_auto: 'Nümayiş üsulunu avtomatikə dəyiş'
+            quick_edit_manual: 'Nümayiş üsulunu manuala dəyiş'
+            delete: 'Keçidi sil'
+            update: 'Keçidi yenilə'
+            update_all: 'Bütün keçidləri yenilə'
+            name: Ad
+            url: URL
             mode:
-                name: null
-                auto: null
-                manual: null
-            publication: null
-            section: null
-            updated: null
-            notupdated: null
-            parser: null
-            nosections: null
-            choose_publication: null
-            enabled: null
-            disabled: null
-            addedsuccess: null
-            updatedsuccess: null
-            deletedsuccess: null
-            updatedpropertysucces: null
-            updatedpropertyfailure: null
-            updatedinvalidmethod: null
-            feedupdatedcount: null
-            feedupdated: null
-            feedupdateerror: null
+                name: 'Nümayiş üsulu'
+                auto: Avtomatik
+                manual: 'Əl ilə'
+            publication: Nəşr
+            section: Bölmə(lər)
+            updated: 'Son yenilənən'
+            notupdated: 'Hələ də yenilənməyib'
+            parser: Ayırıcı
+            nosections: 'Bölmə yoxdur'
+            choose_publication: 'Nümayişi seç'
+            enabled: 'İcazə Verildi'
+            disabled: 'Qadağa Edildi'
+            addedsuccess: 'Keçid əlavə edildi!'
+            updatedsuccess: 'Keçid yeniləndi!'
+            deletedsuccess: 'Keçid silindi!'
+            updatedpropertysucces: 'Müvəffəqiyyətlə %feed%. üçün "%value%" dəyərinə "%property%" əmlak yeniləndi.'
+            updatedpropertyfailure: '%feed%. üçün "%value%" dəyərinə "%property%" əmlak yenilənə bilmədi!'
+            updatedinvalidmethod: 'Səhv üsul tətbiq edildi.'
+            feedupdatedcount: 'Yenilənmiş keçid sayı: %count%'
+            feedupdated: '%feed% yenilənmişdir.'
+            feedupdateerror: 'Xəta baş verdi: %error%'
             dialog:
-                title: null
-                body: null
-                delete: null
-                delete_all: null
-                cancel: null
+                title: 'Keçidin silinməsinin təsdiqi'
+                body: 'Bu keçidi silmək istədiyinə əminsən?'
+                delete: 'Yalnız keçidi sil'
+                delete_all: 'Keçid və girişi sil'
+                cancel: 'Ləğv et'
             form:
                 help:
-                    url: null
-                    mode: null
-                    publication: null
-                    section: null
+                    url: 'Ayırıcı tərkibin arxivləşdirilməsini həyata keçirsə, bu boş saxlana bilər.'
+                    mode: 'Əgər <em>manual</em> seçilsə, girişlər qəbul ediləcək və <strong>Girişlər</strong> zolağında görünəcək. Əgər <em>avtomatik</em> seçilsə, keçidlər avtomatik olaraq aşağıdakı seçilmiş nümayiş və bölmədə görünəcək. Sistem hər zaman ən son nümayiş edilmiş məsələni istifadə edəcək.'
+                    publication: 'Nümayişi seçdikdən sonra, lütfən, uyğun bölmələrin yüklənməsini yoxlayın.'
+                    section: 'Avtomatik nümayiş edilmiş girişlər ilk seçilmiş bölmələrədə görünəcək. Əgər müxtəlif dilli çox saylı bölmələr seçilsə, girişin dilindən asılı olaraq sistem ən uyğun olan dili tapmağa cəhd edəcək.<br>Ayırıcı həmçinin giriş üçün bölməni nümayişə qaytara bilər. Bu bütün parametrləri yeniləyəcək.'
                 button:
-                    add: null
-                    save: null
-                    cancel: null
+                    add: 'Əlavə et'
+                    save: Saxla
+                    cancel: 'Ləğv et'
         parsers:
-            none: null
-            name: null
-            description: null
-            domain: null
-            feeds: null
-            add: null
-            delete: null
-            nonew: null
-            parserfilenotexists: null
-            installedsuccess: null
-            deletedsuccess: null
+            none: 'Ayırıcı tapılmadı'
+            name: Ad
+            description: İzah
+            domain: Domeyn
+            feeds: İstifadədə
+            add: 'Ayırıcı əlavə et'
+            delete: 'Ayırıcını sil'
+            nonew: 'Yeni ayırıcılar yoxdur. Ayırıcı kataloquna ayırıcının üzünün quraşdırılması.'
+            parserfilenotexists: 'Ayırıcı fayl mövcud deyil.'
+            installedsuccess: 'Ayırıcı(lar) quraşdırıldı!'
+            deletedsuccess: 'Ayırıcı silindi!'
             form:
                 label:
-                    namespace: null
+                    namespace: 'Quraşdırmaq üçün bir və ya bir neçə ayırıcı seç'
                 button:
-                    install: null
-                    cancel: null
+                    install: Quraşdır
+                    cancel: 'Ləğv et'
             dialog:
-                title: null
-                body: null
-                delete: null
-                cancel: null
+                title: 'Ayırıcının xaric edilməsini təsdiqlə'
+                body: 'Bu ayırıcını silmək istədiyinə əminsən? Bu ayırıcıya istiqamətlənmiş linklər avtomatik ləğv ediləcəklər.'
+                delete: 'Ayırıcını sil'
+                cancel: 'Ləğv et'
         btn:
-            add: null
-            delete: null
-            cancel: null
-            deleteall: null
-            remove: null
-            save: null
+            add: 'Axın əlavə et'
+            delete: Sil
+            cancel: 'Ləğv et'
+            deleteall: 'Hamısını sil'
+            remove: 'Xaric Et'
+            save: Saxla

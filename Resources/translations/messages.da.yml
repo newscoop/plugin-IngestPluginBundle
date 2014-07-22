@@ -1,9 +1,9 @@
 Plugins: Plugins
 plugin:
     ingest:
-        title: null
-        header: null
-        menu: null
+        title: 'Indbakke administration'
+        header: 'Indbakke administration'
+        menu: 'Indbakke administration'
         tabs:
             entries: Poster
             feeds: Feeds
@@ -31,7 +31,7 @@ plugin:
             content: Indhold
             summary: Resume
             link: Link
-            articlenotfound: null
+            articlenotfound: 'Artiklen kunne ikke findes. (Sprog %language%, Artikelnummer: %article%)'
             removedsuccess: 'Posten blev fjernet!'
             publishedsuccess: 'Posten blev udgivet!'
             filter:
@@ -93,7 +93,7 @@ plugin:
                 help:
                     url: null
                     mode: null
-                    publication: null
+                    publication: 'Efter valg af publikation, vent venligst indtil de respektive sektioner er hentet.'
                     section: null
                 button:
                     add: Tilføj
