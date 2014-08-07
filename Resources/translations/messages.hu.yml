@@ -109,7 +109,7 @@ plugin:
             delete: null
             nonew: null
             parserfilenotexists: null
-            installedsuccess: null
+            installedsuccess: 'Megtörtént az elemző(k) telepítése!'
             deletedsuccess: null
             form:
                 label:
