@@ -16,7 +16,7 @@ plugin:
             publish: null
             edit: null
             delete: null
-            view: null
+            view: 'Cikk megtekintése'
             nosection: null
             enabled: null
             feed: null
