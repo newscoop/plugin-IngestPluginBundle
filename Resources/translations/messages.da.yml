@@ -47,7 +47,7 @@ plugin:
                 expanded: 'Udvidet visning'
             dialog:
                 title: 'Bekræft fjernelse af post'
-                body: 'Er du sikker på du vil slette denne post? Hvis posten er udgivet eller forberedt bliver den relaterede artikel også fjernet'
+                body: 'Vil du slette denne post? Hvis posten er udgivet eller forberedt til udgivelse bliver den relaterede artikel også fjernet'
                 delete: 'Slet post'
                 cancel: Annullér
         feeds:
@@ -85,13 +85,13 @@ plugin:
             feedupdateerror: 'Fejl: %error%'
             dialog:
                 title: 'Bekræft fjernelse af feed'
-                body: 'Er du sikker på du vil slette denne feed?'
+                body: 'Vil du slette denne feed?'
                 delete: 'Slet kun feed'
                 delete_all: 'Slet feed og poster'
                 cancel: Annullér
             form:
                 help:
-                    url: null
+                    url: 'Kan være tomt hvis parserne håndterer hentning af indhold.'
                     mode: null
                     publication: 'Efter valg af publikation, vent venligst indtil de respektive sektioner er hentet.'
                     section: null
@@ -119,7 +119,7 @@ plugin:
                     cancel: Annullér
             dialog:
                 title: 'Bekræft fjernelse af parser'
-                body: 'Er du sikker på du vil slette denne parser? Feeds forbundet til denne parser bliver automatisk slået fra.'
+                body: 'Vil du slette denne parser? Feeds forbundet til denne parser bliver automatisk slået fra.'
                 delete: 'Slet parser'
                 cancel: Annullér
         btn:

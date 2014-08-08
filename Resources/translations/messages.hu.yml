@@ -5,7 +5,7 @@ plugin:
         header: null
         menu: null
         tabs:
-            entries: null
+            entries: Bejegyzések
             feeds: null
             parsers: null
         dialog:
