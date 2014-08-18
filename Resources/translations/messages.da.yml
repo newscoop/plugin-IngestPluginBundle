@@ -92,9 +92,9 @@ plugin:
             form:
                 help:
                     url: 'Kan være tomt hvis parserne håndterer hentning af indhold.'
-                    mode: null
+                    mode: 'Hvis <em>manuel</em> er valgt vises indbakke poster i <strong>Poster</strong> fanen. Hvis <em>automatisk</em> er valgt bliver feeds automatisk udgivet i publikationen og sektionen valgt nedenfor. Systemet bruger altid senest udgivne publikation.'
                     publication: 'Efter valg af publikation, vent venligst indtil de respektive sektioner er hentet.'
-                    section: null
+                    section: 'Automatisk udgivne poster vil blive publiceret i den først valgte sektion. Hvis flere sektioner med forskellige sprog er valgt vil systemet prøve at finde den bedste sektion ud fra sproget.<br>Parseren kan også angive en sektion posten skal publiceres til. Det vil tilsidesætte alle indstillinger.'
                 button:
                     add: Tilføj
                     save: Gem
