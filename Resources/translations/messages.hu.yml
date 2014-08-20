@@ -1,94 +1,94 @@
-Plugins: null
+Plugins: Bővítmények
 plugin:
     ingest:
-        title: null
-        header: null
-        menu: null
+        title: Bevitelkezelő
+        header: Bevitelkezelő
+        menu: Bevitelkezelő
         tabs:
             entries: Bejegyzések
-            feeds: null
-            parsers: null
+            feeds: Hírcsatornák
+            parsers: Elemzők
         dialog:
-            delete: null
-            cancel: null
+            delete: Törlés
+            cancel: Mégse
         entries:
-            none: null
-            publish: null
-            edit: null
-            delete: null
+            none: 'Nem találhatók bejegyzések'
+            publish: 'Bejegyzés közzététele'
+            edit: 'Bejegyzés előkészítése'
+            delete: 'Bejegyzés törlése'
             view: 'Cikk megtekintése'
-            nosection: null
-            enabled: null
-            feed: null
-            title: null
-            language: null
-            body: null
-            section: null
-            created: null
-            published: null
-            notpublished: null
-            nocontent: null
-            content: null
-            summary: null
-            link: null
-            articlenotfound: null
-            removedsuccess: null
-            publishedsuccess: null
+            nosection: 'Nincs rovat'
+            enabled: Engedélyezve
+            feed: Hírcsatorna
+            title: Cím
+            language: Nyelv
+            body: Szövegtörzs
+            section: Rovat
+            created: Létrehozva
+            published: Közzétéve
+            notpublished: 'Nincs közzétéve'
+            nocontent: 'Nincs tartalom'
+            content: Tartalom
+            summary: Összegzés
+            link: Hivatkozás
+            articlenotfound: 'A cikk nem található. (Nyelv: %language%, CikkSzám: %article%)'
+            removedsuccess: 'Sikerült eltávolítani a bejegyzést!.'
+            publishedsuccess: 'Sikerült közzétenni a bejegyzést!'
             filter:
-                feeds: null
-                all_feeds: null
-                published: null
-                yes: null
-                no: null
-                all: null
-                filter: null
-                view: null
-                slim: null
-                expanded: null
+                feeds: Hírcsaornák
+                all_feeds: 'Minden hírcsatorna'
+                published: Közzétéve
+                yes: 'Közzétéve: Igen'
+                no: 'Közzétéve: Nem'
+                all: 'Közzétéve: Bármi'
+                filter: Szűrő
+                view: Megtekintés
+                slim: 'Vékony nézet'
+                expanded: 'Bővített nézet'
             dialog:
-                title: null
-                body: null
-                delete: null
-                cancel: null
+                title: 'Bejegyzés eltávolításának megerősítése'
+                body: 'Biztosan törölni akarod ezt a bejegyzést? Ha a bejegyzés közzé van téve vagy elő van készítve, akkor a kapcsolódó cikk is törlésre kerül'
+                delete: 'Bejegyzés törlése'
+                cancel: Mégse
         feeds:
-            none: null
-            add: null
-            edit: null
-            quick_edit_auto: null
-            quick_edit_manual: null
-            delete: null
-            update: null
-            update_all: null
-            name: null
-            url: null
+            none: 'Nem találhatók hírcsatornák'
+            add: 'Hírcsatorna hozzáadása'
+            edit: 'Hírcsatorna szerkesztése'
+            quick_edit_auto: 'A közzétételi mód átváltása automatikusra'
+            quick_edit_manual: 'A közzétételi mód átváltása kézire'
+            delete: 'Hírcsatorna törlése'
+            update: 'Hírcsatorna frissítése'
+            update_all: 'Az összes hírcsatorna frissítése'
+            name: Név
+            url: URL-cím
             mode:
-                name: null
-                auto: null
-                manual: null
-            publication: null
-            section: null
-            updated: null
-            notupdated: null
-            parser: null
-            nosections: null
-            choose_publication: null
-            enabled: null
-            disabled: null
-            addedsuccess: null
-            updatedsuccess: null
-            deletedsuccess: null
-            updatedpropertysucces: null
-            updatedpropertyfailure: null
-            updatedinvalidmethod: null
-            feedupdatedcount: null
-            feedupdated: null
-            feedupdateerror: null
+                name: 'Közzétételi mód'
+                auto: Automatikus
+                manual: Kézi
+            publication: Kiadvány
+            section: Rovat(ok)
+            updated: 'Utolsó frissítés'
+            notupdated: 'Még nincs frissítve'
+            parser: Elemző
+            nosections: 'Nincsenek rovatok '
+            choose_publication: 'Válassz egy kiadványt'
+            enabled: Engedélyezve
+            disabled: Letiltva
+            addedsuccess: 'Megtörtént a hírcsatorna hozzáadása!'
+            updatedsuccess: 'Megtörtént a hírcsatorna frissítése!'
+            deletedsuccess: 'Megtörtént a hírcsatorna törlése!'
+            updatedpropertysucces: 'Sikerült frissíteni a/z "%property%" tulajdonságot a/z "%value%" értékre a/z  %feed% hírcsatornához.'
+            updatedpropertyfailure: 'Nem lehet frissíteni a/z "%property%" tulajdonságot a/z "%value%" értékre a/z  %feed% hírcsatornához'
+            updatedinvalidmethod: 'Érvénytelen metódus került meghívásra.'
+            feedupdatedcount: 'A frissített hírcsatornák száma: %count%'
+            feedupdated: 'A/z %feed%  hírcsatorna frissítése megtörtént.'
+            feedupdateerror: 'Hiba történt: %error%'
             dialog:
-                title: null
-                body: null
-                delete: null
-                delete_all: null
-                cancel: null
+                title: 'A hírcsatorna eltávolításának megerősítése'
+                body: 'Biztosan törölni akarod ezt a hírcsatornát?'
+                delete: 'Csak a hírcsatorna törlése'
+                delete_all: 'A hírcsatorna és a bejegyzések törlése'
+                cancel: Mégse
             form:
                 help:
                     url: null
