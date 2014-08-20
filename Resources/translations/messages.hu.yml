@@ -91,41 +91,41 @@ plugin:
                 cancel: Mégse
             form:
                 help:
-                    url: null
-                    mode: null
-                    publication: null
-                    section: null
+                    url: 'Ez üresen maradhat, ha az elemzők kezelik a tartalom lekérését.'
+                    mode: 'A <em>kézi</em> választása esetén bevitelre kerülnek a bejegyzések, és a <strong>Bejegyzések</strong> fülön jelennek meg. Az <em>automatikus</em> választásakor a hírcsatornák az alább kiválasztott kiadványban és rovatban automatikusan kerülnek közzétételre. A rendszer mindig a legutoljára közzétett számot használja.'
+                    publication: 'Egy kiadvány kiválasztása után várj, amíg megtörténik a megfelelő rovatok betöltése.'
+                    section: 'Az automatikusan közzétett bejegyzések az első kiválasztott rovatban kerülnek közzétételre. Több, különböző nyelvű rovat kiválasztása esetén a rendszer a bejegyzés nyelve alapján próbálja megkeresni a legmegfelelőbb nyelvet.<br>Az elemző egy rovatot is visszaadhat a közzéteendő bejegyzés számára. Ez felül fogja bírálni az összes beállítást.'
                 button:
-                    add: null
-                    save: null
-                    cancel: null
+                    add: Hozzáadás
+                    save: Mentés
+                    cancel: Mégse
         parsers:
-            none: null
-            name: null
-            description: null
-            domain: null
-            feeds: null
-            add: null
-            delete: null
-            nonew: null
-            parserfilenotexists: null
+            none: 'Nem találhatók elemzők'
+            name: Név
+            description: Leírás
+            domain: Tartomány
+            feeds: Használatban
+            add: 'Elemző hozzáadása'
+            delete: 'Elemző törlése'
+            nonew: 'Nincsenek új elemzők. Elemző telepítéséhez másold a fájlt a Parsers könyvtárba.'
+            parserfilenotexists: 'Az elemzőfájl nem létezik.'
             installedsuccess: 'Megtörtént az elemző(k) telepítése!'
-            deletedsuccess: null
+            deletedsuccess: 'Megtörtént az elemző törlése!'
             form:
                 label:
-                    namespace: null
+                    namespace: 'Válassz ki egy vagy több telepítendő elemzőt.'
                 button:
-                    install: null
-                    cancel: null
+                    install: Telepítés
+                    cancel: Mégse
             dialog:
-                title: null
-                body: null
-                delete: null
-                cancel: null
+                title: 'Az elemző eltávolításának megerősítése'
+                body: 'Biztosan törölni akarod ezt az elemzőt? Az ehhez az elemzőhöz csatolt hírcsatornák automatikusan letiltásra fognak kerülni.'
+                delete: 'Elemző törlése'
+                cancel: Mégse
         btn:
-            add: null
-            delete: null
-            cancel: null
-            deleteall: null
-            remove: null
-            save: null
+            add: 'Hírcsatorna hozzáadása'
+            delete: Törlés
+            cancel: Mégse
+            deleteall: 'Az összes törlése'
+            remove: Eltávolítás
+            save: Mentés
