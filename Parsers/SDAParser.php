@@ -78,7 +78,11 @@ class SDAParser extends Parser
             $handle = fopen($filePath, 'r');
             if (flock($handle, LOCK_EX | LOCK_NB)) {
 
-                $parsedEntry = new SDAParser($filePath);
+                try {
+                    $parsedEntry = new SDAParser($filePath);
+                } catch(\Exception $e) {
+                    continue;
+                }
 
                 if ($parsedEntry->isSkippable()) {
                     continue;
@@ -100,6 +104,9 @@ class SDAParser extends Parser
     public function __construct($content)
     {
         $this->xml = @simplexml_load_file($content);
+        if ($this->xml === false) {
+            throw new \Exception('Could not read contents of xml file ('.$content.')');
+        }
         $this->dir = dirname($content);
     }
 
