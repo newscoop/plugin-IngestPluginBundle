@@ -1,4 +1,4 @@
-Plugins: null
+Plugins: Pluginovi
 plugin:
     ingest:
         title: null
@@ -9,26 +9,26 @@ plugin:
             feeds: null
             parsers: null
         dialog:
-            delete: null
-            cancel: null
+            delete: Obriši
+            cancel: Poništi
         entries:
             none: null
             publish: null
             edit: null
-            delete: null
-            view: null
+            delete: 'Obriši unos'
+            view: 'Pogledaj tekst'
             nosection: null
-            enabled: null
+            enabled: Omogućeni
             feed: null
-            title: null
-            language: null
+            title: Naslov
+            language: Jezik
             body: null
-            section: null
-            created: null
-            published: null
-            notpublished: null
+            section: Rubrika
+            created: Napravljeno
+            published: Objavljen
+            notpublished: Neobjavljen
             nocontent: null
-            content: null
+            content: Sadržaji
             summary: null
             link: null
             articlenotfound: null
@@ -37,43 +37,43 @@ plugin:
             filter:
                 feeds: null
                 all_feeds: null
-                published: null
+                published: Objavljen
                 yes: null
                 no: null
                 all: null
-                filter: null
-                view: null
+                filter: Filter
+                view: Prikaz
                 slim: null
                 expanded: null
             dialog:
                 title: null
                 body: null
-                delete: null
-                cancel: null
+                delete: 'Obriši unos'
+                cancel: Poništi
         feeds:
             none: null
-            add: null
+            add: 'Dodaj feed'
             edit: null
             quick_edit_auto: null
             quick_edit_manual: null
             delete: null
             update: null
             update_all: null
-            name: null
-            url: null
+            name: Naslov
+            url: URL
             mode:
                 name: null
                 auto: null
                 manual: null
-            publication: null
+            publication: Publikacija
             section: null
             updated: null
             notupdated: null
             parser: null
-            nosections: null
+            nosections: 'Nema rubrika'
             choose_publication: null
-            enabled: null
-            disabled: null
+            enabled: Omogućeni
+            disabled: Onemogućeni
             addedsuccess: null
             updatedsuccess: null
             deletedsuccess: null
@@ -88,7 +88,7 @@ plugin:
                 body: null
                 delete: null
                 delete_all: null
-                cancel: null
+                cancel: Poništi
             form:
                 help:
                     url: null
@@ -96,15 +96,15 @@ plugin:
                     publication: null
                     section: null
                 button:
-                    add: null
-                    save: null
-                    cancel: null
+                    add: Dodaj
+                    save: Snimi
+                    cancel: Poništi
         parsers:
             none: null
-            name: null
-            description: null
+            name: Naslov
+            description: Opis
             domain: null
-            feeds: null
+            feeds: Korišćena
             add: null
             delete: null
             nonew: null
@@ -116,16 +116,16 @@ plugin:
                     namespace: null
                 button:
                     install: null
-                    cancel: null
+                    cancel: Poništi
             dialog:
                 title: null
                 body: null
                 delete: null
-                cancel: null
+                cancel: Poništi
         btn:
-            add: null
-            delete: null
-            cancel: null
+            add: 'Dodaj feed'
+            delete: Obriši
+            cancel: Poništi
             deleteall: null
-            remove: null
-            save: null
+            remove: Ukloni
+            save: Snimi
