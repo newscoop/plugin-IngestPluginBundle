@@ -1,0 +1,780 @@
+<?php
+/**
+ * @package   Newscoop\IngestPluginBundle
+ * @author    Mischa Gorinskat <mischa.gorinskat@sourcefabric.org>
+ * @copyright 2013 Sourcefabric o.p.s.
+ * @license   http://www.gnu.org/licenses/gpl-3.0.txt
+ */
+
+namespace Newscoop\IngestPluginBundle\Entity\Feed;
+
+use Doctrine\ORM\Mapping AS ORM;
+use Newscoop\IngestPluginBundle\Entity\Feed;
+use Newscoop\IngestPluginBundle\Parser;
+
+/**
+ * Feed entry entity
+ *
+ * @ORM\Entity(repositoryClass="Newscoop\IngestPluginBundle\Entity\Repository\Feed\EntryRepository")
+ * @ORM\Table(name="plugin_ingest_feed_entry")
+ */
+class Entry
+{
+    /**
+     * @ORM\Id @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Newscoop\IngestPluginBundle\Entity\Feed", inversedBy="entries")
+     * @ORM\JoinColumn(name="feed_id", referencedColumnName="id")
+     * @var Newscoop\IngestPluginBundle\Entity\Feed
+     */
+    private $feed;
+
+    /**
+     * @ORM\Column(name="newsitem_id", type="string")
+     * @var string
+     */
+    private $newsItemId;
+
+    /**
+     * @ORM\Column(name="date_id", type="string")
+     * @var string
+     */
+    private $dateId;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @var int
+     */
+    private $articleId;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Language")
+     * @ORM\JoinColumn(name="language_id", referencedColumnName="Id")
+     * @var \Newscoop\Entity\Language
+     */
+    private $language;
+
+    /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    private $title;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @var string
+     */
+    private $content;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @var string
+     */
+    private $catchline;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     * @var string
+     */
+    private $summary;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var DateTime
+     */
+    private $created;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var DateTime
+     */
+    private $updated;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var DateTime
+     */
+    private $published;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @var String
+     */
+    private $product;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @var string
+     */
+    private $status;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @var int
+     */
+    private $priority;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Section")
+     * @ORM\JoinColumn(name="section_id", referencedColumnName="id")
+     * @var \Newscoop\Entity\Section
+     */
+    private $section;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     * @var array
+     */
+    private $keywords;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     * @var array
+     */
+    private $authors;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     * @var array
+     */
+    private $images;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @var DateTime
+     */
+    private $embargoed;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     * @var string
+     */
+    private $link;
+
+    /**
+     * @ORM\Column(type="array", nullable=true)
+     * @var array
+     */
+    private $attributes;
+
+    /**
+     * Set properties
+     */
+    public function __construct()
+    {
+        $this->created      = new \DateTime();
+        $this->updated      = new \DateTime();
+        $this->attributes   = array();
+    }
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Setter for id
+     *
+     * @param int $id Value to set
+     *
+     * @return self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Get feed
+     *
+     * @return Newscoop\IngestPluginBundle\Entity\Feed
+     */
+    public function getFeed()
+    {
+        return $this->feed;
+    }
+
+    /**
+     * Set feed
+     *
+     * @param Newscoop\IngestPluginBundle\Entity\Feed $feed
+     *
+     * @return self
+     */
+    public function setFeed(\Newscoop\IngestPluginBundle\Entity\Feed $feed)
+    {
+        $this->feed = $feed;
+
+        return $this;
+    }
+
+    /**
+     * Get news item id
+     *
+     * @return string
+     */
+    public function getNewsItemId()
+    {
+        return $this->newsItemId;
+    }
+
+    /**
+     * Setter for newsItemId
+     *
+     * @param string $newsItemId Value to set
+     *
+     * @return self
+     */
+    public function setNewsItemId($newsItemId)
+    {
+        $this->newsItemId = $newsItemId;
+
+        return $this;
+    }
+
+    /**
+     * Getter for dateId
+     *
+     * @return string
+     */
+    public function getDateId()
+    {
+        return $this->dateId;
+    }
+
+    /**
+     * Setter for dateId
+     *
+     * @param string $dateId Value to set
+     *
+     * @return self
+     */
+    public function setDateId($dateId)
+    {
+        $this->dateId = $dateId;
+
+        return $this;
+    }
+
+
+    /**
+     * Getter for articleId
+     *
+     * @return int
+     */
+    public function getArticleId()
+    {
+        return $this->articleId;
+    }
+
+    /**
+     * Setter for articleId
+     *
+     * @param int $articleId Value to set
+     *
+     * @return self
+     */
+    public function setArticleId($articleId = null)
+    {
+        $this->articleId = $articleId;
+
+        return $this;
+    }
+
+
+    /**
+     * Get language code
+     *
+     * @return \Newscoop\Entity\Language
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Setter for language
+     *
+     * @param \Newscoop\Entity\Language $language Value to set
+     *
+     * @return self
+     */
+    public function setLanguage(\Newscoop\Entity\Language $language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Setter for title
+     *
+     * @param string $title Value to set
+     *
+     * @return self
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get content
+     *
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * Setter for content
+     *
+     * @param string $content Value to set
+     *
+     * @return self
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get catchline
+     *
+     * @return string
+     */
+    public function getCatchline()
+    {
+        return $this->catchline;
+    }
+
+    /**
+     * Setter for catchline
+     *
+     * @param mixed $catchline Value to set
+     *
+     * @return self
+     */
+    public function setCatchline($catchline)
+    {
+        $this->catchline = $catchline;
+
+        return $this;
+    }
+
+    /**
+     * Get summary
+     *
+     * @return string
+     */
+    public function getSummary()
+    {
+        return $this->summary;
+    }
+
+    /**
+     * Setter for summary
+     *
+     * @param string $summary Value to set
+     *
+     * @return self
+     */
+    public function setSummary($summary)
+    {
+        $this->summary = $summary;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Setter for created
+     *
+     * @param \DateTime $created Value to set
+     *
+     * @return self
+     */
+    public function setCreated(\DateTime $created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
+    }
+
+    /**
+     * Setter for updated
+     *
+     * @param \DateTime $updated Value to set
+     *
+     * @return self
+     */
+    public function setUpdated(\DateTime $updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get published
+     *
+     * @return DateTime
+     */
+    public function getPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * Set published
+     *
+     * @param \DateTime $published
+     *
+     * @return self
+     */
+    public function setPublished(\DateTime $published = null)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
+
+    // TODO: check if this is correct
+    /**
+     * Test if is published
+     *
+     * @return bool
+     */
+    public function isPublished()
+    {
+        return ($this->published !== null);
+    }
+
+    /**
+     * Get product
+     *
+     * @return string
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Setter for product
+     *
+     * @param string $product Value to set
+     *
+     * @return self
+     */
+    public function setProduct($product)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Setter for status
+     *
+     * @param string $status Value to set
+     *
+     * @return self
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get priority
+     *
+     * @return int
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * Setter for priority
+     *
+     * @param int $priority Value to set
+     *
+     * @return self
+     */
+    public function setPriority($priority)
+    {
+        $this->priority = $priority;
+
+        return $this;
+    }
+
+    /**
+     * Getter for section
+     *
+     * @return \Newscoop\Entity\Section
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
+     * Setter for section
+     *
+     * @param \Newscoop\Entity\Section $section Value to set
+     *
+     * @return self
+     */
+    public function setSection(\Newscoop\Entity\Section $section)
+    {
+        $this->section = $section;
+
+        return $this;
+    }
+
+    /**
+     * Getter for keywords
+     *
+     * @return array
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * Setter for keywords
+     *
+     * @param array $keywords Value to set
+     *
+     * @return self
+     */
+    public function setKeywords(Array $keywords)
+    {
+        $this->keywords = $keywords;
+
+        return $this;
+    }
+
+    /**
+     * Get authors
+     *
+     * @return array
+     */
+    public function getAuthors()
+    {
+        return $this->authors;
+    }
+
+    /**
+     * Setter for authors
+     *
+     * @param array $authors Value to set
+     *
+     * @return self
+     */
+    public function setAuthors(Array $authors)
+    {
+        $this->authors = $authors;
+
+        return $this;
+    }
+
+    /**
+     * Get images
+     *
+     * @return array
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Setter for images
+     *
+     * @param array $images Value to set
+     *
+     * @return self
+     */
+    public function setImages(Array $images)
+    {
+        $this->images = $images;
+
+        return $this;
+    }
+
+    /**
+     * Get embargoed
+     *
+     * @return DateTime
+     */
+    public function getEmbargoed()
+    {
+        return $this->embargoed;
+    }
+
+    /**
+     * Setter for embargoed
+     *
+     * @param \DateTime|null $embargoed Value to set
+     *
+     * @return self
+     */
+    public function setEmbargoed($embargoed)
+    {
+        $this->embargoed = $embargoed;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    /**
+     * Setter for link
+     *
+     * @param string $link Value to set
+     *
+     * @return self
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get all attributes
+     *
+     * @param boolean $serialized Serialeze a json string or not
+     *
+     * @return string|array
+     */
+    public function getAttributes($serialized = false)
+    {
+        return ($serialized) ? json_encode($this->attributes) : $this->attributes;
+    }
+
+    /**
+     * Setter for attributes
+     *
+     * @param array $attributes Value to set
+     *
+     * @return self
+     */
+    public function setAttributes(Array $attributes)
+    {
+        $this->attributes = $attributes;
+
+        return $this;
+    }
+
+    /**
+     * Set attribute
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return self
+     */
+    public function setAttribute($name, $value)
+    {
+        $this->attributes[$name] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get attribute, returns null when attribute doesn't exist.
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
+    public function getAttribute($name)
+    {
+        return ($this->attributeExists($name)) ? $this->attributes[$name] : null;
+    }
+
+    /**
+     * Check if a attribute exists
+     *
+     * @param string $name Attribute name
+     *
+     * @return boolean
+     */
+    public function attributeExists($name)
+    {
+        return array_key_exists($name, $this->attributes);
+    }
+}

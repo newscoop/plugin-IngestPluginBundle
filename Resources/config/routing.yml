@@ -1,0 +1,4 @@
+newscoop_ingest_plugin:
+    resource: "@NewscoopIngestPluginBundle/Controller"
+    type:     annotation
+    prefix:   /

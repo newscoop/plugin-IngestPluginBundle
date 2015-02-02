@@ -1,0 +1,50 @@
+services:
+    newscoop_ingest_plugin.lifecyclesubscriber:
+        class: Newscoop\IngestPluginBundle\EventListener\LifecycleSubscriber
+        arguments:
+            - @em
+            - @newscoop_ingest_plugin.articletypeconfigurator
+        tags:
+            - { name: kernel.event_subscriber}
+
+    newscoop_ingest_plugin.configure_menu_listener:
+        class: Newscoop\IngestPluginBundle\EventListener\ConfigureMenuListener
+        tags:
+            - { name: kernel.event_listener, event: newscoop_newscoop.menu_configure, method: onMenuConfigure }
+        arguments:
+            - @translator
+
+    newscoop_ingest_plugin.ingester:
+        class:      Newscoop\IngestPluginBundle\Services\IngestService
+        arguments:
+            - "@em"
+            - "@newscoop_ingest_plugin.publisher"
+            - "@newscoop_ingest_plugin.articletypeconfigurator"
+            - "@logger"
+
+    newscoop_ingest_plugin.publisher:
+        class:      Newscoop\IngestPluginBundle\Services\PublisherService
+        arguments:
+            - "@em"
+            - "@newscoop_ingest_plugin.articletypeconfigurator"
+
+    newscoop_ingest_plugin.articletypeconfigurator:
+        class:      Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService
+        arguments:
+            - "@em"
+            - "@doctrine.adodb"
+
+    newscoop_ingest_plugin.article_subscriber:
+        class:      Newscoop\IngestPluginBundle\EventListener\ArticleSubscriber
+        arguments:  ["@em"]
+        tags:
+            -  { name: kernel.event_listener, event: article.publish, method: publish }
+            -  { name: kernel.event_listener, event: article.published, method: publish }
+            -  { name: kernel.event_listener, event: article.delete, method: delete }
+
+    # newscoop_ingest_plugin.articlesubscriber:
+    #     class:      Newscoop\IngestPluginBundle\EventListener\ArticleSubscriber
+    #     arguments:
+    #         - "@service_container"
+    #     tags:
+    #         - { name: doctrine.event_subscriber, connection: default }

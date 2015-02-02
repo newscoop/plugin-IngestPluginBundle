@@ -1,0 +1,17 @@
+<ul class="nav nav-tabs">
+    <li class="{% if menuActive == 'entries' %}active{% endif %}">
+        <a href="{{ path('newscoop_ingestplugin_entry_list') }}">
+            {{ 'plugin.ingest.tabs.entries'|trans }}
+        </a>
+    </li>
+    <li class="{% if menuActive == 'feeds' %}active{% endif %}">
+        <a href="{{ path('newscoop_ingestplugin_feed_list') }}">
+            {{ 'plugin.ingest.tabs.feeds'|trans }}
+        </a>
+    </li>
+    <li class="{% if menuActive == 'parsers' %}active{% endif %}">
+        <a href="{{ path('newscoop_ingestplugin_parser_list') }}">
+            {{ 'plugin.ingest.tabs.parsers'|trans }}
+        </a>
+    </li>
+</ul>

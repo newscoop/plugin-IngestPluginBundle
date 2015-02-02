@@ -1,0 +1,37 @@
+{% extends 'NewscoopNewscoopBundle::admin_layout.html.twig' %}
+
+{% block admin_title %}{{ 'plugin.ingest.title'|trans }}{% endblock %}
+{% block admin_page_title_content %}{{ 'plugin.ingest.header'|trans }}{% endblock %}
+
+{% block admin_stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('public/bundles/newscoopingestplugin/css/plugin.css') }} "/>
+{% endblock %}
+
+{% block admin_scripts %}
+    <script type="text/javascript" src="{{ asset('public/bundles/newscoopingestplugin/js/plugin.js') }}"></script>
+{% endblock %}
+
+{% block admin_content %}
+
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="alert alert-info">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    {% for flashMessage in app.session.flashbag.get('error') %}
+        <div class="alert alert-danger">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    {{ include('NewscoopIngestPluginBundle:Admin:menu.html.twig', {menuActive: menuActive|default('content')}, with_context = false) }}
+
+    <div class="tab-content">
+        {% block plugin_content %}{% endblock %}
+    </div>
+
+    <div id="dialog-confirm" title="" style="display:none">
+        <p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span></p>
+    </div>
+
+{% endblock %}
