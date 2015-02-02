@@ -1,0 +1,24 @@
+{
+    "name": "m038/ingest-plugin-bundle",
+    "description": "Ingest bundle for Newscoop v4.3",
+    "keywords": ["newscoop", "ingest", "admin", "cms", "integration"],
+    "version": "0.1",
+    "type": "newscoop-plugin",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Mischa Gorinskat",
+            "email": "mischa.gorinskat@sourcefabric.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "newscoop/plugins-installer": ">=v0.2",
+        "simplepie/simplepie": ">=1.3"
+    },
+    "autoload": {
+        "psr-0": { "Newscoop\\IngestPluginBundle\\NewscoopIngestPluginBundle": "" }
+    },
+    "target-dir": "Newscoop/IngestPluginBundle",
+    "minimum-stability": "dev"
+}

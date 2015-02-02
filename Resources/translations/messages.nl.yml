@@ -1,0 +1,131 @@
+Plugins: null
+plugin:
+    ingest:
+        title: null
+        header: null
+        menu: null
+        tabs:
+            entries: Gegevens
+            feeds: null
+            parsers: null
+        dialog:
+            delete: Verwijderen
+            cancel: Annuleren
+        entries:
+            none: 'Geen gegevens gevonden'
+            publish: null
+            edit: null
+            delete: 'Verwijder regel'
+            view: 'Bekijk artikel'
+            nosection: 'Geen rubriek'
+            enabled: Geactiveerd
+            feed: null
+            title: Titel
+            language: Taal
+            body: null
+            section: Rubriek
+            created: Aangemaakt
+            published: Gepubliceerd
+            notpublished: 'Niet gepubliceerd'
+            nocontent: 'Geen inhoud'
+            content: Inhoud
+            summary: Samenvatting
+            link: Koppeling
+            articlenotfound: null
+            removedsuccess: null
+            publishedsuccess: null
+            filter:
+                feeds: null
+                all_feeds: null
+                published: null
+                yes: null
+                no: null
+                all: null
+                filter: null
+                view: null
+                slim: null
+                expanded: null
+            dialog:
+                title: null
+                body: null
+                delete: null
+                cancel: null
+        feeds:
+            none: null
+            add: null
+            edit: null
+            quick_edit_auto: null
+            quick_edit_manual: null
+            delete: null
+            update: null
+            update_all: null
+            name: null
+            url: null
+            mode:
+                name: null
+                auto: null
+                manual: null
+            publication: null
+            section: null
+            updated: null
+            notupdated: null
+            parser: null
+            nosections: null
+            choose_publication: null
+            enabled: null
+            disabled: null
+            addedsuccess: null
+            updatedsuccess: null
+            deletedsuccess: null
+            updatedpropertysucces: null
+            updatedpropertyfailure: null
+            updatedinvalidmethod: null
+            feedupdatedcount: null
+            feedupdated: null
+            feedupdateerror: null
+            dialog:
+                title: null
+                body: null
+                delete: null
+                delete_all: null
+                cancel: null
+            form:
+                help:
+                    url: null
+                    mode: null
+                    publication: null
+                    section: null
+                button:
+                    add: null
+                    save: null
+                    cancel: null
+        parsers:
+            none: null
+            name: Naam
+            description: Beschrijving
+            domain: Domein
+            feeds: 'In gebruik'
+            add: 'Parser toevoegen'
+            delete: 'Parser verwijderen'
+            nonew: null
+            parserfilenotexists: null
+            installedsuccess: null
+            deletedsuccess: null
+            form:
+                label:
+                    namespace: 'Selecteer een of meerdere parsers om te installeren'
+                button:
+                    install: Installeren
+                    cancel: Annuleren
+            dialog:
+                title: 'Bevestig het verwijderen van de parser'
+                body: 'Weet u zeker dat u deze parser wilt verwijderen? Alle feeds gerelateerd aan deze parser worden dan automatisch gedeactiveerd.'
+                delete: 'Parser verwijderen'
+                cancel: Annuleren
+        btn:
+            add: 'Feed toevoegen'
+            delete: Verwijderen
+            cancel: Annuleren
+            deleteall: 'Alles verwijderen'
+            remove: Verwijderen
+            save: Opslaan

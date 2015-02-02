@@ -1,0 +1,34 @@
+{% extends 'NewscoopIngestPluginBundle:Admin:index.html.twig' %}
+
+{% block admin_content %}
+    {% set menuActive = 'parsers' %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% form_theme form 'NewscoopIngestPluginBundle:Form:_form_horizontal.html.twig' %}
+
+{% block plugin_content %}
+    <div class="alert alert-info">
+        Additional parsers can be installed by copying them to the Parsers
+        directory of the IngestPluginBundle.
+    </div>
+
+    {% if form %}
+        {{ form_start(form, { 'attr': { 'class': 'form_feed form-horizontal'} }) }}
+
+            {{ form_row(form.namespace) }}
+
+            <div class="col-sm-offset-2">
+                {{ form_widget(form.install, {'attr' : {'class' : 'btn btn-primary btn-sm'}} ) }}
+                {{ form_widget(form.cancel, {'attr' : {'class' : 'btn btn-default btn-sm btn-js-click', 'data-url' : path('newscoop_ingestplugin_parser_list') } }) }}
+            </div>
+
+        {{ form_rest(form) }}
+
+    {{ form_end(form) }}
+    {% else %}
+        <p>{{ 'plugin.ingest.parsers.nonew'|trans }}</p>
+    {% endif %}
+
+{% endblock %}

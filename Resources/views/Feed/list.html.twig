@@ -1,0 +1,126 @@
+{% extends 'NewscoopIngestPluginBundle:Admin:index.html.twig' %}
+
+{% block admin_content %}
+    {% set menuActive = 'feeds' %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block plugin_content %}
+    <div class="actionbar">
+        <a href="{{ path('newscoop_ingestplugin_feed_add') }}" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-plus"></span>
+            {{ 'plugin.ingest.feeds.add'|trans }}
+        </a>
+        <a href="{{ path('newscoop_ingestplugin_feed_updateall') }}" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-refresh"></span>
+            {{ 'plugin.ingest.feeds.update_all'|trans }}
+        </a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'plugin.ingest.feeds.enabled'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.name'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.url'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.mode.name'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.publication'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.section'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.updated'|trans }}</th>
+                <th>{{ 'plugin.ingest.feeds.parser'|trans }}</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if feeds %}
+                {% for feed in feeds %}
+                    <tr id="feed_{{ feed.id }}">
+                        <td>
+                            {% if feed.enabled %}
+                                {{ 'plugin.ingest.feeds.enabled'|trans }}
+                            {% else %}
+                                {{ 'plugin.ingest.feeds.disabled'|trans }}
+                            {% endif %}
+                        </td>
+                        <td>{{ feed.name }}</td>
+                        <td>{{ feed.url }}</td>
+                        <td>{{ feed.mode == 'auto' ? 'plugin.ingest.feeds.mode.auto'|trans : 'plugin.ingest.feeds.mode.manual'|trans }}</td>
+                        <td>
+                            {% if feed.publication %}
+                                {{ feed.publication.name }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if feed.sections %}
+                                {% for section in feed.sections %}
+                                    {{ section.name }}{% if not loop.last %}, {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                {{ 'plugin.ingest.feeds.nosections'|trans }}
+                            {% endif %}
+                        </td>
+                        <td>{{ feed.updated ? feed.updated|date('Y-m-d H:i:s') : 'plugin.ingest.feeds.notupdated'|trans }}</td>
+                        <td>{{ feed.parser.name }}</td>
+                        <td align="right">
+                            {% if feed.enabled %}
+                                <a href="{{ path('newscoop_ingestplugin_feed_update', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.update'|trans|e }}">
+                                    <span class="glyphicon glyphicon-refresh"></span>
+                                </a>
+                                {% if feed.mode == 'manual' %}
+                                    <a href="{{ path('newscoop_ingestplugin_feed_quickedit', {'id': feed.id, 'option': 'mode', 'value': 'auto'}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.quick_edit_auto'|trans|e }}">
+                                        <span class="glyphicon glyphicon-flag"></span>
+                                {% else %}
+                                    <a href="{{ path('newscoop_ingestplugin_feed_quickedit', {'id': feed.id, 'option': 'mode', 'value': 'manual'}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.quick_edit_manual'|trans|e }}">
+                                        <span class="glyphicon glyphicon-hand-up"></span>
+                                {% endif %}
+                                </a>
+                            {% endif %}
+                            <a href="{{ path('newscoop_ingestplugin_feed_edit', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.edit'|trans|e }}">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a href="{{ path('newscoop_ingestplugin_feed_delete', {'id': feed.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.feeds.delete'|trans|e }}" data-dialog-id="dialog-delete-feed">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                    <td colspan="8">{{ 'plugin.ingest.feeds.none'|trans }}.</td>
+                <tr>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+
+    <div id="dialog-delete-feed" title="{{ 'plugin.ingest.feeds.dialog.title'|trans|e }}" style="display:none">
+        <p>
+            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+            {{ 'plugin.ingest.feeds.dialog.body'|trans }}
+        </p>
+    </div>
+
+    <script type="text/javascript">
+        var confirmButtonOverride = [
+            {
+                text : Translator.get('plugin.ingest.feeds.dialog.delete'),
+                click : function(e) {
+                    window.location = $(this).data('dialogTriggerButton').attr('href');
+                    $( this ).dialog( "close" );
+                }
+            }, {
+                text : Translator.get('plugin.ingest.feeds.dialog.delete_all'),
+                click : function(e) {
+                    window.location = $(this).data('dialogTriggerButton').attr('href') + '?delete_entries=true';
+                    $( this ).dialog( "close" );
+                }
+            }, {
+                text : Translator.get('plugin.ingest.feeds.dialog.cancel'),
+                click : function() {
+                    $( this ).dialog( "close" );
+                }
+            }
+        ];
+    </script>
+
+{% endblock %}

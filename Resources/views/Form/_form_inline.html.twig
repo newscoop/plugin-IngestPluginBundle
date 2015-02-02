@@ -1,0 +1,7 @@
+{% block form_row %}
+    <div class="form-group">
+        {{ form_label(form, null, { 'label_attr': { 'class': 'sr-only'} }) }}
+        {{ form_errors(form) }}
+        {{ form_widget(form, { 'attr': { 'class': 'form-control input-sm'} }) }}
+    </div>
+{% endblock form_row %}
