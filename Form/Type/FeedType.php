@@ -75,11 +75,6 @@ class FeedType extends AbstractType
 
         $builder
             ->add('topics', 'topic_selector', array(
-            // ->add('topics', 'entity', array(
-            //     'class' => 'Newscoop\Entity\Topic',
-            //     'property' => 'name',
-            //     'multiple' => true,
-            //     'expanded' => true,
                 'label' => 'plugin.ingest.feeds.topics',
                 'attr' => array(
                     'help_text' => 'plugin.ingest.feeds.form.help.topics'

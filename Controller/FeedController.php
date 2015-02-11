@@ -98,49 +98,6 @@ class FeedController extends Controller
     }
 
     /**
-     * @TODO: @Route("/edit/{id}/")
-     * @TODO: @ParamConverter("get")
-     * @TODO: @Template()
-     */
-    // public function editAction(Request $request, Feed $feed)
-    // {
-    //     $em = $this->container->get('em');
-
-    //     $form = $this->createForm(new FeedType(), $feed, array('type' => 'edit'));
-
-    //     // Handles updates in form
-    //     if ($request->isXmlHttpRequest()) {
-    //         $form->handleRequest($request);
-
-    //         return new JsonResponse(array(
-    //             'html' => htmlentities($this-> renderView('NewscoopIngestPluginBundle:Feed:ajaxForm.html.twig', array(
-    //                 'form'   => $form->createView(),
-    //             ))),
-    //         ));
-    //     }
-
-    //     if ($request->getMethod() == 'POST') {
-    //         $form->handleRequest($request);
-
-    //         if ($form->isValid()) {
-    //             $em->persist($feed);
-    //             $em->flush();
-
-    //             $this->get('session')->getFlashBag()->add(
-    //                 'notice',
-    //                 $this->container->get('translator')->trans('plugin.ingest.feeds.updatedsuccess')
-    //             );
-
-    //             return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
-    //         }
-    //     }
-
-    //     return array(
-    //         'form' => $form
-    //     );
-    // }
-
-    /**
      * @Route("/delete/{id}/")
      * @ParamConverter("get")
      */
