@@ -79,7 +79,7 @@
                             <a href="{{ path('newscoop_ingestplugin_feed_edit', {'id': feed.id}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.feeds.edit'|trans|e }}">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
-                            <a href="{{ path('newscoop_ingestplugin_feed_delete', {'id': feed.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.feeds.delete'|trans|e }}" data-dialog-id="dialog-delete-feed">
+                            <a href="{{ path('newscoop_ingestplugin_feed_delete', {'id': feed.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.feeds.delete'|trans|e }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </td>
@@ -93,34 +93,23 @@
         </tbody>
     </table>
 
-    <div id="dialog-delete-feed" title="{{ 'plugin.ingest.feeds.dialog.title'|trans|e }}" style="display:none">
-        <p>
-            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-            {{ 'plugin.ingest.feeds.dialog.body'|trans }}
-        </p>
+    <div id="feed-confirm-delete" class="modal modal-feed-delete">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'plugin.ingest.feeds.dialog.title'|trans }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'plugin.ingest.feeds.dialog.body'|trans }}</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-danger delete">{{ 'plugin.ingest.feeds.dialog.delete'|trans }}</a>
+                    <a href="#" class="btn btn-danger delete_all">{{ 'plugin.ingest.feeds.dialog.delete_all'|trans }}</a>
+                    <a href="#" class="btn btn-default cancel">{{ 'plugin.ingest.feeds.dialog.cancel'|trans }}</a>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <script type="text/javascript">
-        var confirmButtonOverride = [
-            {
-                text : Translator.get('plugin.ingest.feeds.dialog.delete'),
-                click : function(e) {
-                    window.location = $(this).data('dialogTriggerButton').attr('href');
-                    $( this ).dialog( "close" );
-                }
-            }, {
-                text : Translator.get('plugin.ingest.feeds.dialog.delete_all'),
-                click : function(e) {
-                    window.location = $(this).data('dialogTriggerButton').attr('href') + '?delete_entries=true';
-                    $( this ).dialog( "close" );
-                }
-            }, {
-                text : Translator.get('plugin.ingest.feeds.dialog.cancel'),
-                click : function() {
-                    $( this ).dialog( "close" );
-                }
-            }
-        ];
-    </script>
 
 {% endblock %}

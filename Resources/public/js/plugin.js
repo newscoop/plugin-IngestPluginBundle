@@ -14,31 +14,17 @@ $(document).ready(function() {
     $('.btn.confirm-delete').click(function(e) {
 
         e.stopImmediatePropagation();
-        var button = $(this),
-            dialogId = (button.data('dialog-id')) ? button.data('dialog-id') : 'dialog-confirm',
-            buttons = (typeof(confirmButtonOverride) !== 'undefined')
-                ? confirmButtonOverride
-                : [
-                    {
-                        text : Translator.get('plugin.ingest.dialog.delete'),
-                        click : function() {
-                            window.location = button.attr('href');
-                            $( this ).dialog( "close" );
-                        }
-                    }, {
-                        text : Translator.get('plugin.ingest.dialog.cancel'),
-                        click : function() {
-                            $( this ).dialog( "close" );
-                        }
-                    }
-                ];
 
-         $('#'+dialogId)
-         .data('dialogTriggerButton', button)
-         .dialog({
-            modal: true,
-            buttons: buttons
-        });
+        var modal = $('#feed-confirm-delete');
+        modal
+            .find('a.delete').attr('href', $(this).attr('href')).end()
+            .find('a.delete').attr('href', $(this).attr('href')+'?delete_entries=true').end()
+            .find('a.cancel').click(function() {
+                console.log('tralala');
+                modal.modal('hide');
+            });
+
+        modal.modal({ keyboard: true });
 
         return false;
     });
@@ -49,65 +35,69 @@ $(document).ready(function() {
         var form = $('form.form_feed_type'),
             formContainer = form.parent();
 
-        formContainer.on('change', '.auto-submit', function() {
+        formContainer
+            .on('change', '.auto-submit', function() {
 
-            // Disabled buttons so use can't submit
-            formContainer.find('button').attr('disabled', 'disabled');
+                // Disabled buttons so use can't submit
+                formContainer.find('button').attr('disabled', 'disabled');
 
-            $.post(window.location, $('form.form_feed_type').serialize(), function(data) {
-                if (typeof data.html !== 'undefined' && data.html !== '') {
-                    // Dynamically update form
-                    $('form.form_feed_type').replaceWith($('<div/>').html(data.html).text());
-                }
-            });
-        });
-
-        $("#feed_type_topics").select2({
-            placeholder: "Search ",
-            multiple: true,
-            minimumInputLength: 1,
-            ajax: {
-                url: topicSearchPath,
-                dataType: 'jsonp',
-                data: function (term, page) {
-                    return {
-                        term: term, // search term
-                        page_limit: 10
-                    };
-                },
-                results: function (data) {
-                    return {results: data.results.topics};
-                }
-            },
-            formatResult: function(topics) {
-                return "<div class='select2-user-result'>" + topics.term + "</div>";
-            },
-            formatSelection: function(topics) {
-                return topics.term;
-            },
-            seperator: ',',
-            id: function(object) {
-                return object.id+':'+object.term;
-            },
-            initSelection : function (element, callback) {
-
-                var data = [];
-                var rawTopics = element.val().split(",");
-
-                $.each(rawTopics, function(index, value) {
-
-                    var id = value.match(/^([0-9]+)\:/);
-                    var term = value.match(/\:(.+)$/);
-
-                    data.push({
-                        id: id[1],
-                        term: term[1]
-                    });
+                $.post(window.location, $('form.form_feed_type').serialize(), function(data) {
+                    if (typeof data.html !== 'undefined' && data.html !== '') {
+                        // Dynamically update form
+                        $('form.form_feed_type').replaceWith($('<div/>').html(data.html).text());
+                        formContainer.trigger('setup');
+                    }
                 });
+            })
+            .bind('setup', function() {
 
-                callback(data);
-            }
-        });
+                $("#feed_type_topics").select2({
+                    placeholder: "Search ",
+                    multiple: true,
+                    minimumInputLength: 1,
+                    ajax: {
+                        url: topicSearchPath,
+                        dataType: 'jsonp',
+                        data: function (term, page) {
+                            return {
+                                term: term, // search term
+                                page_limit: 10
+                            };
+                        },
+                        results: function (data) {
+                            return {results: data.results.topics};
+                        }
+                    },
+                    formatResult: function(topics) {
+                        return "<div class='select2-user-result'>" + topics.term + "</div>";
+                    },
+                    formatSelection: function(topics) {
+                        return topics.term;
+                    },
+                    seperator: ',',
+                    id: function(object) {
+                        return object.id+':'+object.term;
+                    },
+                    initSelection : function (element, callback) {
+
+                        var data = [];
+                        var rawTopics = element.val().split(",");
+
+                        $.each(rawTopics, function(index, value) {
+
+                            var id = value.match(/^([0-9]+)\:/);
+                            var term = value.match(/\:(.+)$/);
+
+                            data.push({
+                                id: id[1],
+                                term: term[1]
+                            });
+                        });
+
+                        callback(data);
+                    }
+                });
+            }).trigger('setup');
     }
 
     // Parser list page
