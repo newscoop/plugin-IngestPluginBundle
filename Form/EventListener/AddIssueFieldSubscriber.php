@@ -48,6 +48,8 @@ class AddIssueFieldSubscriber implements EventSubscriberInterface
                         ->setParameter('language', $language);
                 }
 
+                $qb->orderBy('i.number', 'DESC');
+
                 return $qb;
             },
             'attr' => array(

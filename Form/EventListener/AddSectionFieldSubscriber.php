@@ -53,7 +53,8 @@ class AddSectionFieldSubscriber implements EventSubscriberInterface
             'query_builder' => function (EntityRepository $er) use ($issue) {
                 return $er->createQueryBuilder('s')
                     ->where('s.issue = :issue')
-                    ->setParameter('issue', $issue);
+                    ->setParameter('issue', $issue)
+                    ->orderBy('s.number', 'ASC');
             },
             'attr' => array(
                 'help_text' => 'plugin.ingest.feeds.form.help.section'
