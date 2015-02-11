@@ -11,28 +11,28 @@ namespace Newscoop\IngestPluginBundle\Parsers;
 /**
  * Abstract Parser class.
  */
-abstract class Parser
+abstract class AbstractParser
 {
     /**
      * Parser name
      *
      * @var string
      */
-    public static $parserName;
+    protected static $parserName;
 
     /**
      * Parser description
      *
      * @var string
      */
-    public static $parserDescription;
+    protected static $parserDescription;
 
     /**
      * Parser domain, can use basic regexp for matching
      *
      * @var string
      */
-    public static $parserDomain;
+    protected static $parserDomain;
 
     /**
      * Contains all other data that needs to be stored about this feed entry.
@@ -49,6 +49,36 @@ abstract class Parser
     private function __construct()
     {
         $this->_attributes = array();
+    }
+
+    /**
+     * Returns the parser name
+     *
+     * @return string
+     */
+    public static function getParserName()
+    {
+        return static::$parserName;
+    }
+
+    /**
+     * Returns the parser description
+     *
+     * @return string
+     */
+    public static function getParserDescription()
+    {
+        return static::$parserDescription;
+    }
+
+    /**
+     * Returns the parser domain
+     *
+     * @return string
+     */
+    public static function getParserDomain()
+    {
+        return static::$parserDomain;
     }
 
     /**

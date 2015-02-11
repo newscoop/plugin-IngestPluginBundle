@@ -12,28 +12,28 @@ use Symfony\Component\Finder\Finder;
 /**
  * NewsML parser
  */
-class SDAParser extends Parser
+class SDAParser extends AbstractParser
 {
     /**
      * Parser name
      *
      * @var string
      */
-    public static $parserName = 'SDA';
+    protected static $parserName = 'SDA';
 
     /**
      * Parser description
      *
      * @var string
      */
-    public static $parserDescription = 'This parser can handle the SDA NewsML feed for Tageswoche.';
+    protected static $parserDescription = 'This parser can handle the SDA NewsML feed for Tageswoche.';
 
     /**
      * Parser domain, can use basic regexp for matching
      *
      * @var string
      */
-    public static $parserDomain = '*';
+    protected static $parserDomain = '*';
 
     /** @var SimpleXMLElement */
     private $xml;

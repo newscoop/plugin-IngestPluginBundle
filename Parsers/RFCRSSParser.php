@@ -15,28 +15,28 @@ use SimplePie;
 /**
  * Parses RSS (all versions) and ATOM feeds.
  */
-class RFCRSSParser extends Parser
+class RFCRSSParser extends AbstractParser
 {
     /**
      * Parser name
      *
      * @var string
      */
-    public static $parserName = 'RSS';
+    protected static $parserName = 'RSS';
 
     /**
      * Parser description
      *
      * @var string
      */
-    public static $parserDescription = 'This parser can be used for RSS 1.0, RSS 2.0 and Atom';
+    protected static $parserDescription = 'This parser can be used for RSS 1.0, RSS 2.0 and Atom';
 
     /**
      * Parser domain, can use basic regexp for matching
      *
      * @var string
      */
-    public static $parserDomain = '*';
+    protected static $parserDomain = '*';
 
     /**
      * Simplepie_item object which represents entry in a feed

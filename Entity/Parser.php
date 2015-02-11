@@ -17,43 +17,54 @@ class Parser
      * @ORM\Column(type="integer")
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", unique=true)
      * @var string
      */
-    private $namespace;
+    protected $namespace;
 
     /**
      * @ORM\Column(type="string")
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
-    private $description;
+    protected $description;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @var string
      */
-    private $domain;
+    protected $domain;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default": 0})
+     * @var boolean
+     */
+    protected $active = 0;
 
     /**
      * @ORM\OneToMany(targetEntity="Newscoop\IngestPluginBundle\Entity\Feed", mappedBy="parser")
      * @var Doctrine\Common\Collections\ArrayCollection
      */
-    private $feeds;
+    protected $feeds;
 
-    function __construct() {
+    /**
+     * Init object
+     */
+    function __construct()
+    {
         $this->feeds = new ArrayCollection();
     }
 
-    function __toString() {
+    function __toString()
+    {
         return $this->getName();
     }
 
@@ -86,6 +97,7 @@ class Parser
     public function setNamespace($namespace)
     {
         $this->namespace = $namespace;
+
         return $this;
     }
 
@@ -109,6 +121,7 @@ class Parser
     public function setName($name)
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -131,6 +144,7 @@ class Parser
     public function setDescription($description)
     {
         $this->description = $description;
+
         return $this;
     }
 
@@ -153,8 +167,34 @@ class Parser
     public function setDomain($domain)
     {
         $this->domain = $domain;
+
         return $this;
     }
+
+    /**
+     * Getter for active
+     *
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Setter for active
+     *
+     * @param mixed $active Value to set
+     *
+     * @return self
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
 
     /**
      * Getter for feeds
