@@ -8,6 +8,7 @@ plugin:
       entries: "Entries"
       feeds: "Feeds"
       parsers: "Parsers"
+      readme: "View plugin readme"
     dialog:
       delete: "Delete"
       cancel: "Cancel"
@@ -65,8 +66,13 @@ plugin:
         name: "Publication mode"
         auto: "Automatic"
         manual: "Manual"
+      language: "Language"
+      language_autodetect: 'Autodetect/multi language'
       publication: "Publication"
+      issue: "Issue"
+      issue_latest: "Use latest issue"
       section: "Section(s)"
+      topics: "Topics"
       updated: "Last updated"
       notupdated: "Not yet updated"
       parser: "Parser"
@@ -92,7 +98,7 @@ plugin:
       form:
         help:
           url: "This can be left empty if the parsers handle retrieval of content."
-          mode: "If <em>manual</em> is selected, entries will be ingested and appear in the <strong>Entries</strong> tab. If <em>automatic</em> is selected, feeds will automatically be published in the publication and section chosen below. The system will always use the latest published issue."
+          mode: "If <em>manual</em> is selected, entries will be ingested and appear in the <strong>Entries</strong> tab. If <em>automatic</em> is selected, feeds will automatically be published in the publication, issue and section chosen below."
           publication: "After selecting a publication, please wait untill the corresponding sections have been loaded."
           section: "Automatically published entries will be published in the first selected section. If multiple sections with different languages are selected, then the system will try to find the best suited language according to the entry language.<br>The parser can also return a section for the entry to be published in. This will override all settings."
         button:
@@ -101,16 +107,21 @@ plugin:
           cancel: "Cancel"
     parsers:
       none: "No parsers found"
+      activated: "Activated"
       name: "Name"
       description: "Description"
       domain: "Domain"
       feeds: "In use"
+      update: "Find new parsers"
       add: "Add parser"
       delete: "Delete parser"
       nonew: "There are no new parsers. To install a parser copy the file into the Parsers directory."
       parserfilenotexists: "Parser file does not exist."
       installedsuccess: "Parser(s) installed!"
       deletedsuccess: "Parser deleted!"
+      updatedsuccess: "The list of available parsers has been updated."
+      activationsuccess: 'The parser %parser% has been activated.'
+      activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
       form:
         label:
           namespace: "Select one or more parsers to install"

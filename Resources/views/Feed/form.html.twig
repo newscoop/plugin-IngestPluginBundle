@@ -1,0 +1,30 @@
+{% extends 'NewscoopIngestPluginBundle:Admin:_boilerplate.html.twig' %}
+
+{% use 'NewscoopIngestPluginBundle:Form:feedType.html.twig' %}
+
+{% block admin_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('/js/select2/select2.css') }}" />
+{% endblock %}
+
+{% block admin_scripts %}
+    {{ parent() }}
+    <script src="{{ asset('/js/select2/select2.js') }}"></script>
+{% endblock %}
+
+{% block admin_content %}
+    {% set menuActive = 'feeds' %}
+    {{ parent() }}
+{% endblock %}
+
+{% block plugin_content %}
+
+{# Do not remove wrapper div #}
+<div class="form_wrapper row">
+    <div class="col-xs-12 col-md-6 col-md-offset-2">
+        {{ block('feed_form') }}
+    </div>
+</div>
+
+{% endblock %}
+

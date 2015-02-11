@@ -1,43 +1,48 @@
 {% block feed_form %}
 
-{% form_theme form 'NewscoopIngestPluginBundle:Form:_form_horizontal.html.twig' %}
+{% form_theme form with ['NewscoopIngestPluginBundle:Form:_bootstrap_3_horizontal_layout.html.twig', _self] %}
 
-{# Do not remove wrapper div #}
-<div class="form_wrapper">
+{{ form_start(form, { 'attr': { 'class': 'form_feed_type'} }) }}
 
-    {{ form_start(form, { 'attr': { 'class': 'form_feed form-horizontal'} }) }}
+    {{ form_row(form.enabled) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.url) }}
+    {{ form_row(form.parser) }}
+    {{ form_row(form.mode) }}
+    {{ form_row(form.language) }}
 
-        {{ form_row(form.enabled) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.url) }}
-        <span class="help-block col-sm-offset-2">{{ 'plugin.ingest.feeds.form.help.url'|trans }}</span>
+    {% if form.publication is defined %}
+        {{ form_row(form.publication) }}
+    {% endif %}
 
-        {{ form_row(form.parser) }}
-        {{ form_row(form.mode) }}
-        <span class="help-block col-sm-offset-2">
-            {{ 'plugin.ingest.feeds.form.help.mode'|trans }}
-        </span>
+    {% if form.issue is defined %}
+        {{ form_row(form.issue) }}
+    {% endif %}
 
-        {{ form_row(form.publication, {'attr' : {'class' : 'publication'} }) }}
-        <span class="help-block col-sm-offset-2">
-            {{ 'plugin.ingest.feeds.form.help.publication'|trans }}
-        </span>
+    {% if form.sections is defined %}
+        {{ form_row(form.sections) }}
+    {% endif %}
 
-        {% if form.sections is defined %}
-            {{ form_row(form.sections) }}
-
-            <span class="help-block col-sm-offset-2">
-                {{ 'plugin.ingest.feeds.form.help.section'|trans }}
-            </span>
-        {% endif %}
-
-        <div class="col-sm-offset-2">
-            {{ form_widget(form.save, {'attr' : {'class' : 'btn btn-primary'} }) }}
-            {{ form_widget(form.cancel, {'attr' : {'class' : 'btn btn-default btn-js-click', 'data-url' : path('newscoop_ingestplugin_feed_list') } }) }}
+    {% if form.topics is defined %}
+        <div class="form-group">
+            <label class="col-sm-2 control-label required">Topics</label>
+            <div class="col-sm-10">
+                {{ form_row(form.topics) }}
+            </div>
         </div>
+    {% endif %}
 
-        {{ form_rest(form) }}
+    <div class="col-sm-offset-2">
+        {{ form_widget(form.save, {'attr' : {'class' : 'btn btn-primary'} }) }}
+        {{ form_widget(form.cancel, {'attr' : {'class' : 'btn btn-default btn-js-click', 'data-url' : path('newscoop_ingestplugin_feed_list') } }) }}
+    </div>
 
-    {{ form_end(form) }}
-</div>
+    {{ form_rest(form) }}
+
+{{ form_end(form) }}
+
+<script type="text/javascript">
+    var topicSearchPath = "{{ path('newscoop_ingestplugin_feed_findtopics') }}";
+</script>
+
 {% endblock feed_form %}

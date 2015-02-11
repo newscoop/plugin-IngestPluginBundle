@@ -44,20 +44,79 @@ $(document).ready(function() {
     });
 
     // Execute when form for Feeds is displayed
-    if ($('form.form_feed').length > 0) {
+    if ($('form.form_feed_type').length > 0) {
 
-        var form = $('form.form_feed'),
+        var form = $('form.form_feed_type'),
             formContainer = form.parent();
 
-        formContainer.on('change', 'select.publication', function() {
+        formContainer.on('change', '.auto-submit', function() {
 
             // Disabled buttons so use can't submit
             formContainer.find('button').attr('disabled', 'disabled');
 
-            $.post(window.location, $('form.form_feed').serialize(), function(data) {
+            $.post(window.location, $('form.form_feed_type').serialize(), function(data) {
                 if (typeof data.html !== 'undefined' && data.html !== '') {
                     // Dynamically update form
-                    $('form.form_feed').replaceWith($('<div/>').html(data.html).text());
+                    $('form.form_feed_type').replaceWith($('<div/>').html(data.html).text());
+                }
+            });
+        });
+
+        $("#feed_type_topics").select2({
+            placeholder: "Search ",
+            multiple: true,
+            minimumInputLength: 1,
+            ajax: {
+                url: topicSearchPath,
+                dataType: 'jsonp',
+                data: function (term, page) {
+                    return {
+                        term: term, // search term
+                        page_limit: 10
+                    };
+                },
+                results: function (data) {
+                    return {results: data.results.topics};
+                }
+            },
+            formatResult: function(topics) {
+                return "<div class='select2-user-result'>" + topics.term + "</div>";
+            },
+            formatSelection: function(topics) {
+                return topics.term;
+            },
+            seperator: ',',
+            id: function(object) {
+                return object.id+':'+object.term;
+            },
+            initSelection : function (element, callback) {
+
+                var data = [];
+                var rawTopics = element.val().split(",");
+
+                $.each(rawTopics, function(index, value) {
+
+                    var id = value.match(/^([0-9]+)\:/);
+                    var term = value.match(/\:(.+)$/);
+
+                    data.push({
+                        id: id[1],
+                        term: term[1]
+                    });
+                });
+
+                callback(data);
+            }
+        });
+    }
+
+    // Parser list page
+    if ($('#parsers_list').length > 0) {
+        $('#parsers_list').on('change', 'input:checkbox', function() {
+            var id = $(this).attr('id').replace(/[^0-9]+/, '');
+            $.get('/admin/ingest/parser/change_status/'+id, function(data) {
+                if (!data.status) {
+                    alert(data.message);
                 }
             });
         });

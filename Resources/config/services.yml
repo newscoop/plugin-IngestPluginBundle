@@ -4,6 +4,7 @@ services:
         arguments:
             - @em
             - @newscoop_ingest_plugin.articletypeconfigurator
+            - @dispatcher
         tags:
             - { name: kernel.event_subscriber}
 
@@ -13,6 +14,12 @@ services:
             - { name: kernel.event_listener, event: newscoop_newscoop.menu_configure, method: onMenuConfigure }
         arguments:
             - @translator
+
+    newscoop_ingest_plugin.ingest_parsers.listener:
+        class: Newscoop\IngestPluginBundle\EventListener\IngestParsersListener
+        arguments: ["@em"]
+        tags:
+          - { name: kernel.event_listener, event: newscoop_ingest.parser.register, method: registerExternalParsers }
 
     newscoop_ingest_plugin.ingester:
         class:      Newscoop\IngestPluginBundle\Services\IngestService
@@ -41,6 +48,13 @@ services:
             -  { name: kernel.event_listener, event: article.publish, method: publish }
             -  { name: kernel.event_listener, event: article.published, method: publish }
             -  { name: kernel.event_listener, event: article.delete, method: delete }
+
+    newscoop_ingest_plugin.topic_selector:
+        class:      Newscoop\IngestPluginBundle\Form\Type\TopicSelectorType
+        arguments:
+            - @em
+        tags:
+          - { name: form.type, alias: "topic_selector"}
 
     # newscoop_ingest_plugin.articlesubscriber:
     #     class:      Newscoop\IngestPluginBundle\EventListener\ArticleSubscriber

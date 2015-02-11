@@ -6,12 +6,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOException;
-use Symfony\Component\Finder\Finder;
-
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Newscoop\IngestPluginBundle\Form\Type\FeedType;
 use Newscoop\IngestPluginBundle\Entity\Feed;
 use Newscoop\IngestPluginBundle\Entity\Feed\Entry;
@@ -42,21 +42,34 @@ class FeedController extends Controller
     }
 
     /**
-     * @Route("/add/")
+     * @Route("/add/", name="newscoop_ingestplugin_feed_add")
+     * @Route("/edit/{id}/", name="newscoop_ingestplugin_feed_edit")
+     * @ParamConverter("get")
      * @Template()
      */
-    public function addAction(Request $request)
+    public function formAction(Request $request, Feed $feed = null)
     {
-        $feed = new Feed();
+        $type = 'edit';
+        $message = 'updatedsuccess';
+        if (!($feed instanceof \Newscoop\IngestPluginBundle\Entity\Feed)) {
+            $feed = new Feed();
+            $type = 'add';
+            $message = 'addedsuccess';
+        }
 
-        $form = $this->createForm(new FeedType(), $feed);
+        $em = $this->get('em');
+
+        $form = $this->createForm(new FeedType(), $feed, array(
+            'em' => $em,
+            'type' => $type
+        ));
 
         // Handle updates in form
         if ($request->isXmlHttpRequest()) {
             $form->handleRequest($request);
 
             return new JsonResponse(array(
-                'html' => htmlentities($this-> renderView('NewscoopIngestPluginBundle:Feed:ajaxForm.html.twig', array(
+                'html' => htmlentities($this-> renderView('NewscoopIngestPluginBundle:Form:ajaxform.html.twig', array(
                     'form'   => $form->createView(),
                 ))),
             ));
@@ -66,13 +79,13 @@ class FeedController extends Controller
             $form->handleRequest($request);
 
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
+
                 $em->persist($feed);
                 $em->flush();
 
                 $this->get('session')->getFlashBag()->add(
                     'notice',
-                    $this->container->get('translator')->trans('plugin.ingest.feeds.addedsuccess')
+                    $this->get('translator')->trans(sprintf('plugin.ingest.feeds.%s', $message))
                 );
 
                 return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
@@ -85,47 +98,47 @@ class FeedController extends Controller
     }
 
     /**
-     * @Route("/edit/{id}/")
-     * @ParamConverter("get")
-     * @Template()
+     * @TODO: @Route("/edit/{id}/")
+     * @TODO: @ParamConverter("get")
+     * @TODO: @Template()
      */
-    public function editAction(Request $request, Feed $feed)
-    {
-        $em = $this->container->get('em');
+    // public function editAction(Request $request, Feed $feed)
+    // {
+    //     $em = $this->container->get('em');
 
-        $form = $this->createForm(new FeedType(), $feed, array('type' => 'edit'));
+    //     $form = $this->createForm(new FeedType(), $feed, array('type' => 'edit'));
 
-        // Handles updates in form
-        if ($request->isXmlHttpRequest()) {
-            $form->handleRequest($request);
+    //     // Handles updates in form
+    //     if ($request->isXmlHttpRequest()) {
+    //         $form->handleRequest($request);
 
-            return new JsonResponse(array(
-                'html' => htmlentities($this-> renderView('NewscoopIngestPluginBundle:Feed:ajaxForm.html.twig', array(
-                    'form'   => $form->createView(),
-                ))),
-            ));
-        }
+    //         return new JsonResponse(array(
+    //             'html' => htmlentities($this-> renderView('NewscoopIngestPluginBundle:Feed:ajaxForm.html.twig', array(
+    //                 'form'   => $form->createView(),
+    //             ))),
+    //         ));
+    //     }
 
-        if ($request->getMethod() == 'POST') {
-            $form->handleRequest($request);
+    //     if ($request->getMethod() == 'POST') {
+    //         $form->handleRequest($request);
 
-            if ($form->isValid()) {
-                $em->persist($feed);
-                $em->flush();
+    //         if ($form->isValid()) {
+    //             $em->persist($feed);
+    //             $em->flush();
 
-                $this->get('session')->getFlashBag()->add(
-                    'notice',
-                    $this->container->get('translator')->trans('plugin.ingest.feeds.updatedsuccess')
-                );
+    //             $this->get('session')->getFlashBag()->add(
+    //                 'notice',
+    //                 $this->container->get('translator')->trans('plugin.ingest.feeds.updatedsuccess')
+    //             );
 
-                return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
-            }
-        }
+    //             return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
+    //         }
+    //     }
 
-        return array(
-            'form' => $form
-        );
-    }
+    //     return array(
+    //         'form' => $form
+    //     );
+    // }
 
     /**
      * @Route("/delete/{id}/")
@@ -253,5 +266,39 @@ class FeedController extends Controller
         }
 
         return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
+    }
+
+    /**
+     * @Route("/topics_search/")
+     */
+    public function findTopicsAction(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            // retrieve query and page_limit
+            $q = $request->query->get('term');
+            $p = $request->query->get('page_limit');
+
+            $topics = $this
+                ->get('em')
+                ->getRepository('Newscoop\Entity\Topic')
+                ->createQueryBuilder('t')
+                ->select('t.id, t.name AS term')
+                ->where('t.name LIKE :q')
+                ->setParameter('q', '%'.$q.'%')
+                ->setMaxResults($p)
+                ->getQuery()
+                ->getResult()
+            ;
+
+            $arr = array('results' => array('topics' => $topics));
+
+            $response = new JsonResponse($arr);
+            $response->setCallback($request->query->get('callback'));
+
+            return $response;
+        }
+
+        throw new BadRequestHttpException('Only XHR supported');
     }
 }
