@@ -175,28 +175,38 @@ class PublisherService
      */
     private function createLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
-        $publication = $entry->getFeed()->getPublication();
-        $latestIssue = $this->em
-            ->getRepository('\Newscoop\Entity\Issue')
-            ->findOneBy(array(
-                'publication' => $publication,
-                'language' => $entry->getLanguage(),
-                'workflowStatus' => 'Y'
-            ), array(
-                'number' => 'DESC'
-            ));
+        $feed = $entry->getFeed();
+        $publication = $feed->getPublication();
+
+        // Determine issue
+        if ($feed->getIssue() === null) {
+
+            $issue = $this->em
+                ->getRepository('\Newscoop\Entity\Issue')
+                ->findOneBy(array(
+                    'publication' => $publication,
+                    'language' => $entry->getLanguage(),
+                    'workflowStatus' => 'Y'
+                ), array(
+                    'number' => 'DESC'
+                ));
+        } else {
+            $issue = $feed->getIssue();
+        }
+
         $articleType = $this->em
             ->getRepository('\Newscoop\Entity\ArticleType')
             ->findOneByName('Newswire');
 
         $article = new \Article($entry->getLanguage()->getId());
-        $article->create(
+        $createSuccess = $article->create(
             $articleType->getName(),
             $entry->getTitle(),
             $publication->getId(),
-            $latestIssue->getNumber(),
+            $issue->getNumber(),
             $entry->getSection()->getNumber()
         );
+
         $article->setWorkflowStatus('N');
         $article->setKeywords(implode(',', $entry->getKeywords()));
         $article->setCommentsEnabled(1);
@@ -214,11 +224,27 @@ class PublisherService
 
         $entry->setArticleId($article->getArticleNumber());
 
-        $article->commit();
-        $this->em->persist($entry);
-        $this->em->flush();
+        try {
+            $articleAdded = $article->commit();
+            $this->em->persist($entry);
+            $this->em->flush();
+        } catch (\Exception $e) {
+
+        }
+
+        // Topics
+        $this->setArticleTopics($article->getArticleNumber(), $entry->getFeed()->getTopics());
 
         return $article;
+    }
+
+    private function setArticleTopics($articleNumber, $topics)
+    {
+        $topicService = \Zend_Registry::get('container')->getService('topic');
+
+        foreach ($topics AS $topic) {
+            $topicService->addTopicToArticle($topic->getTopicId(), $articleNumber);
+        }
     }
 
     /**

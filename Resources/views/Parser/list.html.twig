@@ -18,10 +18,12 @@
         <thead>
             <tr>
                 <th>{{ 'plugin.ingest.parsers.activated'|trans }}</th>
+                <th>{{ 'plugin.ingest.parsers.feeds'|trans }}</th>
                 <th>{{ 'plugin.ingest.parsers.name'|trans }}</th>
                 <th>{{ 'plugin.ingest.parsers.description'|trans }}</th>
                 <th>{{ 'plugin.ingest.parsers.domain'|trans }}</th>
-                <th>{{ 'plugin.ingest.parsers.feeds'|trans }}</th>
+                <th>{{ 'plugin.ingest.parsers.requiresurl'|trans }}</th>
+                <th>{{ 'plugin.ingest.parsers.sectionhandling'|trans }}</th>
             </tr>
         </thead>
         <tbody>
@@ -31,10 +33,12 @@
                         <td>
                             <input type="checkbox" id="parser_active_{{ parser.id }}" value="1" {% if parser.active %}checked {% endif %}/>
                         </td>
+                        <td>{{ parser.feeds|length }}</td>
                         <td>{{ parser.name }}</td>
                         <td>{{ parser.description }}</td>
                         <td>{{ parser.domain }}</td>
-                        <td>{{ parser.feeds|length }}</td>
+                        <td>{% if parser.requiresurl == 1 %} {{ 'plugin.ingest.parsers.yes'|trans|capitalize }} {% else %} {{ 'plugin.ingest.parsers.no'|trans|capitalize }} {% endif %}</td>
+                        <td title="{{ ('plugin.ingest.parsers.sectionhandling_' ~ parser.sectionhandling ~ '_help')|trans }}">{{ ('plugin.ingest.parsers.sectionhandling_' ~ parser.sectionhandling)|trans }}</td>
                     </tr>
                 {% endfor %}
             {% else %}

@@ -66,6 +66,7 @@ class FeedController extends Controller
 
         // Handle updates in form
         if ($request->isXmlHttpRequest()) {
+
             $form->handleRequest($request);
 
             return new JsonResponse(array(
@@ -226,6 +227,167 @@ class FeedController extends Controller
     }
 
     /**
+     * @Route("/issue_search/")
+     */
+    public function findIssueAction(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $publication = $request->query->get('publication');
+            $language = $request->query->get('language');
+
+            $qb = $this
+                ->get('em')
+                ->getRepository('Newscoop\Entity\Issue')
+                ->createQueryBuilder('i')
+                ->where('i.publication = :publication')
+                ->setParameter('publication', $publication);
+
+            if ($language) {
+                $qb->andWhere('i.language = :language')
+                    ->setParameter('language', $language);
+            } else {
+                $languageCode = $request->getLocale();
+
+                $language = $this->get('em')
+                    ->getRepository('Newscoop\Entity\Language')
+                    ->findOneByCode($languageCode);
+                if ($language === null) {
+                    $language = 1;
+                }
+
+                $qb2 = $this
+                    ->get('em')
+                    ->getRepository('Newscoop\Entity\Issue')
+                    ->createQueryBuilder('i2');
+
+                $qb2->select('i2.number')
+                    ->where(
+                        $qb2->expr()->andX(
+                            $qb2->expr()->eq('i2.publication', ':publication2'),
+                            $qb2->expr()->eq('i2.language', ':language2')
+                        )
+                    );
+
+                $qb->andWhere(
+                        $qb->expr()->orX(
+                            $qb->expr()->eq('i.language', ':language'),
+                            $qb->expr()->notIn('i.number', $qb2->getQuery()->getDQL())
+                        )
+                    )
+                    ->setParameter('language', $language)
+                    ->setParameter('publication2', $publication)
+                    ->setParameter('language2', $language);
+            }
+
+            $issues = $qb
+                ->groupBy('i.number')
+                ->orderBy('i.number', 'DESC')
+                ->getQuery()
+                ->getResult();
+
+            // By default add an entry for the latest issue, we store this as a null value
+            $issueData = array(array(
+                'id' => '',
+                'term' => $this->get('translator')->trans('plugin.ingest.feeds.issue_latest')
+            ));
+            foreach ($issues as $issue) {
+                $issueData[] = array(
+                    'id' => $issue->getId(),
+                    'term' => sprintf('%d %s (%s)', $issue->getNumber(), $issue->getName(), $issue->getLanguage()->getCode())
+                );
+            }
+
+            $response = new JsonResponse(array('results' => array('items' => $issueData)));
+            $response->setCallback($request->query->get('callback'));
+
+            return $response;
+        }
+
+        throw new BadRequestHttpException('Only XHR supported');
+    }
+
+    /**
+     * @Route("/sections_search/")
+     */
+    public function findSectionsAction(Request $request)
+    {
+        if ($request->isXmlHttpRequest()) {
+
+            $em = $this->get('em');
+            $issueId = $request->query->get('issue');
+            $publicationId = $request->query->get('publication');
+            $languageId = $request->query->get('language');
+
+            $publication = $em->getRepository('Newscoop\Entity\Publication')
+                ->findOneById($publicationId);
+            $issue = $em->getRepository('Newscoop\Entity\Issue')
+                ->findOneById($issueId);
+            $language = $em->getRepository('Newscoop\Entity\Language')
+                ->findOneById($languageId);
+
+            if ($issue === null) {
+                if ($publication !== null) {
+                    $issueResult = $em->getRepository('Newscoop\Entity\Issue')
+                        ->getLatestByPublication($publication, 1);
+                    if (!$issueResult) {
+                        return false;
+                    }
+                    try {
+                        $issue = $issueResult->getSingleResult();
+                        $issue = $issue->getId();
+                    } catch(\Doctrine\ORM\NoResultException $e) {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+
+            if (is_int($issue)) {
+                $issue = $em->getRepository('Newscoop\Entity\Issue')->findOneById($issue);
+            }
+
+            $qb = $this->get('em')
+                ->getRepository('Newscoop\Entity\Section')
+                ->createQueryBuilder('s')
+                ->select('s')
+                ->from('Newscoop\Entity\Issue', 'i')
+                ->where('i = s.issue')
+                ->andWhere('i.number = :number')
+                ->setParameter('number', $issue->getNumber());
+
+            if ($language !== null) {
+                $qb->andWhere('s.language = :language')
+                    ->setParameter('language', $languageId);
+            }
+
+            $qb->orderBy('s.language', 'ASC')
+                ->addOrderBy('s.number', 'ASC');
+
+
+
+            $sections = $qb->getQuery()->getResult();
+
+            $sectionData = array();
+            foreach ($sections as $section) {
+                $sectionData[] = array(
+                    'id' => $section->getId(),
+                    'term' => sprintf('%d %s (%s)', $section->getNumber(), $section->getName(), $section->getLanguage()->getCode())
+                );
+            }
+
+            $response = new JsonResponse(array('results' => array('items' => $sectionData)));
+            $response->setCallback($request->query->get('callback'));
+
+            return $response;
+        }
+
+        throw new BadRequestHttpException('Only XHR supported');
+    }
+
+
+    /**
      * @Route("/topics_search/")
      */
     public function findTopicsAction(Request $request)
@@ -248,7 +410,7 @@ class FeedController extends Controller
                 ->getResult()
             ;
 
-            $arr = array('results' => array('topics' => $topics));
+            $arr = array('results' => array('items' => $topics));
 
             $response = new JsonResponse($arr);
             $response->setCallback($request->query->get('callback'));

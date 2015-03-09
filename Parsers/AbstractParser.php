@@ -14,6 +14,14 @@ namespace Newscoop\IngestPluginBundle\Parsers;
 abstract class AbstractParser
 {
     /**
+     * These constants define the proper integer values for the section handling
+     * property. Use these to set and check the property.
+     */
+    const SECTION_HANDLING_NONE = 0;
+    const SECTION_HANDLING_PARTIAL = 1;
+    const SECTION_HANDLING_FULL = 2;
+
+    /**
      * Parser name
      *
      * @var string
@@ -33,6 +41,24 @@ abstract class AbstractParser
      * @var string
      */
     protected static $parserDomain;
+
+    /**
+     * Specify whether the user should enter a url or not
+     *
+     * @var boolean
+     */
+    protected static $parserRequiresURL = true;
+
+    /**
+     * Specify how the parser handles sections
+     *
+     * 0: Not at all (user must select one)
+     * 1: Partial (parser tries to find one, uses user selection as fallback)
+     * 2: Full (parser handles all, user cant select section)
+     *
+     * @var int
+     */
+    protected static $parserHandleSection = self::SECTION_HANDLING_NONE;
 
     /**
      * Contains all other data that needs to be stored about this feed entry.
@@ -79,6 +105,26 @@ abstract class AbstractParser
     public static function getParserDomain()
     {
         return static::$parserDomain;
+    }
+
+    /**
+     * Returns wheter parser requires URL or not
+     *
+     * @return boolean
+     */
+    public static function getRequiresUrl()
+    {
+        return static::$parserRequiresURL;
+    }
+
+    /**
+     * Returns parser section handling value
+     *
+     * @return int
+     */
+    public static function getHandlesSection()
+    {
+        return static::$parserHandleSection;
     }
 
     /**

@@ -64,23 +64,25 @@ class IngestParsersListener
 
                 $parserName = substr($file->getFilename(), 0, -4);
 
-                $oneParser = $this->em->getRepository('Newscoop\IngestPluginBundle\Entity\Parser')
+                $parser = $this->em->getRepository('Newscoop\IngestPluginBundle\Entity\Parser')
                     ->findOneByNamespace($namespace);
 
                 $event->registerParser($parserName, array(
                     'class' => $namespace,
                 ));
 
-                if (!$oneParser) {
+                if (!$parser) {
                     $parser = new Parser();
-                    $parser
-                        ->setName($namespace::getParserName())
-                        ->setDescription($namespace::getParserDescription())
-                        ->setDomain($namespace::getParserDomain())
-                        ->setNamespace($namespace);
-
-                    $this->em->persist($parser);
                 }
+                $parser
+                    ->setName($namespace::getParserName())
+                    ->setDescription($namespace::getParserDescription())
+                    ->setDomain($namespace::getParserDomain())
+                    ->setRequiresUrl($namespace::getRequiresUrl())
+                    ->setSectionHandling($namespace::getHandlesSection())
+                    ->setNamespace($namespace);
+
+                $this->em->persist($parser);
             }
 
             $this->em->flush();

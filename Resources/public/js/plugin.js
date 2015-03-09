@@ -51,12 +51,10 @@ $(document).ready(function() {
             })
             .bind('setup', function() {
 
-                $("#feed_type_topics").select2({
-                    placeholder: "Search ",
-                    multiple: true,
-                    minimumInputLength: 1,
+                var defaultConfig = {
+                    multiple: false,
                     ajax: {
-                        url: topicSearchPath,
+                        url: '',
                         dataType: 'jsonp',
                         data: function (term, page) {
                             return {
@@ -65,14 +63,14 @@ $(document).ready(function() {
                             };
                         },
                         results: function (data) {
-                            return {results: data.results.topics};
+                            return {results: data.results.items};
                         }
                     },
-                    formatResult: function(topics) {
-                        return "<div class='select2-user-result'>" + topics.term + "</div>";
+                    formatResult: function(items) {
+                        return "<div class='select2-user-result'>" + items.term + "</div>";
                     },
-                    formatSelection: function(topics) {
-                        return topics.term;
+                    formatSelection: function(items) {
+                        return items.term;
                     },
                     seperator: ',',
                     id: function(object) {
@@ -80,22 +78,113 @@ $(document).ready(function() {
                     },
                     initSelection : function (element, callback) {
 
-                        var data = [];
-                        var rawTopics = element.val().split(",");
+                        if (element.val() !== '') {
+                            var data;
 
-                        $.each(rawTopics, function(index, value) {
+                            if (element.val().indexOf(',') === -1) {
 
-                            var id = value.match(/^([0-9]+)\:/);
-                            var term = value.match(/\:(.+)$/);
+                                var id = element.val().match(/^([0-9]+)\:/);
+                                var term = element.val().match(/\:(.+)$/);
+                                data = {
+                                    id: id[1],
+                                    term: term[1]
+                                };
 
-                            data.push({
-                                id: id[1],
-                                term: term[1]
-                            });
-                        });
+                            } else {
 
-                        callback(data);
+                                var rawItems = element.val().split(",");
+                                data = [];
+
+                                $.each(rawItems, function(index, value) {
+
+                                    var id = value.match(/^([0-9]+)\:/);
+                                    var term = value.match(/\:(.+)$/);
+
+                                    data.push({
+                                        id: id[1],
+                                        term: term[1]
+                                    });
+                                });
+                            }
+
+                            callback(data);
+                        }
                     }
+                };
+
+                var config = {
+                    feed_type_issue: {
+                        minimumResultsForSearch: -1,
+                        placeholder: null,
+                        ajax: {
+                            url: issueSearchPath,
+                            data: function (term, page) {
+                                return {
+                                    language: $('#feed_type_language').val(),
+                                    publication: $('#feed_type_publication').val()
+                                };
+                            }
+                        },
+                        initSelection : function (element, callback) {
+
+                            var data = {
+                                id: '',
+                                term: issuePlaceholder
+                            };
+
+                            if (element.val() !== '') {
+
+                                var id = element.val().match(/^([0-9]+)\:/);
+                                var term = element.val().match(/\:(.+)$/);
+                                data = {
+                                    id: id[1],
+                                    term: term[1]
+                                };
+                            }
+
+                            callback(data);
+                        }
+                    },
+                    feed_type_sections: {
+                        placeholder: sectionPlaceholder,
+                        multiple: ($('#feed_type_language').val() === "") ? true : false,
+                        ajax: {
+                            url: sectionsSearchPath,
+                            data: function (term, page) {
+                                var val = $('#feed_type_issue').val();
+                                return {
+                                    issue: val.replace(/^([0-9]+)\:.*/, '$1'),
+                                    publication: $('#feed_type_publication').val(),
+                                    language: $('#feed_type_language').val()
+                                };
+                            }
+                        }
+                    },
+                    feed_type_topics: {
+                        placeholder: topicPlaceholder,
+                        minimumInputLength: 1,
+                        multiple: true,
+                        ajax: { url: topicsSearchPath }
+                    }
+                };
+
+                $('input.enable-select2').each(function() {
+                    $(this).select2($.extend(true, {}, defaultConfig, config[$(this).attr('id')]));
+                });
+
+                // Clear issue and section selections when changing language
+                $('#feed_type_language').change(function(e, data) {
+                    if (typeof(data) === 'undefined' || data !== "true") {
+                        e.stopImmediatePropagation();
+                        $('#feed_type_issue').select2('val', '');
+                        $('#feed_type_sections').select2('val', '');
+                        $(this).trigger('change', [ "true" ]);
+                    }
+                });
+
+                // Clear section selection when changing issue
+                $('#feed_type_issue').change(function() {
+                    $('#feed_type_sections').select2('val', '');
                 });
             }).trigger('setup');
     }
@@ -111,6 +200,4 @@ $(document).ready(function() {
             });
         });
     }
-
-    // TODO: add modal with confirmation to button/a with class confirm-delete
 });

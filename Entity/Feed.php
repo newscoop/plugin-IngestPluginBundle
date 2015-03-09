@@ -12,7 +12,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Newscoop\Entity\Language;
-use Newscoop\Entity\Publication;
 use Newscoop\IngestPluginBundle\Entity\Feed\Entry;
 use Newscoop\IngestPluginBundle\Entity\Parser;
 
@@ -52,16 +51,14 @@ class Feed
 
     /**
      * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Publication")
-     * @ORM\JoinColumn(name="publication_id", referencedColumnName="Id")
-     * @Assert\Type(type="Newscoop\Entity\Publication")
+     * @ORM\JoinColumn(name="publication_id", referencedColumnName="Id", nullable=true)
      * @var Newscoop\Entity\Publication
      */
     protected $publication;
 
     /**
      * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Issue")
-     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id")
-     * @Assert\Type(type="Newscoop\Entity\Issue")
+     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", nullable=true)
      * @var Newscoop\Entity\Issue
      */
     protected $issue;
@@ -257,7 +254,7 @@ class Feed
      *
      * @return self
      */
-    public function setPublication(Publication $publication)
+    public function setPublication($publication)
     {
         $this->publication = $publication;
 
@@ -271,7 +268,7 @@ class Feed
      */
     public function getIssue()
     {
-        return $this->Issue;
+        return $this->issue;
     }
 
     /**
@@ -281,9 +278,9 @@ class Feed
      *
      * @return self
      */
-    public function setIssue($Issue)
+    public function setIssue($issue)
     {
-        $this->Issue = $Issue;
+        $this->issue = $issue;
 
         return $this;
     }
@@ -314,6 +311,16 @@ class Feed
     }
 
     /**
+     * Returns whether languages should be auto detected or not
+     *
+     * @return boolean
+     */
+    public function languageAutoMode()
+    {
+        return ($this->getLanguage() === null);
+    }
+
+    /**
      * Getter for language
      *
      * @return Newscoop\Entity\Language
@@ -330,7 +337,7 @@ class Feed
      *
      * @return self
      */
-    public function setLanguage(Language $language)
+    public function setLanguage($language)
     {
         $this->language = $language;
 

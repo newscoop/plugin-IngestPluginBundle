@@ -206,6 +206,49 @@ class RFCRSSParser extends AbstractParser
     }
 
     /**
+     * Get images
+     *
+     * @return array
+     */
+    public function getImages()
+    {
+        $enclosures = $this->entry->get_enclosures();
+        // TODO: is this all?
+        $imageTypes = array('image/jpeg', 'image/jpe', 'image/jpg', 'image/png', 'image/gif');
+        $images = array();
+
+        foreach ($enclosures as $enclosure) {
+
+            if ($enclosure->get_medium() == 'image' || in_array($enclosure->get_type(), $imageTypes)) {
+
+                // Filter owners and photographers
+                $credits = $enclosure->get_credits();
+                $owners = array();
+                $photographers = array();
+                if (is_array($credits)) {
+                    foreach ($credits as $credit) {
+
+                        if ($credits->getRole() == 'owner') {
+                            $owners[] = $credit->get_name();
+                        } elseif ($credits->getRole() == 'photographer') {
+                            $photographers[] = $credit->get_name();
+                        }
+                    }
+                }
+
+                $images[] = array(
+                    'location' => $enclosure->get_link(),
+                    'description' => ($enclosure->get_caption() != '') ?: $enclosure->get_title(),
+                    'copyright' => $enclosure->get_copyright(),
+                    'photographer' => implode(', ', $photographers)
+                );
+            }
+        }
+
+        return $images;
+    }
+
+    /**
      * Returns link to the Article
      *
      * @return string|null

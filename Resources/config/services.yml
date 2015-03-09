@@ -49,16 +49,50 @@ services:
             -  { name: kernel.event_listener, event: article.published, method: publish }
             -  { name: kernel.event_listener, event: article.delete, method: delete }
 
-    newscoop_ingest_plugin.topic_selector:
-        class:      Newscoop\IngestPluginBundle\Form\Type\TopicSelectorType
+    newscoop_ingest_plugin.issue_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
         arguments:
-            - @em
-        tags:
-          - { name: form.type, alias: "topic_selector"}
+            - Newscoop\Entity\Issue
 
-    # newscoop_ingest_plugin.articlesubscriber:
-    #     class:      Newscoop\IngestPluginBundle\EventListener\ArticleSubscriber
-    #     arguments:
-    #         - "@service_container"
-    #     tags:
-    #         - { name: doctrine.event_subscriber, connection: default }
+    newscoop_ingest_plugin.section_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Newscoop\Entity\Section
+
+    newscoop_ingest_plugin.topic_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.default_entity_manager
+        factory_method: getRepository
+        arguments:
+            - Newscoop\Entity\Topic
+
+    newscoop_ingest_plugin.issue_selecter:
+        class:      Newscoop\IngestPluginBundle\Form\Type\EntitySelectorType
+        arguments:
+            - "issue_selecter"
+            - @em
+            - @newscoop_ingest_plugin.issue_repository
+        tags:
+          - { name: form.type, alias: "issue_selecter"}
+
+    newscoop_ingest_plugin.section_selecter:
+        class:      Newscoop\IngestPluginBundle\Form\Type\EntitySelectorType
+        arguments:
+            - "section_selecter"
+            - @em
+            - @newscoop_ingest_plugin.section_repository
+        tags:
+          - { name: form.type, alias: "section_selecter"}
+
+    newscoop_ingest_plugin.topic_selecter:
+        class:      Newscoop\IngestPluginBundle\Form\Type\EntitySelectorType
+        arguments:
+            - "topic_selecter"
+            - @em
+            - @newscoop_ingest_plugin.topic_repository
+        tags:
+          - { name: form.type, alias: "topic_selecter"}

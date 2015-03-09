@@ -44,6 +44,18 @@ class Parser
     protected $domain;
 
     /**
+     * @ORM\Column(name="requires_url", type="boolean", nullable=true, options={"default": 1})
+     * @var boolean
+     */
+    protected $requiresUrl;
+
+    /**
+     * @ORM\Column(name="section_handling", type="integer", nullable=true)
+     * @var int
+     */
+    protected $sectionHandling;
+
+    /**
      * @ORM\Column(type="boolean", options={"default": 0})
      * @var boolean
      */
@@ -167,6 +179,64 @@ class Parser
     public function setDomain($domain)
     {
         $this->domain = $domain;
+
+        return $this;
+    }
+
+    /**
+     * More logic method name which is an alias of getRequiresUrl
+     *
+     * @return boolean
+     */
+    public function requiresUrl()
+    {
+        return $this->getRequiresUrl();
+    }
+
+    /**
+     * Getter for requiresUrl
+     *
+     * @return mixed
+     */
+    public function getRequiresUrl()
+    {
+        return $this->requiresUrl;
+    }
+
+    /**
+     * Setter for requiresUrl
+     *
+     * @param mixed $requiresUrl Value to set
+     *
+     * @return self
+     */
+    public function setRequiresUrl($requiresUrl)
+    {
+        $this->requiresUrl = $requiresUrl;
+
+        return $this;
+    }
+
+    /**
+     * Getter for sectionHandling
+     *
+     * @return mixed
+     */
+    public function getSectionHandling()
+    {
+        return $this->sectionHandling;
+    }
+
+    /**
+     * Setter for sectionHandling
+     *
+     * @param mixed $sectionHandling Value to set
+     *
+     * @return self
+     */
+    public function setSectionHandling($sectionHandling)
+    {
+        $this->sectionHandling = $sectionHandling;
 
         return $this;
     }
