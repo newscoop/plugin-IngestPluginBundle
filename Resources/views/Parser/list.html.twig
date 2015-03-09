@@ -1,4 +1,4 @@
-{% extends 'NewscoopIngestPluginBundle:Admin:index.html.twig' %}
+{% extends 'NewscoopIngestPluginBundle:Admin:_boilerplate.html.twig' %}
 
 {% block admin_content %}
     {% set menuActive = 'parsers' %}
@@ -8,35 +8,37 @@
 
 {% block plugin_content %}
     <div class="actionbar">
-        <a href="{{ path('newscoop_ingestplugin_parser_add') }}" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-plus"></span>
-            {{ 'plugin.ingest.parsers.add'|trans }}
+        <a href="{{ path('newscoop_ingestplugin_parser_update') }}" class="btn btn-default btn-sm">
+            <span class="glyphicon glyphicon-refresh"></span>
+            {{ 'plugin.ingest.parsers.update'|trans }}
         </a>
     </div>
 
-    <table class="table table-striped">
+    <table id="parsers_list" class="table table-striped">
         <thead>
             <tr>
+                <th>{{ 'plugin.ingest.parsers.activated'|trans }}</th>
+                <th>{{ 'plugin.ingest.parsers.feeds'|trans }}</th>
                 <th>{{ 'plugin.ingest.parsers.name'|trans }}</th>
                 <th>{{ 'plugin.ingest.parsers.description'|trans }}</th>
                 <th>{{ 'plugin.ingest.parsers.domain'|trans }}</th>
-                <th>{{ 'plugin.ingest.parsers.feeds'|trans }}</th>
-                <th>&nbsp;</th>
+                <th>{{ 'plugin.ingest.parsers.requiresurl'|trans }}</th>
+                <th>{{ 'plugin.ingest.parsers.sectionhandling'|trans }}</th>
             </tr>
         </thead>
         <tbody>
             {% if parsers %}
                 {% for parser in parsers %}
                     <tr id="parser_{{ parser.id }}">
+                        <td>
+                            <input type="checkbox" id="parser_active_{{ parser.id }}" value="1" {% if parser.active %}checked {% endif %}/>
+                        </td>
+                        <td>{{ parser.feeds|length }}</td>
                         <td>{{ parser.name }}</td>
                         <td>{{ parser.description }}</td>
                         <td>{{ parser.domain }}</td>
-                        <td>{{ parser.feeds|length }}</td>
-                        <td>
-                            <a href="{{ path('newscoop_ingestplugin_parser_delete', {'id': parser.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.parsers.delete'|trans|e }}" data-dialog-id="dialog-delete-parser">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </a>
-                        </td>
+                        <td>{% if parser.requiresurl == 1 %} {{ 'plugin.ingest.parsers.yes'|trans|capitalize }} {% else %} {{ 'plugin.ingest.parsers.no'|trans|capitalize }} {% endif %}</td>
+                        <td title="{{ ('plugin.ingest.parsers.sectionhandling_' ~ parser.sectionhandling ~ '_help')|trans }}">{{ ('plugin.ingest.parsers.sectionhandling_' ~ parser.sectionhandling)|trans }}</td>
                     </tr>
                 {% endfor %}
             {% else %}
@@ -46,12 +48,5 @@
             {% endif %}
         </tbody>
     </table>
-
-    <div id="dialog-delete-parser" title="{{ 'plugin.ingest.parsers.dialog.title'|trans|e }}" style="display:none">
-        <p>
-            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-            {{ 'plugin.ingest.parsers.dialog.body'|trans }}
-        </p>
-    </div>
 
 {% endblock %}

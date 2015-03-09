@@ -12,3 +12,7 @@
 .pagination-wrapper {
     text-align: center;
 }
+
+.select2-container.form-control {
+    height: auto !important;
+}

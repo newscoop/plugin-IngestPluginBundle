@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Monolog\Logger;
 use Newscoop\IngestPluginBundle\Entity\Ingest\Feed;
 use Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry;
-use Newscoop\IngestPluginBundle\Parser;
+use Newscoop\IngestPluginBundle\Parsers\AbstractParser;
 use Newscoop\IngestPluginBundle\Services\PublisherService;
 use Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
 use Newscoop\NewscoopException;
@@ -136,6 +136,7 @@ class IngestService
         // Get possible languages based on feed and selected sections(s)
         $this->allowedLanguages = array();
         $sections = $feed->getSections();
+
         foreach ($sections as $section) {
             $this->allowedLanguages[] = $section->getLanguage();
         }
@@ -175,23 +176,39 @@ class IngestService
                     }
                 } else {
 
-                    $languageEntity = $this->getLanguage(
-                        $unparsedEntry->getLanguage(),
-                        $feed->getPublication()->getDefaultLanguage()
-                    );
+                    if ($feed->languageAutoMode()) {
+
+                        // TODO: Check language settings from feed
+                        $languageEntity = $this->getLanguage(
+                            $unparsedEntry->getLanguage(),
+                            $feed->getPublication()->getDefaultLanguage()
+                        );
+                    } else {
+                        $languageEntity = $feed->getLanguage();
+                    }
 
                     // only add entry
                     $entry->setLanguage($languageEntity);
 
-                    $sectionEntity  = null; // Default can be null, but not for autopublishing
-                    if ($unparsedEntry->getSection() instanceof \Newscoop\Entity\Section) {
-                        $sectionEntity = $unparsedEntry->getSection();
-                    } elseif (is_int($unparsedEntry->getSection())) {
-                        // Try to find entity
-                        $sectionEntity = $this->em->getRepository('Newscoop\Entity\Section')
-                            ->findOneByNumber($unparsedEntry->getSection());
+                    // Check section handling by parser
+                    $sectionEntity  = null; // Default can be null, but not for autopublishin
+                    if (
+                        $namespace::getHandlesSection() == AbstractParser::SECTION_HANDLING_FULL ||
+                        $namespace::getHandlesSection() == AbstractParser::SECTION_HANDLING_PARTIAL
+                    ) {
+                        if ($unparsedEntry->getSection() instanceof \Newscoop\Entity\Section) {
+                            $sectionEntity = $unparsedEntry->getSection();
+                        } elseif (is_int($unparsedEntry->getSection())) {
+                            // Try to find entity
+                            $sectionEntity = $this->em->getRepository('Newscoop\Entity\Section')
+                                ->findOneByNumber($unparsedEntry->getSection());
+                        }
                     }
-                    if ($sectionEntity === null) {
+
+                    if (
+                        $namespace::getHandlesSection() == AbstractParser::SECTION_HANDLING_NONE ||
+                        ($namespace::getHandlesSection() == AbstractParser::SECTION_HANDLING_PARTIAL && $sectionEntity == null)
+                    ) {
                         $sections = $feed->getSections();
                         foreach ($sections as $section) {
                             if ($section->getLanguage() == $languageEntity) {

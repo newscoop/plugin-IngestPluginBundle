@@ -15,28 +15,28 @@ use SimplePie;
 /**
  * Parses RSS (all versions) and ATOM feeds.
  */
-class RFCRSSParser extends Parser
+class RFCRSSParser extends AbstractParser
 {
     /**
      * Parser name
      *
      * @var string
      */
-    public static $parserName = 'RSS';
+    protected static $parserName = 'RSS';
 
     /**
      * Parser description
      *
      * @var string
      */
-    public static $parserDescription = 'This parser can be used for RSS 1.0, RSS 2.0 and Atom';
+    protected static $parserDescription = 'This parser can be used for RSS 1.0, RSS 2.0 and Atom';
 
     /**
      * Parser domain, can use basic regexp for matching
      *
      * @var string
      */
-    public static $parserDomain = '*';
+    protected static $parserDomain = '*';
 
     /**
      * Simplepie_item object which represents entry in a feed
@@ -203,6 +203,49 @@ class RFCRSSParser extends Parser
         }
 
         return $return;
+    }
+
+    /**
+     * Get images
+     *
+     * @return array
+     */
+    public function getImages()
+    {
+        $enclosures = $this->entry->get_enclosures();
+        // TODO: is this all?
+        $imageTypes = array('image/jpeg', 'image/jpe', 'image/jpg', 'image/png', 'image/gif');
+        $images = array();
+
+        foreach ($enclosures as $enclosure) {
+
+            if ($enclosure->get_medium() == 'image' || in_array($enclosure->get_type(), $imageTypes)) {
+
+                // Filter owners and photographers
+                $credits = $enclosure->get_credits();
+                $owners = array();
+                $photographers = array();
+                if (is_array($credits)) {
+                    foreach ($credits as $credit) {
+
+                        if ($credits->getRole() == 'owner') {
+                            $owners[] = $credit->get_name();
+                        } elseif ($credits->getRole() == 'photographer') {
+                            $photographers[] = $credit->get_name();
+                        }
+                    }
+                }
+
+                $images[] = array(
+                    'location' => $enclosure->get_link(),
+                    'description' => ($enclosure->get_caption() != '') ?: $enclosure->get_title(),
+                    'copyright' => $enclosure->get_copyright(),
+                    'photographer' => implode(', ', $photographers)
+                );
+            }
+        }
+
+        return $images;
     }
 
     /**

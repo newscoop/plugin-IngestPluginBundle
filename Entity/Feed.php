@@ -10,9 +10,10 @@ namespace Newscoop\IngestPluginBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping AS ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Newscoop\Entity\Language;
 use Newscoop\IngestPluginBundle\Entity\Feed\Entry;
 use Newscoop\IngestPluginBundle\Entity\Parser;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Feed entity
@@ -23,37 +24,44 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Feed
 {
     /**
-     * @ORM\Id @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(name="id", type="integer")
      * @var int
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(name="enabled", type="boolean")
      * @var boolean
      */
-    private $enabled;
+    protected $enabled;
 
     /**
      * @ORM\Column(type="string")
      * @var string
      */
-    private $name;
+    protected $name;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      * @var string
      */
-    private $url;
+    protected $url;
 
     /**
      * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Publication")
-     * @ORM\JoinColumn(name="publication_id", referencedColumnName="Id")
-     * @Assert\Type(type="Newscoop\Entity\Publication")
+     * @ORM\JoinColumn(name="publication_id", referencedColumnName="Id", nullable=true)
      * @var Newscoop\Entity\Publication
      */
-    private $publication;
+    protected $publication;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Issue")
+     * @ORM\JoinColumn(name="issue_id", referencedColumnName="id", nullable=true)
+     * @var Newscoop\Entity\Issue
+     */
+    protected $issue;
 
     /**
      * @ORM\ManyToMany(targetEntity="Newscoop\Entity\Section")
@@ -61,33 +69,54 @@ class Feed
      *      joinColumns={@ORM\JoinColumn(name="feed_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="section_id", referencedColumnName="id")}
      *      )
+     * @var Doctrine\Common\Collections\ArrayCollection
      **/
-    private $sections;
+    protected $sections;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Newscoop\Entity\Language")
+     * @ORM\JoinColumn(name="language_id", referencedColumnName="Id")
+     * @var Newscoop\Entity\Language
+     */
+    protected $language;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Newscoop\Entity\Topic")
+     * @ORM\JoinTable(name="plugin_ingest_feeds_topics",
+     *      joinColumns={@ORM\JoinColumn(name="feed_id", referencedColumnName="id")},
+     *      inverseJoinColumns={
+     *          @ORM\JoinColumn(name="topic_id", referencedColumnName="fk_topic_id"),
+     *          @ORM\JoinColumn(name="language_id", referencedColumnName="fk_language_id")
+     *      }
+     * )
+     * @var Doctrine\Common\Collections\ArrayCollection
+     */
+    protected $topics;
 
     /**
      * @ORM\Column(type="datetime", nullable=True)
      * @var DateTime
      */
-    private $updated;
+    protected $updated;
 
     /**
      * @ORM\Column(type="string")
      * @var string
      */
-    private $mode;
+    protected $mode = "manual";
 
     /**
      * @ORM\ManyToOne(targetEntity="Newscoop\IngestPluginBundle\Entity\Parser", inversedBy="feeds")
      * @ORM\JoinColumn(name="parser_id", referencedColumnName="id")
      * @var Newscoop\IngestPluginBundle\Entity\Parser
      */
-    private $parser;
+    protected $parser;
 
     /**
      * @ORM\OneToMany(targetEntity="Newscoop\IngestPluginBundle\Entity\Feed\Entry", mappedBy="feed")
      * @var Doctrine\Common\Collections\ArrayCollection
      */
-    private $entries;
+    protected $entries;
 
     /**
      * Initialize object
@@ -97,9 +126,9 @@ class Feed
     public function __construct($name='New Feed')
     {
         $this->name = $name;
-        $this->mode = "manual";
         $this->entries = new ArrayCollection();
         $this->sections = new ArrayCollection();
+        $this->topics = new ArrayCollection();
     }
 
     /**
@@ -225,7 +254,7 @@ class Feed
      *
      * @return self
      */
-    public function setPublication(\Newscoop\Entity\Publication $publication)
+    public function setPublication($publication)
     {
         $this->publication = $publication;
 
@@ -233,25 +262,25 @@ class Feed
     }
 
     /**
-     * Getter for language
+     * Getter for Issue
      *
-     * @return \Newscoop\Entity\Language
+     * @return mixed
      */
-    public function getLanguage()
+    public function getIssue()
     {
-        return $this->language;
+        return $this->issue;
     }
 
     /**
-     * Setter for language
+     * Setter for Issue
      *
-     * @param \Newscoop\Entity\Language $language Value to set
+     * @param mixed $Issue Value to set
      *
      * @return self
      */
-    public function setLanguage(\Newscoop\Entity\Language $language)
+    public function setIssue($issue)
     {
-        $this->language = $language;
+        $this->issue = $issue;
 
         return $this;
     }
@@ -274,9 +303,67 @@ class Feed
      *
      * @return self
      */
-    public function setSections(ArrayCollection $sections)
+    public function setSections($sections)
     {
         $this->sections = $sections;
+
+        return $this;
+    }
+
+    /**
+     * Returns whether languages should be auto detected or not
+     *
+     * @return boolean
+     */
+    public function languageAutoMode()
+    {
+        return ($this->getLanguage() === null);
+    }
+
+    /**
+     * Getter for language
+     *
+     * @return Newscoop\Entity\Language
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Setter for language
+     *
+     * @param Newscoop\Entity\Language $language Value to set
+     *
+     * @return self
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Getter for topics
+     *
+     * @return mixed
+     */
+    public function getTopics()
+    {
+        return $this->topics;
+    }
+
+    /**
+     * Setter for topics
+     *
+     * @param mixed $topics Value to set
+     *
+     * @return self
+     */
+    public function setTopics($topics)
+    {
+        $this->topics = $topics;
 
         return $this;
     }
@@ -285,7 +372,7 @@ class Feed
     /**
      * Set updated
      *
-     * @param \DateTime $updated
+     * @param DateTime $updated
      *
      * @return self
      */
@@ -357,7 +444,7 @@ class Feed
      *
      * @return self
      */
-    public function setParser(\Newscoop\IngestPluginBundle\Entity\Parser $parser)
+    public function setParser(Parser $parser)
     {
         $this->parser = $parser;
 

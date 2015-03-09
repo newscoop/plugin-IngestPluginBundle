@@ -13,6 +13,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Newscoop\EventDispatcher\Events\GenericEvent;
 use Newscoop\Entity\ArticleType;
 use Newscoop\Entity\ArticleTypeField;
+use Newscoop\IngestPluginBundle\Event\IngestParsersEvent;
 use Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
 
 /**
@@ -20,14 +21,26 @@ use Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
  */
 class LifecycleSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var Doctrine\ORM\EntityManager
+     */
     private $em;
+
+    /**
+     * @var Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService
+     */
+    private $articleTypeConfigurationService;
+
+    private $dispatcher;
 
     public function __construct(
         EntityManager $em,
-        ArticleTypeConfigurationService $articleTypeConfigurationService
+        ArticleTypeConfigurationService $articleTypeConfigurationService,
+        $dispatcher
     ) {
         $this->em = $em;
         $this->articleTypeConfigurationService = $articleTypeConfigurationService;
+        $this->dispatcher = $dispatcher;
     }
 
     public function install(GenericEvent $event)
@@ -40,6 +53,9 @@ class LifecycleSubscriber implements EventSubscriberInterface
 
         // Create articletype
         $this->articleTypeConfigurationService->create();
+
+        // Register parsers
+        $this->dispatcher->dispatch('newscoop_ingest.parser.register', new IngestParsersEvent($this, array()));
     }
 
     public function update(GenericEvent $event)
@@ -52,6 +68,9 @@ class LifecycleSubscriber implements EventSubscriberInterface
 
         // Update articletype
         $this->articleTypeConfigurationService->update();
+
+        // Register parsers
+        $this->dispatcher->dispatch('newscoop_ingest.parser.register', new IngestParsersEvent($this, array()));
     }
 
     public function remove(GenericEvent $event)

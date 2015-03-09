@@ -12,28 +12,28 @@ use Symfony\Component\Finder\Finder;
 /**
  * NewsML parser
  */
-class NewsMlParser extends Parser
+class NewsMlParser extends AbstractParser
 {
     /**
      * Parser name
      *
      * @var string
      */
-    public static $parserName = 'NewsML';
+    protected static $parserName = 'NewsML';
 
     /**
      * Parser description
      *
      * @var string
      */
-    public static $parserDescription = 'This parser can be used for NewsML 1.0 content.';
+    protected static $parserDescription = 'This parser can be used for NewsML 1.0 content.';
 
     /**
      * Parser domain, can use basic regexp for matching
      *
      * @var string
      */
-    public static $parserDomain = '*';
+    protected static $parserDomain = '*';
 
     /** @var SimpleXMLElement */
     private $xml;
