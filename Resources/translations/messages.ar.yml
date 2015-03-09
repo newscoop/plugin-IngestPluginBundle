@@ -8,6 +8,7 @@ plugin:
             entries: إدخالات
             feeds: تلقيمات
             parsers: محللون
+            readme: 'View plugin readme'
         dialog:
             delete: حذف
             cancel: إلغاء
@@ -65,11 +66,19 @@ plugin:
                 name: 'أسلوب النشر'
                 auto: أوتوماتيكي
                 manual: يدوي
+            language: Language
+            language_autodetect: 'Autodetect/multi language'
             publication: المنشور
-            section: 'قسم (أقسام)'
+            issue: Issue
+            issue_latest: 'Use latest issue'
+            sections: Section(s)
+            section_placeholder: 'Search for sections'
+            topics: Topics
+            topic_placeholder: 'Search for topics'
             updated: 'آخر تحديث'
             notupdated: 'لم يحدّث بعد'
             parser: محلل
+            choose_parser: 'Select a parser'
             nosections: 'لا توجد أقسام.'
             choose_publication: 'إختر منشور'
             enabled: 'تم التمكين'
@@ -94,23 +103,36 @@ plugin:
                     url: 'إذا أراد المحللون إسترجاع المحتوى فمن الممكن أن يكون فارغاً.'
                     mode: 'إذا إخترت <em>يدوي</em> فالإدخالات ستستهلك وستظهر في علامة <strong>إدخالات</strong>. إذا إخترت <em>تلقائي</em>  فالتلقيمات ستنشر تلقائياً في النشرة والقسم المختارين أدناه. سيستعمل النظام دائما الإصدار المنشور الأخير.'
                     publication: 'بعد إختيار منشورا، إنتظر من فضلك حتى يتم تحميل الأقسام المطابقة.'
+                    issue: ''
                     section: 'ستنشر إدخالات منشورة تلقائياً في القسم الأول. إذا أختيرت أقسام متعددة بلغات مختلفة فالنظام سيحاول أن يجد أنسب لغة وفقاً للغة الإدخال.<br> يمكن أيضاً للمحلل أن يعود لقسم معين تم النشر فيه. هذا سيكتب فوق كل الإعدادات.'
+                    topic: ''
                 button:
                     add: إضافة
                     save: حفظ
                     cancel: إلغاء
         parsers:
             none: 'لم يتم العثور على أي محللين'
+            activated: Activated
             name: اسم
             description: وصف
             domain: حقل
+            requiresurl: 'Requires url'
+            sectionhandling: 'Section handling'
+            sectionhandling_0: None
+            sectionhandling_0_help: 'The end user can choose sections.'
+            sectionhandling_1: Mixed
+            sectionhandling_1_help: 'The parser will use it''s internal methods to try and determine the section, as a fallback the end user can choose sections.'
+            sectionhandling_2: Full
+            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
+            yes: yes
+            no: no
             feeds: 'قيد الاستعمال'
+            update: 'Refresh parsers'
             add: 'أضف محلل'
             delete: 'إحذف محلل'
-            nonew: 'لا يوجد محللون جدد. لتركيب محلل، إنسخ الملف إلى دليل المحللين.'
-            parserfilenotexists: 'ملف المحلل غير موجود.'
-            installedsuccess: 'تم تثبيت المحلل(ين)!'
-            deletedsuccess: 'تم حذف المحلل!'
+            updatedsuccess: 'The available parsers have been updated.'
+            activationsuccess: 'The parser %parser% has been activated.'
+            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
             form:
                 label:
                     namespace: 'إختر محللا أو أكثر للتثبيت.'

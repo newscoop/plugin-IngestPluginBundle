@@ -8,6 +8,7 @@ plugin:
             entries: Bejegyzések
             feeds: Hírcsatornák
             parsers: Elemzők
+            readme: 'View plugin readme'
         dialog:
             delete: Törlés
             cancel: Mégse
@@ -65,11 +66,19 @@ plugin:
                 name: 'Közzétételi mód'
                 auto: Automatikus
                 manual: Kézi
+            language: Language
+            language_autodetect: 'Autodetect/multi language'
             publication: Kiadvány
-            section: Rovat(ok)
+            issue: Issue
+            issue_latest: 'Use latest issue'
+            sections: Section(s)
+            section_placeholder: 'Search for sections'
+            topics: Topics
+            topic_placeholder: 'Search for topics'
             updated: 'Utolsó frissítés'
             notupdated: 'Még nincs frissítve'
             parser: Elemző
+            choose_parser: 'Select a parser'
             nosections: 'Nincsenek rovatok '
             choose_publication: 'Válassz egy kiadványt'
             enabled: Engedélyezve
@@ -94,23 +103,36 @@ plugin:
                     url: 'Ez üresen maradhat, ha az elemzők kezelik a tartalom lekérését.'
                     mode: 'A <em>kézi</em> választása esetén bevitelre kerülnek a bejegyzések, és a <strong>Bejegyzések</strong> fülön jelennek meg. Az <em>automatikus</em> választásakor a hírcsatornák az alább kiválasztott kiadványban és rovatban automatikusan kerülnek közzétételre. A rendszer mindig a legutoljára közzétett számot használja.'
                     publication: 'Egy kiadvány kiválasztása után várj, amíg megtörténik a megfelelő rovatok betöltése.'
+                    issue: ''
                     section: 'Az automatikusan közzétett bejegyzések az első kiválasztott rovatban kerülnek közzétételre. Több, különböző nyelvű rovat kiválasztása esetén a rendszer a bejegyzés nyelve alapján próbálja megkeresni a legmegfelelőbb nyelvet.<br>Az elemző egy rovatot is visszaadhat a közzéteendő bejegyzés számára. Ez felül fogja bírálni az összes beállítást.'
+                    topic: ''
                 button:
                     add: Hozzáadás
                     save: Mentés
                     cancel: Mégse
         parsers:
             none: 'Nem találhatók elemzők'
+            activated: Activated
             name: Név
             description: Leírás
             domain: Tartomány
+            requiresurl: 'Requires url'
+            sectionhandling: 'Section handling'
+            sectionhandling_0: None
+            sectionhandling_0_help: 'The end user can choose sections.'
+            sectionhandling_1: Mixed
+            sectionhandling_1_help: 'The parser will use it''s internal methods to try and determine the section, as a fallback the end user can choose sections.'
+            sectionhandling_2: Full
+            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
+            yes: yes
+            no: no
             feeds: Használatban
+            update: 'Refresh parsers'
             add: 'Elemző hozzáadása'
             delete: 'Elemző törlése'
-            nonew: 'Nincsenek új elemzők. Elemző telepítéséhez másold a fájlt a Parsers könyvtárba.'
-            parserfilenotexists: 'Az elemzőfájl nem létezik.'
-            installedsuccess: 'Megtörtént az elemző(k) telepítése!'
-            deletedsuccess: 'Megtörtént az elemző törlése!'
+            updatedsuccess: 'The available parsers have been updated.'
+            activationsuccess: 'The parser %parser% has been activated.'
+            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
             form:
                 label:
                     namespace: 'Válassz ki egy vagy több telepítendő elemzőt.'

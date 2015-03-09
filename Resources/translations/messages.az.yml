@@ -8,6 +8,7 @@ plugin:
             entries: Girişlər
             feeds: Keçidlər
             parsers: Ayırıcı
+            readme: 'View plugin readme'
         dialog:
             delete: Sil
             cancel: 'Ləğv et'
@@ -65,11 +66,19 @@ plugin:
                 name: 'Nümayiş üsulu'
                 auto: Avtomatik
                 manual: 'Əl ilə'
+            language: Language
+            language_autodetect: 'Autodetect/multi language'
             publication: Nəşr
-            section: Bölmə(lər)
+            issue: Issue
+            issue_latest: 'Use latest issue'
+            sections: Section(s)
+            section_placeholder: 'Search for sections'
+            topics: Topics
+            topic_placeholder: 'Search for topics'
             updated: 'Son yenilənən'
             notupdated: 'Hələ də yenilənməyib'
             parser: Ayırıcı
+            choose_parser: 'Select a parser'
             nosections: 'Bölmə yoxdur'
             choose_publication: 'Nümayişi seç'
             enabled: 'İcazə Verildi'
@@ -94,23 +103,36 @@ plugin:
                     url: 'Ayırıcı tərkibin arxivləşdirilməsini həyata keçirsə, bu boş saxlana bilər.'
                     mode: 'Əgər <em>manual</em> seçilsə, girişlər qəbul ediləcək və <strong>Girişlər</strong> zolağında görünəcək. Əgər <em>avtomatik</em> seçilsə, keçidlər avtomatik olaraq aşağıdakı seçilmiş nümayiş və bölmədə görünəcək. Sistem hər zaman ən son nümayiş edilmiş məsələni istifadə edəcək.'
                     publication: 'Nümayişi seçdikdən sonra, lütfən, uyğun bölmələrin yüklənməsini yoxlayın.'
+                    issue: ''
                     section: 'Avtomatik nümayiş edilmiş girişlər ilk seçilmiş bölmələrədə görünəcək. Əgər müxtəlif dilli çox saylı bölmələr seçilsə, girişin dilindən asılı olaraq sistem ən uyğun olan dili tapmağa cəhd edəcək.<br>Ayırıcı həmçinin giriş üçün bölməni nümayişə qaytara bilər. Bu bütün parametrləri yeniləyəcək.'
+                    topic: ''
                 button:
                     add: 'Əlavə et'
                     save: Saxla
                     cancel: 'Ləğv et'
         parsers:
             none: 'Ayırıcı tapılmadı'
+            activated: Activated
             name: Ad
             description: İzah
             domain: Domeyn
+            requiresurl: 'Requires url'
+            sectionhandling: 'Section handling'
+            sectionhandling_0: None
+            sectionhandling_0_help: 'The end user can choose sections.'
+            sectionhandling_1: Mixed
+            sectionhandling_1_help: 'The parser will use it''s internal methods to try and determine the section, as a fallback the end user can choose sections.'
+            sectionhandling_2: Full
+            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
+            yes: yes
+            no: no
             feeds: İstifadədə
+            update: 'Refresh parsers'
             add: 'Ayırıcı əlavə et'
             delete: 'Ayırıcını sil'
-            nonew: 'Yeni ayırıcılar yoxdur. Ayırıcı kataloquna ayırıcının üzünün quraşdırılması.'
-            parserfilenotexists: 'Ayırıcı fayl mövcud deyil.'
-            installedsuccess: 'Ayırıcı(lar) quraşdırıldı!'
-            deletedsuccess: 'Ayırıcı silindi!'
+            updatedsuccess: 'The available parsers have been updated.'
+            activationsuccess: 'The parser %parser% has been activated.'
+            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
             form:
                 label:
                     namespace: 'Quraşdırmaq üçün bir və ya bir neçə ayırıcı seç'

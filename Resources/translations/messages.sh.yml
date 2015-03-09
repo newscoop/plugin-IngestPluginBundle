@@ -8,6 +8,7 @@ plugin:
             entries: null
             feeds: null
             parsers: null
+            readme: 'View plugin readme'
         dialog:
             delete: Obriši
             cancel: Poništi
@@ -65,11 +66,19 @@ plugin:
                 name: null
                 auto: null
                 manual: null
+            language: Language
+            language_autodetect: 'Autodetect/multi language'
             publication: Publikacija
-            section: null
+            issue: Issue
+            issue_latest: 'Use latest issue'
+            sections: Section(s)
+            section_placeholder: 'Search for sections'
+            topics: Topics
+            topic_placeholder: 'Search for topics'
             updated: null
             notupdated: null
             parser: null
+            choose_parser: 'Select a parser'
             nosections: 'Nema rubrika'
             choose_publication: null
             enabled: Omogućeni
@@ -94,23 +103,36 @@ plugin:
                     url: null
                     mode: null
                     publication: null
+                    issue: ''
                     section: null
+                    topic: ''
                 button:
                     add: Dodaj
                     save: Snimi
                     cancel: Poništi
         parsers:
             none: null
+            activated: Activated
             name: Naslov
             description: Opis
             domain: null
+            requiresurl: 'Requires url'
+            sectionhandling: 'Section handling'
+            sectionhandling_0: None
+            sectionhandling_0_help: 'The end user can choose sections.'
+            sectionhandling_1: Mixed
+            sectionhandling_1_help: 'The parser will use it''s internal methods to try and determine the section, as a fallback the end user can choose sections.'
+            sectionhandling_2: Full
+            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
+            yes: yes
+            no: no
             feeds: Korišćena
+            update: 'Refresh parsers'
             add: null
             delete: null
-            nonew: null
-            parserfilenotexists: null
-            installedsuccess: null
-            deletedsuccess: null
+            updatedsuccess: 'The available parsers have been updated.'
+            activationsuccess: 'The parser %parser% has been activated.'
+            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
             form:
                 label:
                     namespace: null

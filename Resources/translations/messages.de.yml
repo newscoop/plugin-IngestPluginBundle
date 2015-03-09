@@ -8,6 +8,7 @@ plugin:
             entries: Eingaben
             feeds: Feeds
             parsers: Parsers
+            readme: 'View plugin readme'
         dialog:
             delete: Löschen
             cancel: Abbrechen
@@ -65,11 +66,19 @@ plugin:
                 name: Veröffentlichungsmodus
                 auto: Automatisch
                 manual: Manuell
+            language: Language
+            language_autodetect: 'Autodetect/multi language'
             publication: Publikation
-            section: Rubrik(en)
+            issue: Issue
+            issue_latest: 'Use latest issue'
+            sections: Section(s)
+            section_placeholder: 'Search for sections'
+            topics: Topics
+            topic_placeholder: 'Search for topics'
             updated: 'Zuletzt aktualisiert'
             notupdated: 'Noch nicht aktualisiert'
             parser: Parser
+            choose_parser: 'Select a parser'
             nosections: 'Keine Rubriken'
             choose_publication: 'Wählen Sie eine Publikation'
             enabled: Aktiviert
@@ -94,23 +103,36 @@ plugin:
                     url: 'Dieses Feld kann leer bleiben, wenn die Parsers Inhalte abrufen.'
                     mode: null
                     publication: 'Nachdem Sie eine Publikation gewählt haben, warten Sie bitte, bis die entsprechenden Rubriken geladen sind.'
+                    issue: ''
                     section: 'Automatisch publizierte Eingaben werden in der als erstes ausgewählten Rubrik veröffentlicht. Falls mehrere Rubriken mit verschiedenen Sprachen ausgewählt sind, wird das System versuchen, die sinnvollste Sprachversion in Bezug auf die Eintragssprache zu finden. <br> Der Parser kann auch eine Rubrik zurückspielen, in der der Eintrag veröffentlich wird. Dabei werden die Einstellungen überschrieben.'
+                    topic: ''
                 button:
                     add: Hinzufügen
                     save: Speichern
                     cancel: Abbrechen
         parsers:
             none: 'Keine Parser gefunden'
+            activated: Activated
             name: Name
             description: Beschreibung
             domain: Domain
+            requiresurl: 'Requires url'
+            sectionhandling: 'Section handling'
+            sectionhandling_0: None
+            sectionhandling_0_help: 'The end user can choose sections.'
+            sectionhandling_1: Mixed
+            sectionhandling_1_help: 'The parser will use it''s internal methods to try and determine the section, as a fallback the end user can choose sections.'
+            sectionhandling_2: Full
+            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
+            yes: yes
+            no: no
             feeds: 'In Gebrauch'
+            update: 'Refresh parsers'
             add: 'Parser hinzufügen'
             delete: 'Parser löschen'
-            nonew: 'Es sind keine neuen Parser vorhanden. Um einen Parser zu installieren, kopieren Sie die Datei in das Parser-Verzeichnis.'
-            parserfilenotexists: 'Parser-Datei existiert nicht.'
-            installedsuccess: 'Parser installiert!'
-            deletedsuccess: 'Parser gelöscht!'
+            updatedsuccess: 'The available parsers have been updated.'
+            activationsuccess: 'The parser %parser% has been activated.'
+            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
             form:
                 label:
                     namespace: 'Einen oder mehrere Parser zum Installeren auswählen'

@@ -8,6 +8,7 @@ plugin:
             entries: Poster
             feeds: Feeds
             parsers: Parsere
+            readme: 'View plugin readme'
         dialog:
             delete: Slet
             cancel: Annullér
@@ -65,11 +66,19 @@ plugin:
                 name: 'Udgivelses indstilling'
                 auto: Automatisk
                 manual: Manuel
+            language: Language
+            language_autodetect: 'Autodetect/multi language'
             publication: Publikation
-            section: Sektion(er)
+            issue: Issue
+            issue_latest: 'Use latest issue'
+            sections: Section(s)
+            section_placeholder: 'Search for sections'
+            topics: Topics
+            topic_placeholder: 'Search for topics'
             updated: 'Sidst opdateret'
             notupdated: 'Endnu ikke opdateret'
             parser: Parser
+            choose_parser: 'Select a parser'
             nosections: 'Ingen sektioner'
             choose_publication: 'Vælg en publikation'
             enabled: 'Slået til'
@@ -94,23 +103,36 @@ plugin:
                     url: 'Kan være tomt hvis parserne håndterer hentning af indhold.'
                     mode: 'Hvis <em>manuel</em> er valgt vises indbakke poster i <strong>Poster</strong> fanen. Hvis <em>automatisk</em> er valgt bliver feeds automatisk udgivet i publikationen og sektionen valgt nedenfor. Systemet bruger altid senest udgivne publikation.'
                     publication: 'Efter valg af publikation, vent venligst indtil de respektive sektioner er hentet.'
+                    issue: ''
                     section: 'Automatisk udgivne poster vil blive publiceret i den først valgte sektion. Hvis flere sektioner med forskellige sprog er valgt vil systemet prøve at finde den bedste sektion ud fra sproget.<br>Parseren kan også angive en sektion posten skal publiceres til. Det vil tilsidesætte alle indstillinger.'
+                    topic: ''
                 button:
                     add: Tilføj
                     save: Gem
                     cancel: Annullér
         parsers:
             none: 'Ingen parsere fundet'
+            activated: Activated
             name: Navn
             description: Beskrivelse
             domain: Domæne
+            requiresurl: 'Requires url'
+            sectionhandling: 'Section handling'
+            sectionhandling_0: None
+            sectionhandling_0_help: 'The end user can choose sections.'
+            sectionhandling_1: Mixed
+            sectionhandling_1_help: 'The parser will use it''s internal methods to try and determine the section, as a fallback the end user can choose sections.'
+            sectionhandling_2: Full
+            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
+            yes: yes
+            no: no
             feeds: 'I brug'
+            update: 'Refresh parsers'
             add: 'Tilføj parser'
             delete: 'Slet parser'
-            nonew: 'Ingen nye parsere. Kopier filen til Parsers mappen for at installere den.'
-            parserfilenotexists: 'Parser filen findes ikke.'
-            installedsuccess: 'Parser(e) installeret!'
-            deletedsuccess: 'Parser slettet!'
+            updatedsuccess: 'The available parsers have been updated.'
+            activationsuccess: 'The parser %parser% has been activated.'
+            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
             form:
                 label:
                     namespace: 'Vælg en eller flere parsere at installere'
