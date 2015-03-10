@@ -25,7 +25,6 @@ class FeedType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $ladybug = $options['ladybug'];
         $factory = $builder->getFormFactory();
 
         $builder

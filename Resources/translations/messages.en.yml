@@ -91,7 +91,7 @@ plugin:
       updatedinvalidmethod: 'Invalid method called.'
       feedupdatedcount: "Number of feeds updated: %count%"
       feedupdated: "%feed% has been updated."
-      feedupdateerror: "An error occured: %error%"
+      feedupdateerror: "An error occured with %feed%: %error%"
       dialog:
         title: "Confirm removal of feed"
         body: "Are you sure you want to delete this feed?"
