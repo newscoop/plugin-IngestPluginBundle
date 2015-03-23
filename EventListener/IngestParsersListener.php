@@ -56,8 +56,14 @@ class IngestParsersListener
                 ->files()
                 ->name('*Parser.php')
                 ->notName('AbstractParser.php')
-                // ->in($pluginsDir . '*/*/Parsers/IngestAdapters/')
                 ->in(__DIR__  . '/../Parsers/');
+
+            try {
+                $iterator = $iterator
+                    ->in($pluginsDir . '*/*/Parsers/IngestAdapters/');
+            } catch(\Exception $e) {
+                // Catch exception if no such directory exists
+            }
 
             foreach ($iterator as $file) {
                 $classNamespace = str_replace(realpath($pluginsDir), '', substr($file->getRealPath(), 0, -4));
