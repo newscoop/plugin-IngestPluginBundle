@@ -85,8 +85,7 @@ class EntityTransformer implements DataTransformerInterface
 
     private function getItemId($item)
     {
-        // TODO: Fix for 4.4 topic
-        if ($item instanceof \Newscoop\Entity\Topic) {
+        if ($item instanceof \Newscoop\NewscoopBundle\Entity\Topic) {
             return $item->getTopicId();
         } else {
             return $item->getId();
@@ -95,8 +94,7 @@ class EntityTransformer implements DataTransformerInterface
 
     private function getItemLabel($item)
     {
-        // TODO: Fix for 4.4 topic
-        if ($item instanceof \Newscoop\Entity\Topic) {
+        if ($item instanceof \Newscoop\NewscoopBundle\Entity\Topic) {
             return sprintf('%s', $item->getName());
         } else {
             return sprintf('%d %s (%s)', $item->getNumber(), $item->getName(), $item->getLanguage()->getCode());

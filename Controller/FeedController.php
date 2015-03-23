@@ -400,7 +400,7 @@ class FeedController extends Controller
 
             $topics = $this
                 ->get('em')
-                ->getRepository('Newscoop\Entity\Topic')
+                ->getRepository('Newscoop\NewscoopBundle\Entity\Topic')
                 ->createQueryBuilder('t')
                 ->select('t.id, t.name AS term')
                 ->where('t.name LIKE :q')

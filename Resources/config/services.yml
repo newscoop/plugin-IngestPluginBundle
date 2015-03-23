@@ -68,7 +68,7 @@ services:
         factory_service: doctrine.orm.default_entity_manager
         factory_method: getRepository
         arguments:
-            - Newscoop\Entity\Topic
+            - Newscoop\NewscoopBundle\Entity\Topic
 
     newscoop_ingest_plugin.issue_selecter:
         class:      Newscoop\IngestPluginBundle\Form\Type\EntitySelectorType
