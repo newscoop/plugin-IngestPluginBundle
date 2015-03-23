@@ -218,7 +218,7 @@ class FeedController extends Controller
                 'error',
                 $this->container->get('translator')->trans(
                     'plugin.ingest.feeds.feedupdateerror',
-                    array('%error%' => $e->getMessage())
+                    array('%feed%' => $feed->getName(), '%error%' => $e->getMessage())
                 )
             );
         }

@@ -57,9 +57,14 @@ class RFCRSSParser extends AbstractParser
         $feed = new SimplePie();
         $feed->set_feed_url($feedEntity->getUrl());
 
-        $feed->init();
+        $feedInitialized = $feed->init();
+
+        if (!$feedInitialized) {
+            throw new \Exception($feed->error());
+        }
 
         $items = $feed->get_items();
+
         $entries = array();
         foreach ($items as $item) {
             $entries[] = new RFCRSSParser($item);
