@@ -49,6 +49,7 @@ class IngestParsersListener
 
         try {
             $pluginsDir = __DIR__ . '/../../../';
+            $namespaces = array();
 
             $iterator = $finder
                 ->ignoreUnreadableDirs()
@@ -61,6 +62,7 @@ class IngestParsersListener
             foreach ($iterator as $file) {
                 $classNamespace = str_replace(realpath($pluginsDir), '', substr($file->getRealPath(), 0, -4));
                 $namespace = str_replace('/', '\\', $classNamespace);
+                $namespaces[] = (string) $namespace;
 
                 $parserName = substr($file->getFilename(), 0, -4);
 
@@ -84,6 +86,15 @@ class IngestParsersListener
 
                 $this->em->persist($parser);
             }
+
+            // Remove parser which we didn't find anymore
+            $parsersToRemove = $this->em
+                ->createQuery('
+                    DELETE FROM Newscoop\IngestPluginBundle\Entity\Parser AS p
+                    WHERE p.namespace NOT IN (:namespaces)
+                ')
+                ->setParameter('namespaces', $namespaces)
+                ->getResult();
 
             $this->em->flush();
         } catch (\Exception $e) {
