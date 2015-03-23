@@ -81,7 +81,7 @@ class Feed
     protected $language;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Newscoop\Entity\Topic")
+     * @ORM\ManyToMany(targetEntity="Newscoop\NewscoopBundle\Entity\Topic")
      * @ORM\JoinTable(name="plugin_ingest_feeds_topics",
      *      joinColumns={@ORM\JoinColumn(name="feed_id", referencedColumnName="id")},
      *      inverseJoinColumns={
