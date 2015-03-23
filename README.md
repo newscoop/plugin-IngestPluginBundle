@@ -5,6 +5,8 @@ Newscoop IngestPluginBundle
 
 This plugin adds functionality to Newscoop for importing external data sources.
 
+Supports Newscoop 4.3
+
 ### Parsers ###
 By default there are two parsers included for these external sources.  The RSS
 parser works out of the box and supports RSS 1.0, RSS 2.0 and ATOM feeds. The
