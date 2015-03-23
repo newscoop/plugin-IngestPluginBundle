@@ -222,14 +222,13 @@ class PublisherService
         $this->setArticleAuthorsLegacy($article, $entry);
         $this->setArticleImagesLegacy($article, $entry);
 
-        $entry->setArticleId($article->getArticleNumber());
-
         try {
+            $entry->setArticleId($article->getArticleNumber());
             $articleAdded = $article->commit();
             $this->em->persist($entry);
             $this->em->flush();
         } catch (\Exception $e) {
-
+            throw new Exception('Could not publish article.');
         }
 
         // Topics
