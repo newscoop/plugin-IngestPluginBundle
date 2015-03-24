@@ -94,7 +94,7 @@ class FeedController extends Controller
         }
 
         return array(
-            'form' => $form
+            'form' => $form->createView()
         );
     }
 
@@ -398,17 +398,18 @@ class FeedController extends Controller
             $q = $request->query->get('term');
             $p = $request->query->get('page_limit');
 
+            $locale = $request->getLocale();
+
             $topics = $this
                 ->get('em')
                 ->getRepository('Newscoop\NewscoopBundle\Entity\Topic')
-                ->createQueryBuilder('t')
-                ->select('t.id, t.name AS term')
-                ->where('t.name LIKE :q')
-                ->setParameter('q', '%'.$q.'%')
-                ->setMaxResults($p)
-                ->getQuery()
-                ->getResult()
-            ;
+                ->searchTopics($q, array(), $p, $locale)
+                ->getArrayResult();
+
+            array_walk($topics, function(&$topic, $key) {
+                $topic['term'] = $topic['title'];
+                $topic = array_intersect_key($topic, array_flip(array('id', 'term')));
+            });
 
             $arr = array('results' => array('items' => $topics));
 
