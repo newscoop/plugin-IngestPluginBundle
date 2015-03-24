@@ -238,6 +238,7 @@ class ArticleTypeConfigurationService
             $articleField->setType($fieldParams['type']);
             $articleField->setFieldWeight($weight);
             $articleField->setCommentsEnabled(0);
+            $articleField->setShowInEditor(0);
 
             if (array_key_exists('is_hidden', $fieldParams)) {
                 $articleField->setIsHidden($fieldParams['is_hidden']);
