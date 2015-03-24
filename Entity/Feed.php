@@ -85,8 +85,7 @@ class Feed
      * @ORM\JoinTable(name="plugin_ingest_feeds_topics",
      *      joinColumns={@ORM\JoinColumn(name="feed_id", referencedColumnName="id")},
      *      inverseJoinColumns={
-     *          @ORM\JoinColumn(name="topic_id", referencedColumnName="fk_topic_id"),
-     *          @ORM\JoinColumn(name="language_id", referencedColumnName="fk_language_id")
+     *          @ORM\JoinColumn(name="topic_id", referencedColumnName="id")
      *      }
      * )
      * @var Doctrine\Common\Collections\ArrayCollection
