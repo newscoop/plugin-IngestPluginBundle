@@ -94,7 +94,7 @@ class FeedController extends Controller
         }
 
         return array(
-            'form' => $form
+            'form' => $form->createView()
         );
     }
 
