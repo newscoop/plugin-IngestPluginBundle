@@ -57,6 +57,8 @@ plugin:
       edit: "Edit feed"
       quick_edit_auto: "Change publication mode to automatic"
       quick_edit_manual: "Change publication mode to manual"
+      quick_edit_enabled_true: "Change status to enabled"
+      quick_edit_enabled_false: "Change status to disabled"
       delete: "Delete feed"
       update: "Update feed"
       update_all: "Update all feeds"
