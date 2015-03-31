@@ -240,9 +240,13 @@ class PublisherService
     private function setArticleTopics($articleNumber, $topics)
     {
         $topicService = \Zend_Registry::get('container')->getService('topic');
+        $article = $this->em->getRepository('Newscoop\Entity\Article')->findOneByNumber($articleNumber);
+        if ($article === null) {
+            return false;
+        }
 
         foreach ($topics AS $topic) {
-            $topicService->addTopicToArticle($topic->getTopicId(), $articleNumber);
+            $topicService->addTopicToArticle($topic, $article);
         }
     }
 
