@@ -41,8 +41,8 @@ services:
             - "@em"
             - "@doctrine.adodb"
 
-    newscoop_ingest_plugin.article_subscriber:
-        class:      Newscoop\IngestPluginBundle\EventListener\ArticleSubscriber
+    newscoop_ingest_plugin.article_event_listener:
+        class:      Newscoop\IngestPluginBundle\EventListener\ArticleEventListener
         arguments:  ["@em"]
         tags:
             -  { name: kernel.event_listener, event: article.publish, method: publish }
