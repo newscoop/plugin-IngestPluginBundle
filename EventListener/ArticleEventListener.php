@@ -11,7 +11,7 @@ namespace Newscoop\IngestPluginBundle\EventListener;
 use Doctrine\ORM\EntityManager;
 use Newscoop\EventDispatcher\Events\GenericEvent;
 
-class ArticleSubscriber
+class ArticleEventListener
 {
     /**
      * @var Doctrine\ORM\EntityManager

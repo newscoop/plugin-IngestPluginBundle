@@ -15,14 +15,16 @@ $(document).ready(function() {
 
         e.stopImmediatePropagation();
 
-        var modal = $('#feed-confirm-delete');
+        var modal = $('#modal-confirm-delete');
         modal
             .find('a.delete').attr('href', $(this).attr('href')).end()
-            .find('a.delete').attr('href', $(this).attr('href')+'?delete_entries=true').end()
             .find('a.cancel').click(function() {
-                console.log('tralala');
                 modal.modal('hide');
             });
+
+        if (modal.hasClass('modal-feed-delete')) {
+            modal.find('a.delete_all').attr('href', $(this).attr('href')+'?delete_entries=true');
+        }
 
         modal.modal({ keyboard: true });
 
