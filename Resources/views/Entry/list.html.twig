@@ -69,12 +69,12 @@
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                 {% else %}
-                                    <a href="{{ path('newscoop_ingestplugin_entry_redirecttoarticle', {'languageId' : entry.language.id, 'articleNumber': entry.articleId}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.view'|trans|e }}">
+                                    <a href="{{ path('newscoop_ingestplugin_entry_redirecttoarticle', {'languageId' : entry.language.id, 'articleNumber': entry.articleId}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.view'|trans|e }}" target="_blank">
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                     </a>
                                 {% endif %}
                             {% endif %}
-                            <a href="{{ path('newscoop_ingestplugin_entry_delete', {'id': entry.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.entries.delete'|trans|e }}" data-dialog-id="dialog-delete-entry">
+                            <a href="{{ path('newscoop_ingestplugin_entry_delete', {'id': entry.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.entries.delete'|trans|e }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </td>
@@ -119,11 +119,22 @@
         {{ knp_pagination_render(pagination) }}
     </div>
 
-    <div id="dialog-delete-entry" title="{{ 'plugin.ingest.entries.dialog.title'|trans|e }}" style="display:none">
-        <p>
-            <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
-            {{ 'plugin.ingest.entries.dialog.body'|trans }}
-        </p>
+    <div id="modal-confirm-delete" class="modal modal-feed-entry">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3>{{ 'plugin.ingest.entries.dialog.title'|trans }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p>{{ 'plugin.ingest.entries.dialog.body'|trans }}</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-danger delete">{{ 'plugin.ingest.entries.dialog.delete'|trans }}</a>
+                    <a href="#" class="btn btn-default cancel">{{ 'plugin.ingest.entries.dialog.cancel'|trans }}</a>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
