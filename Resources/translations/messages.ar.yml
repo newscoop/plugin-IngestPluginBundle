@@ -57,6 +57,8 @@ plugin:
             edit: 'حرر التلقيم'
             quick_edit_auto: 'غيّر أسلوب النشر  لأوتوماتيكي'
             quick_edit_manual: 'غيّر أسلوب النشر ليدوي'
+            quick_edit_enabled_true: 'Change status to enabled'
+            quick_edit_enabled_false: 'Change status to disabled'
             delete: 'إحذف التلقيم'
             update: 'حدّث التلقيم'
             update_all: 'حدّث جميع التلقيمات'

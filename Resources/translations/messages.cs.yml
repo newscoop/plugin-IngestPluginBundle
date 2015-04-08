@@ -57,6 +57,8 @@ plugin:
             edit: null
             quick_edit_auto: 'Změnit režim publikace na automatický'
             quick_edit_manual: 'Změnit režim publikace na manuální'
+            quick_edit_enabled_true: 'Change status to enabled'
+            quick_edit_enabled_false: 'Change status to disabled'
             delete: null
             update: null
             update_all: null

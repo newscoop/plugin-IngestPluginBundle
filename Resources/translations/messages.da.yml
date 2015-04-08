@@ -57,6 +57,8 @@ plugin:
             edit: 'Rediger feed'
             quick_edit_auto: 'Skift til automatisk udgivelse'
             quick_edit_manual: 'Skift til manuel udgivelse'
+            quick_edit_enabled_true: 'Change status to enabled'
+            quick_edit_enabled_false: 'Change status to disabled'
             delete: 'Slet feed'
             update: 'Opdater feed'
             update_all: 'Opdater alle feeds'

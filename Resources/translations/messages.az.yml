@@ -57,6 +57,8 @@ plugin:
             edit: 'Keçidi dəyiş'
             quick_edit_auto: 'Nümayiş üsulunu avtomatikə dəyiş'
             quick_edit_manual: 'Nümayiş üsulunu manuala dəyiş'
+            quick_edit_enabled_true: 'Change status to enabled'
+            quick_edit_enabled_false: 'Change status to disabled'
             delete: 'Keçidi sil'
             update: 'Keçidi yenilə'
             update_all: 'Bütün keçidləri yenilə'
