@@ -432,4 +432,16 @@ abstract class AbstractParser
         }
         return array('firstname' => $firstName, 'lastname' => $lastName);
     }
+
+    /**
+     * Decodes html entities in string
+     *
+     * @param  string $stirng
+     *
+     * @return string
+     */
+    protected function decodeString($stirng)
+    {
+        return html_entity_decode($string, ENT_QUOTES, 'UTF-8');
+    }
 }

@@ -112,7 +112,7 @@ class RFCRSSParser extends AbstractParser
      */
     public function getTitle()
     {
-        return $this->entry->get_title();
+        return $this->decodeString($this->entry->get_title());
     }
 
     /**
@@ -122,7 +122,7 @@ class RFCRSSParser extends AbstractParser
      */
     public function getContent()
     {
-        return $this->entry->get_content(true);
+        return $this->decodeString($this->entry->get_content(true));
     }
 
     /**
@@ -132,7 +132,7 @@ class RFCRSSParser extends AbstractParser
      */
     public function getSummary()
     {
-        return $this->entry->get_description(true);
+        return $this->decodeString($this->entry->get_description(true));
     }
 
     /**
@@ -178,7 +178,7 @@ class RFCRSSParser extends AbstractParser
         $keywords = $this->entry->get_categories();
         if (is_array($keywords) && count($keywords) > 0) {
             foreach ($keywords as $keyword) {
-                $return[] = $keyword->get_label();
+                $return[] = $this->decodeString($keyword->get_label());
             }
         }
 
@@ -197,7 +197,7 @@ class RFCRSSParser extends AbstractParser
 
         if (is_array($authors) && count($authors) > 0) {
             foreach ($authors as $author) {
-                $authorName = $this->readName($author->get_name());
+                $authorName = $this->readName($this->decodeString($author->get_name()));
                 $authors[] = array(
                     'firstname' => $authorName['firstname'],
                     'lastname' => $authorName['lastname'],
@@ -234,17 +234,17 @@ class RFCRSSParser extends AbstractParser
                     foreach ($credits as $credit) {
 
                         if ($credits->getRole() == 'owner') {
-                            $owners[] = $credit->get_name();
+                            $owners[] = $this->decodeString($credit->get_name());
                         } elseif ($credits->getRole() == 'photographer') {
-                            $photographers[] = $credit->get_name();
+                            $photographers[] = $this->decodeString($credit->get_name());
                         }
                     }
                 }
 
                 $images[] = array(
                     'location' => $enclosure->get_link(),
-                    'description' => ($enclosure->get_caption() != '') ?: $enclosure->get_title(),
-                    'copyright' => $enclosure->get_copyright(),
+                    'description' => $this->decodeString(($enclosure->get_caption() != '') ?: $enclosure->get_title()),
+                    'copyright' => $this->decodeString($enclosure->get_copyright()),
                     'photographer' => implode(', ', $photographers)
                 );
             }
@@ -286,7 +286,7 @@ class RFCRSSParser extends AbstractParser
         if ($sources !== null) {
             foreach ($sources as $source) {
                 $return[] = array(
-                    'name' => $source->get_title(),
+                    'name' => $this->decodeString($source->get_title()),
                     'link' => $source->get_link()
                 );
             }
