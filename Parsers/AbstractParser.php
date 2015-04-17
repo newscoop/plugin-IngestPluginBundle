@@ -440,7 +440,7 @@ abstract class AbstractParser
      *
      * @return string
      */
-    protected function decodeString($stirng)
+    protected function decodeString($string)
     {
         return html_entity_decode($string, ENT_QUOTES, 'UTF-8');
     }
