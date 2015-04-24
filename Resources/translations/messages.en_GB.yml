@@ -8,7 +8,7 @@ plugin:
             entries: Entries
             feeds: Feeds
             parsers: Parsers
-            readme: null
+            readme: 'View plugin documentation'
         dialog:
             delete: Delete
             cancel: Cancel
@@ -57,8 +57,8 @@ plugin:
             edit: 'Edit feed'
             quick_edit_auto: 'Change publication mode to automatic'
             quick_edit_manual: 'Change publication mode to manual'
-            quick_edit_enabled_true: null
-            quick_edit_enabled_false: null
+            quick_edit_enabled_true: 'Change status to enabled'
+            quick_edit_enabled_false: 'Change status to disabled'
             delete: 'Delete feed'
             update: 'Update feed'
             update_all: 'Update all feeds'
@@ -68,19 +68,19 @@ plugin:
                 name: 'Publication mode'
                 auto: Automatic
                 manual: Manual
-            language: null
-            language_autodetect: null
+            language: Language
+            language_autodetect: Autodetect/multi-language
             publication: Publication
-            issue: null
-            issue_latest: null
-            sections: null
-            section_placeholder: null
-            topics: null
-            topic_placeholder: null
+            issue: Issue
+            issue_latest: 'Use latest issue'
+            sections: Section(s)
+            section_placeholder: 'Search for sections'
+            topics: Topics
+            topic_placeholder: 'Search for topics'
             updated: 'Last updated'
             notupdated: 'Not yet updated'
             parser: Parser
-            choose_parser: null
+            choose_parser: 'Select a parser'
             nosections: 'No sections'
             choose_publication: 'Select a publication'
             enabled: Enabled
@@ -93,7 +93,7 @@ plugin:
             updatedinvalidmethod: 'Invalid method called.'
             feedupdatedcount: 'Number of feeds updated: %count%'
             feedupdated: '%feed% has been updated.'
-            feedupdateerror: null
+            feedupdateerror: 'An error occured with %feed%: %error%'
             dialog:
                 title: 'Confirm removal of feed'
                 body: 'Are you sure you want to delete this feed?'
@@ -103,38 +103,38 @@ plugin:
             form:
                 help:
                     url: 'This can be left empty if the parsers handle retrieval of content.'
-                    mode: null
+                    mode: 'If <em>manual</em> is selected, entries will be ingested and appear in the <strong>Entries</strong> tab. If <em>automatic</em> is selected, feeds will automatically be published in the publication, issue and section chosen below.'
                     publication: 'After selecting a publication, please wait untill the corresponding sections have been loaded.'
-                    issue: null
+                    issue: 'plugin:ingest:feeds:form:help:issue'
                     section: 'Automatically published entries will be published in the first selected section. If multiple sections with different languages are selected, then the system will try to find the best suited language according to the entry language.<br> The parser can also return a section for the entry to be published in. This will override all settings.'
-                    topic: null
+                    topic: 'plugin:ingest:feeds:form:help:topic'
                 button:
                     add: Add
                     save: Save
                     cancel: Cancel
         parsers:
             none: 'No parsers found'
-            activated: null
+            activated: Activated
             name: Name
             description: Description
             domain: Domain
-            requiresurl: null
-            sectionhandling: null
-            sectionhandling_0: null
-            sectionhandling_0_help: null
-            sectionhandling_1: null
-            sectionhandling_1_help: null
-            sectionhandling_2: null
-            sectionhandling_2_help: null
-            yes: null
-            no: null
+            requiresurl: 'Requires URL'
+            sectionhandling: 'Section handling'
+            sectionhandling_0: None
+            sectionhandling_0_help: 'The reader can choose sections.'
+            sectionhandling_1: Mixed
+            sectionhandling_1_help: 'The parser will use its internal methods to try to determine the section. As a fallback, the reader can choose sections.'
+            sectionhandling_2: Full
+            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
+            yes: yes
+            no: no
             feeds: 'In use'
-            update: null
+            update: 'Refresh parsers'
             add: 'Add parser'
             delete: 'Delete parser'
-            updatedsuccess: null
-            activationsuccess: null
-            activationfailed: null
+            updatedsuccess: 'The available parsers have been updated.'
+            activationsuccess: 'The parser %parser% has been activated.'
+            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
             form:
                 label:
                     namespace: 'Select one or more parsers to install'
