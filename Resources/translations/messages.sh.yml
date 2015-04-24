@@ -8,7 +8,7 @@ plugin:
             entries: null
             feeds: null
             parsers: null
-            readme: 'View plugin readme'
+            readme: null
         dialog:
             delete: Obriši
             cancel: Poništi
@@ -57,8 +57,8 @@ plugin:
             edit: null
             quick_edit_auto: null
             quick_edit_manual: null
-            quick_edit_enabled_true: 'Change status to enabled'
-            quick_edit_enabled_false: 'Change status to disabled'
+            quick_edit_enabled_true: null
+            quick_edit_enabled_false: null
             delete: null
             update: null
             update_all: null
@@ -68,19 +68,19 @@ plugin:
                 name: null
                 auto: null
                 manual: null
-            language: Language
-            language_autodetect: 'Autodetect/multi language'
+            language: null
+            language_autodetect: null
             publication: Publikacija
-            issue: Issue
-            issue_latest: 'Use latest issue'
-            sections: Section(s)
-            section_placeholder: 'Search for sections'
-            topics: Topics
-            topic_placeholder: 'Search for topics'
+            issue: null
+            issue_latest: null
+            sections: null
+            section_placeholder: null
+            topics: null
+            topic_placeholder: null
             updated: null
             notupdated: null
             parser: null
-            choose_parser: 'Select a parser'
+            choose_parser: null
             nosections: 'Nema rubrika'
             choose_publication: null
             enabled: Omogućeni
@@ -105,36 +105,36 @@ plugin:
                     url: null
                     mode: null
                     publication: null
-                    issue: ''
+                    issue: null
                     section: null
-                    topic: ''
+                    topic: null
                 button:
                     add: Dodaj
                     save: Snimi
                     cancel: Poništi
         parsers:
             none: null
-            activated: Activated
+            activated: null
             name: Naslov
             description: Opis
             domain: null
-            requiresurl: 'Requires url'
-            sectionhandling: 'Section handling'
-            sectionhandling_0: None
-            sectionhandling_0_help: 'The end user can choose sections.'
-            sectionhandling_1: Mixed
-            sectionhandling_1_help: 'The parser will use it''s internal methods to try and determine the section, as a fallback the end user can choose sections.'
-            sectionhandling_2: Full
-            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
-            yes: yes
-            no: no
+            requiresurl: null
+            sectionhandling: null
+            sectionhandling_0: null
+            sectionhandling_0_help: null
+            sectionhandling_1: null
+            sectionhandling_1_help: null
+            sectionhandling_2: null
+            sectionhandling_2_help: null
+            yes: null
+            no: null
             feeds: Korišćena
-            update: 'Refresh parsers'
+            update: null
             add: null
             delete: null
-            updatedsuccess: 'The available parsers have been updated.'
-            activationsuccess: 'The parser %parser% has been activated.'
-            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
+            updatedsuccess: null
+            activationsuccess: null
+            activationfailed: null
             form:
                 label:
                     namespace: null

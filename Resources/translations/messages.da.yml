@@ -8,7 +8,7 @@ plugin:
             entries: Poster
             feeds: Feeds
             parsers: Parsere
-            readme: 'View plugin readme'
+            readme: null
         dialog:
             delete: Slet
             cancel: Annullér
@@ -57,8 +57,8 @@ plugin:
             edit: 'Rediger feed'
             quick_edit_auto: 'Skift til automatisk udgivelse'
             quick_edit_manual: 'Skift til manuel udgivelse'
-            quick_edit_enabled_true: 'Change status to enabled'
-            quick_edit_enabled_false: 'Change status to disabled'
+            quick_edit_enabled_true: null
+            quick_edit_enabled_false: null
             delete: 'Slet feed'
             update: 'Opdater feed'
             update_all: 'Opdater alle feeds'
@@ -68,19 +68,19 @@ plugin:
                 name: 'Udgivelses indstilling'
                 auto: Automatisk
                 manual: Manuel
-            language: Language
-            language_autodetect: 'Autodetect/multi language'
+            language: null
+            language_autodetect: null
             publication: Publikation
-            issue: Issue
-            issue_latest: 'Use latest issue'
-            sections: Section(s)
-            section_placeholder: 'Search for sections'
-            topics: Topics
-            topic_placeholder: 'Search for topics'
+            issue: null
+            issue_latest: null
+            sections: null
+            section_placeholder: null
+            topics: null
+            topic_placeholder: null
             updated: 'Sidst opdateret'
             notupdated: 'Endnu ikke opdateret'
             parser: Parser
-            choose_parser: 'Select a parser'
+            choose_parser: null
             nosections: 'Ingen sektioner'
             choose_publication: 'Vælg en publikation'
             enabled: 'Slået til'
@@ -93,7 +93,7 @@ plugin:
             updatedinvalidmethod: 'Kald til ugyldig metode.'
             feedupdatedcount: 'Antal opdaterede feeds: %count%'
             feedupdated: '%feed% blev opdateret.'
-            feedupdateerror: 'Fejl: %error%'
+            feedupdateerror: null
             dialog:
                 title: 'Bekræft fjernelse af feed'
                 body: 'Vil du slette denne feed?'
@@ -103,38 +103,38 @@ plugin:
             form:
                 help:
                     url: 'Kan være tomt hvis parserne håndterer hentning af indhold.'
-                    mode: 'Hvis <em>manuel</em> er valgt vises indbakke poster i <strong>Poster</strong> fanen. Hvis <em>automatisk</em> er valgt bliver feeds automatisk udgivet i publikationen og sektionen valgt nedenfor. Systemet bruger altid senest udgivne publikation.'
+                    mode: null
                     publication: 'Efter valg af publikation, vent venligst indtil de respektive sektioner er hentet.'
-                    issue: ''
+                    issue: null
                     section: 'Automatisk udgivne poster vil blive publiceret i den først valgte sektion. Hvis flere sektioner med forskellige sprog er valgt vil systemet prøve at finde den bedste sektion ud fra sproget.<br>Parseren kan også angive en sektion posten skal publiceres til. Det vil tilsidesætte alle indstillinger.'
-                    topic: ''
+                    topic: null
                 button:
                     add: Tilføj
                     save: Gem
                     cancel: Annullér
         parsers:
             none: 'Ingen parsere fundet'
-            activated: Activated
+            activated: null
             name: Navn
             description: Beskrivelse
             domain: Domæne
-            requiresurl: 'Requires url'
-            sectionhandling: 'Section handling'
-            sectionhandling_0: None
-            sectionhandling_0_help: 'The end user can choose sections.'
-            sectionhandling_1: Mixed
-            sectionhandling_1_help: 'The parser will use it''s internal methods to try and determine the section, as a fallback the end user can choose sections.'
-            sectionhandling_2: Full
-            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
-            yes: yes
-            no: no
+            requiresurl: null
+            sectionhandling: null
+            sectionhandling_0: null
+            sectionhandling_0_help: null
+            sectionhandling_1: null
+            sectionhandling_1_help: null
+            sectionhandling_2: null
+            sectionhandling_2_help: null
+            yes: null
+            no: null
             feeds: 'I brug'
-            update: 'Refresh parsers'
+            update: null
             add: 'Tilføj parser'
             delete: 'Slet parser'
-            updatedsuccess: 'The available parsers have been updated.'
-            activationsuccess: 'The parser %parser% has been activated.'
-            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
+            updatedsuccess: null
+            activationsuccess: null
+            activationfailed: null
             form:
                 label:
                     namespace: 'Vælg en eller flere parsere at installere'

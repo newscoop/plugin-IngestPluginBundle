@@ -8,7 +8,7 @@ plugin:
             entries: Bejegyzések
             feeds: Hírcsatornák
             parsers: Elemzők
-            readme: 'View plugin readme'
+            readme: null
         dialog:
             delete: Törlés
             cancel: Mégse
@@ -57,8 +57,8 @@ plugin:
             edit: 'Hírcsatorna szerkesztése'
             quick_edit_auto: 'A közzétételi mód átváltása automatikusra'
             quick_edit_manual: 'A közzétételi mód átváltása kézire'
-            quick_edit_enabled_true: 'Change status to enabled'
-            quick_edit_enabled_false: 'Change status to disabled'
+            quick_edit_enabled_true: null
+            quick_edit_enabled_false: null
             delete: 'Hírcsatorna törlése'
             update: 'Hírcsatorna frissítése'
             update_all: 'Az összes hírcsatorna frissítése'
@@ -68,19 +68,19 @@ plugin:
                 name: 'Közzétételi mód'
                 auto: Automatikus
                 manual: Kézi
-            language: Language
-            language_autodetect: 'Autodetect/multi language'
+            language: null
+            language_autodetect: null
             publication: Kiadvány
-            issue: Issue
-            issue_latest: 'Use latest issue'
-            sections: Section(s)
-            section_placeholder: 'Search for sections'
-            topics: Topics
-            topic_placeholder: 'Search for topics'
+            issue: null
+            issue_latest: null
+            sections: null
+            section_placeholder: null
+            topics: null
+            topic_placeholder: null
             updated: 'Utolsó frissítés'
             notupdated: 'Még nincs frissítve'
             parser: Elemző
-            choose_parser: 'Select a parser'
+            choose_parser: null
             nosections: 'Nincsenek rovatok '
             choose_publication: 'Válassz egy kiadványt'
             enabled: Engedélyezve
@@ -93,7 +93,7 @@ plugin:
             updatedinvalidmethod: 'Érvénytelen metódus került meghívásra.'
             feedupdatedcount: 'A frissített hírcsatornák száma: %count%'
             feedupdated: 'A/z %feed%  hírcsatorna frissítése megtörtént.'
-            feedupdateerror: 'Hiba történt: %error%'
+            feedupdateerror: null
             dialog:
                 title: 'A hírcsatorna eltávolításának megerősítése'
                 body: 'Biztosan törölni akarod ezt a hírcsatornát?'
@@ -103,38 +103,38 @@ plugin:
             form:
                 help:
                     url: 'Ez üresen maradhat, ha az elemzők kezelik a tartalom lekérését.'
-                    mode: 'A <em>kézi</em> választása esetén bevitelre kerülnek a bejegyzések, és a <strong>Bejegyzések</strong> fülön jelennek meg. Az <em>automatikus</em> választásakor a hírcsatornák az alább kiválasztott kiadványban és rovatban automatikusan kerülnek közzétételre. A rendszer mindig a legutoljára közzétett számot használja.'
+                    mode: null
                     publication: 'Egy kiadvány kiválasztása után várj, amíg megtörténik a megfelelő rovatok betöltése.'
-                    issue: ''
+                    issue: null
                     section: 'Az automatikusan közzétett bejegyzések az első kiválasztott rovatban kerülnek közzétételre. Több, különböző nyelvű rovat kiválasztása esetén a rendszer a bejegyzés nyelve alapján próbálja megkeresni a legmegfelelőbb nyelvet.<br>Az elemző egy rovatot is visszaadhat a közzéteendő bejegyzés számára. Ez felül fogja bírálni az összes beállítást.'
-                    topic: ''
+                    topic: null
                 button:
                     add: Hozzáadás
                     save: Mentés
                     cancel: Mégse
         parsers:
             none: 'Nem találhatók elemzők'
-            activated: Activated
+            activated: null
             name: Név
             description: Leírás
             domain: Tartomány
-            requiresurl: 'Requires url'
-            sectionhandling: 'Section handling'
-            sectionhandling_0: None
-            sectionhandling_0_help: 'The end user can choose sections.'
-            sectionhandling_1: Mixed
-            sectionhandling_1_help: 'The parser will use it''s internal methods to try and determine the section, as a fallback the end user can choose sections.'
-            sectionhandling_2: Full
-            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
-            yes: yes
-            no: no
+            requiresurl: null
+            sectionhandling: null
+            sectionhandling_0: null
+            sectionhandling_0_help: null
+            sectionhandling_1: null
+            sectionhandling_1_help: null
+            sectionhandling_2: null
+            sectionhandling_2_help: null
+            yes: null
+            no: null
             feeds: Használatban
-            update: 'Refresh parsers'
+            update: null
             add: 'Elemző hozzáadása'
             delete: 'Elemző törlése'
-            updatedsuccess: 'The available parsers have been updated.'
-            activationsuccess: 'The parser %parser% has been activated.'
-            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
+            updatedsuccess: null
+            activationsuccess: null
+            activationfailed: null
             form:
                 label:
                     namespace: 'Válassz ki egy vagy több telepítendő elemzőt.'

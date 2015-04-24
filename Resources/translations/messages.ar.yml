@@ -8,7 +8,7 @@ plugin:
             entries: إدخالات
             feeds: تلقيمات
             parsers: محللون
-            readme: 'View plugin readme'
+            readme: null
         dialog:
             delete: حذف
             cancel: إلغاء
@@ -57,8 +57,8 @@ plugin:
             edit: 'حرر التلقيم'
             quick_edit_auto: 'غيّر أسلوب النشر  لأوتوماتيكي'
             quick_edit_manual: 'غيّر أسلوب النشر ليدوي'
-            quick_edit_enabled_true: 'Change status to enabled'
-            quick_edit_enabled_false: 'Change status to disabled'
+            quick_edit_enabled_true: null
+            quick_edit_enabled_false: null
             delete: 'إحذف التلقيم'
             update: 'حدّث التلقيم'
             update_all: 'حدّث جميع التلقيمات'
@@ -68,19 +68,19 @@ plugin:
                 name: 'أسلوب النشر'
                 auto: أوتوماتيكي
                 manual: يدوي
-            language: Language
-            language_autodetect: 'Autodetect/multi language'
+            language: null
+            language_autodetect: null
             publication: المنشور
-            issue: Issue
-            issue_latest: 'Use latest issue'
-            sections: Section(s)
-            section_placeholder: 'Search for sections'
-            topics: Topics
-            topic_placeholder: 'Search for topics'
+            issue: null
+            issue_latest: null
+            sections: null
+            section_placeholder: null
+            topics: null
+            topic_placeholder: null
             updated: 'آخر تحديث'
             notupdated: 'لم يحدّث بعد'
             parser: محلل
-            choose_parser: 'Select a parser'
+            choose_parser: null
             nosections: 'لا توجد أقسام.'
             choose_publication: 'إختر منشور'
             enabled: 'تم التمكين'
@@ -93,7 +93,7 @@ plugin:
             updatedinvalidmethod: 'أسلوب غير صالح مستدعى.'
             feedupdatedcount: 'رقم التلقيمات المحدثة: %count%'
             feedupdated: 'تم تحديث %feed%.'
-            feedupdateerror: 'حدث خطأ: %error%'
+            feedupdateerror: null
             dialog:
                 title: 'أكّد إزالة التلقيم'
                 body: 'هل أنت متأكد أنك تريد أن تحذف هذا التلقيم؟'
@@ -103,38 +103,38 @@ plugin:
             form:
                 help:
                     url: 'إذا أراد المحللون إسترجاع المحتوى فمن الممكن أن يكون فارغاً.'
-                    mode: 'إذا إخترت <em>يدوي</em> فالإدخالات ستستهلك وستظهر في علامة <strong>إدخالات</strong>. إذا إخترت <em>تلقائي</em>  فالتلقيمات ستنشر تلقائياً في النشرة والقسم المختارين أدناه. سيستعمل النظام دائما الإصدار المنشور الأخير.'
+                    mode: null
                     publication: 'بعد إختيار منشورا، إنتظر من فضلك حتى يتم تحميل الأقسام المطابقة.'
-                    issue: ''
+                    issue: null
                     section: 'ستنشر إدخالات منشورة تلقائياً في القسم الأول. إذا أختيرت أقسام متعددة بلغات مختلفة فالنظام سيحاول أن يجد أنسب لغة وفقاً للغة الإدخال.<br> يمكن أيضاً للمحلل أن يعود لقسم معين تم النشر فيه. هذا سيكتب فوق كل الإعدادات.'
-                    topic: ''
+                    topic: null
                 button:
                     add: إضافة
                     save: حفظ
                     cancel: إلغاء
         parsers:
             none: 'لم يتم العثور على أي محللين'
-            activated: Activated
+            activated: null
             name: اسم
             description: وصف
             domain: حقل
-            requiresurl: 'Requires url'
-            sectionhandling: 'Section handling'
-            sectionhandling_0: None
-            sectionhandling_0_help: 'The end user can choose sections.'
-            sectionhandling_1: Mixed
-            sectionhandling_1_help: 'The parser will use it''s internal methods to try and determine the section, as a fallback the end user can choose sections.'
-            sectionhandling_2: Full
-            sectionhandling_2_help: 'The parser uses its internal methods to determine a section based on the content.'
-            yes: yes
-            no: no
+            requiresurl: null
+            sectionhandling: null
+            sectionhandling_0: null
+            sectionhandling_0_help: null
+            sectionhandling_1: null
+            sectionhandling_1_help: null
+            sectionhandling_2: null
+            sectionhandling_2_help: null
+            yes: null
+            no: null
             feeds: 'قيد الاستعمال'
-            update: 'Refresh parsers'
+            update: null
             add: 'أضف محلل'
             delete: 'إحذف محلل'
-            updatedsuccess: 'The available parsers have been updated.'
-            activationsuccess: 'The parser %parser% has been activated.'
-            activationfailed: 'Could not activate parser %parser%. (Error: %error%).'
+            updatedsuccess: null
+            activationsuccess: null
+            activationfailed: null
             form:
                 label:
                     namespace: 'إختر محللا أو أكثر للتثبيت.'
