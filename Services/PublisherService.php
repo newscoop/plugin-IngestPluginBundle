@@ -52,7 +52,7 @@ class PublisherService
      *
      * @param \NewscoopIngestPluginBundleEntityFeedEntry $entry Entry to be published
      */
-    private function publishNew(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    protected function publishNew(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
         if ($this->getArticle($entry) !== null) {
             // Update article
@@ -118,7 +118,7 @@ class PublisherService
      *
      * @return \Article Legacy article
      */
-    private function publishLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    protected function publishLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
         $article = $this->createLegacy($entry);
 
@@ -173,7 +173,7 @@ class PublisherService
      *
      * @return \Article Returns legacy article opbject
      */
-    private function createLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    protected function createLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
         $feed = $entry->getFeed();
         $publication = $feed->getPublication();
@@ -237,7 +237,7 @@ class PublisherService
         return $article;
     }
 
-    private function setArticleTopics($articleNumber, $topics)
+    protected function setArticleTopics($articleNumber, $topics)
     {
         $topicService = \Zend_Registry::get('container')->getService('topic');
         $article = $this->em->getRepository('Newscoop\Entity\Article')->findOneByNumber($articleNumber);
@@ -255,7 +255,7 @@ class PublisherService
      *
      * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry The entity on which the article is based
      */
-    private function updateLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    protected function updateLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
         if (!$entry->isPublished()) {
             return;
@@ -291,7 +291,7 @@ class PublisherService
      *
      * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry The entity on which the article is based
      */
-    private function removeNew(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    protected function removeNew(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
         $article = $this->getArticle($entry);
         if ($article !== null) {
@@ -305,7 +305,7 @@ class PublisherService
      *
      * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry The entity on which the article is based
      */
-    private function removeLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    protected function removeLegacy(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
         $article = $this->getArticleLegacy($entry->getLanguage()->getId(), $entry->getArticleId());
         if ($article->exists()) {
@@ -320,7 +320,7 @@ class PublisherService
      *
      * @return \Newscoop\Entity\Article
      */
-    private function getArticle(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
+    protected function getArticle(\Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry)
     {
         if ($entry->getArticleId() === null) {
             return null;
@@ -340,7 +340,7 @@ class PublisherService
      *
      * @return \Article
      */
-    private function getArticleLegacy($languageId, $articleNumber)
+    protected function getArticleLegacy($languageId, $articleNumber)
     {
         return new \Article($languageId, $articleNumber);
     }
@@ -354,7 +354,7 @@ class PublisherService
      * @param \Newscoop\Entity\Article                       $article Article
      * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry   Entity
      */
-    private function setArticleData(
+    protected function setArticleData(
         \Newscoop\Entity\Article $article,
         \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
     ) {
@@ -374,7 +374,7 @@ class PublisherService
      * @param \Article                                       $article Article
      * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry   Entity
      */
-    private function setArticleDataLegacy(
+    protected function setArticleDataLegacy(
         \Article $article,
         \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
     ) {
@@ -398,7 +398,7 @@ class PublisherService
      * @param \Newscoop\Entity\Article                       $article Article
      * @param \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry   Entity
      */
-    private function setArticleAuthors(
+    protected function setArticleAuthors(
         \Newscoop\Entity\Article $article,
         \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
     ) {
@@ -432,7 +432,7 @@ class PublisherService
      * @param Article                                   $article
      * @param \Newscoop\IngestPluginBundle\Entity\Entry $entry
      */
-    private function setArticleAuthorsLegacy(
+    protected function setArticleAuthorsLegacy(
         \Article $article,
         \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
     ) {
@@ -463,7 +463,7 @@ class PublisherService
      * @param \Article                                  $article
      * @param \Newscoop\IngestPluginBundle\Entity\Entry $entry
      */
-    private function setArticleImagesLegacy(
+    protected function setArticleImagesLegacy(
         \Article $article,
         \Newscoop\IngestPluginBundle\Entity\Feed\Entry $entry
     ) {

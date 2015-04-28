@@ -2,7 +2,7 @@
     "name": "newscoop/ingest-plugin-bundle",
     "description": "Ingest bundle for Newscoop v4.3",
     "keywords": ["newscoop", "ingest", "admin", "cms", "integration"],
-    "version": "0.2",
+    "version": "0.3",
     "type": "newscoop-plugin",
     "license": "GPL-3.0",
     "authors": [
