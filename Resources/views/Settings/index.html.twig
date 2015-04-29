@@ -1,0 +1,37 @@
+{% extends 'NewscoopIngestPluginBundle:Admin:_boilerplate.html.twig' %}
+
+{% block admin_content %}
+    {% set menuActive = 'settings' %}
+
+    {{ parent() }}
+{% endblock %}
+
+{% block plugin_content %}
+
+{# Do not remove wrapper div #}
+<div class="form_wrapper row">
+    <div class="col-xs-12 col-md-6 col-md-offset-2">
+
+        {% form_theme form with ['NewscoopIngestPluginBundle:Form:form_template.html.twig', _self] %}
+
+        {{ form_start(form, { 'attr': { 'class': 'form_ingest_settings'} }) }}
+
+            {% set submitButton = form_widget(form.save, {'attr' : {'class' : 'btn btn-primary'} }) %}
+
+            {{ form_errors(form) }}
+
+            {% if form.cron_custom is defined %}
+                {{ form_row(form.cron_custom) }}
+            {% endif %}
+
+            {{ form_rest(form) }}
+
+            <div class="col-sm-offset-2">
+                {{ submitButton|raw }}
+            </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}
