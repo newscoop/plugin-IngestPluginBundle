@@ -18,4 +18,12 @@
             {{ 'plugin.ingest.tabs.parsers'|trans }}
         </a>
     </li>
+    {% if hasPermission('plugin_ingest_settings') %}
+        <li class="{% if menuActive == 'settings' %}active{% endif %}">
+            <a href="{{ path('newscoop_ingestplugin_settings_index') }}">
+                {{ 'plugin.ingest.tabs.settings'|trans }}
+            </a>
+        </li>
+    {% endif %}
+
 </ul>

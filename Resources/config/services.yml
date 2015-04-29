@@ -1,13 +1,4 @@
 services:
-    newscoop_ingest_plugin.lifecyclesubscriber:
-        class: Newscoop\IngestPluginBundle\EventListener\LifecycleSubscriber
-        arguments:
-            - @em
-            - @newscoop_ingest_plugin.articletypeconfigurator
-            - @dispatcher
-        tags:
-            - { name: kernel.event_subscriber}
-
     newscoop_ingest_plugin.configure_menu_listener:
         class: Newscoop\IngestPluginBundle\EventListener\ConfigureMenuListener
         tags:
@@ -15,11 +6,38 @@ services:
         arguments:
             - @translator
 
+    newscoop_ingest_plugin.lifecyclesubscriber:
+        class: Newscoop\IngestPluginBundle\EventListener\LifecycleSubscriber
+        arguments:
+            - @em
+            - @newscoop_ingest_plugin.articletypeconfigurator
+            - @dispatcher
+            - @newscoop.scheduler
+            - @newscoop.plugins.service
+            - @translator
+        tags:
+            - { name: kernel.event_subscriber}
+
     newscoop_ingest_plugin.ingest_parsers.listener:
         class: Newscoop\IngestPluginBundle\EventListener\IngestParsersListener
         arguments: ["@em"]
         tags:
           - { name: kernel.event_listener, event: newscoop_ingest.parser.register, method: registerExternalParsers }
+
+    newscoop_ingest_plugin.article_event_listener:
+        class:      Newscoop\IngestPluginBundle\EventListener\ArticleEventListener
+        arguments:  ["@em"]
+        tags:
+            -  { name: kernel.event_listener, event: article.publish, method: publish }
+            -  { name: kernel.event_listener, event: article.published, method: publish }
+            -  { name: kernel.event_listener, event: article.delete, method: delete }
+
+    newscoop_ingest_plugin.permissions.listener:
+        class: Newscoop\IngestPluginBundle\EventListener\PermissionsListener
+        arguments:
+            - @translator
+        tags:
+          - { name: kernel.event_listener, event: newscoop.plugins.permissions.register, method: registerPermissions }
 
     newscoop_ingest_plugin.ingester:
         class:      Newscoop\IngestPluginBundle\Services\IngestService
@@ -40,14 +58,6 @@ services:
         arguments:
             - "@em"
             - "@doctrine.adodb"
-
-    newscoop_ingest_plugin.article_event_listener:
-        class:      Newscoop\IngestPluginBundle\EventListener\ArticleEventListener
-        arguments:  ["@em"]
-        tags:
-            -  { name: kernel.event_listener, event: article.publish, method: publish }
-            -  { name: kernel.event_listener, event: article.published, method: publish }
-            -  { name: kernel.event_listener, event: article.delete, method: delete }
 
     newscoop_ingest_plugin.issue_repository:
         class: Doctrine\ORM\EntityRepository
