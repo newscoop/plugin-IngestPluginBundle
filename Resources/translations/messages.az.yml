@@ -8,6 +8,7 @@ plugin:
             entries: Girişlər
             feeds: Keçidlər
             parsers: Ayırıcı
+            settings: Settings
             readme: null
         dialog:
             delete: Sil
@@ -146,6 +147,18 @@ plugin:
                 body: 'Bu ayırıcını silmək istədiyinə əminsən? Bu ayırıcıya istiqamətlənmiş linklər avtomatik ləğv ediləcəklər.'
                 delete: 'Ayırıcını sil'
                 cancel: 'Ləğv et'
+        settings:
+            form:
+                label:
+                    cron_custom: 'CRON expression for the ingest job'
+                    submit: Submit
+                help_text:
+                    cron_custom: 'This changes the Newscoop-wide Ingest cron. (<a href="http://en.wikipedia.org/wiki/Cron#CRON_expression" target="_blank">Read more</a> about CRON expressions.)'
+            status:
+                success: 'The settings are saved.'
+        permissions:
+            label: 'Ingest Plugin'
+            settings: Settings
         btn:
             add: 'Axın əlavə et'
             delete: Sil

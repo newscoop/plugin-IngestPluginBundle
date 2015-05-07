@@ -8,6 +8,7 @@ plugin:
             entries: Gegevens
             feeds: null
             parsers: null
+            settings: Settings
             readme: null
         dialog:
             delete: Verwijderen
@@ -146,6 +147,18 @@ plugin:
                 body: 'Weet u zeker dat u deze parser wilt verwijderen? Alle feeds gerelateerd aan deze parser worden dan automatisch gedeactiveerd.'
                 delete: 'Parser verwijderen'
                 cancel: Annuleren
+        settings:
+            form:
+                label:
+                    cron_custom: 'CRON expression for the ingest job'
+                    submit: Submit
+                help_text:
+                    cron_custom: 'This changes the Newscoop-wide Ingest cron. (<a href="http://en.wikipedia.org/wiki/Cron#CRON_expression" target="_blank">Read more</a> about CRON expressions.)'
+            status:
+                success: 'The settings are saved.'
+        permissions:
+            label: 'Ingest Plugin'
+            settings: Settings
         btn:
             add: 'Feed toevoegen'
             delete: Verwijderen
