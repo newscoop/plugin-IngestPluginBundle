@@ -8,7 +8,7 @@ plugin:
             entries: Entries
             feeds: Feeds
             parsers: Parsers
-            settings: null
+            settings: Settings
             readme: 'View plugin documentation'
         dialog:
             delete: Delete
@@ -150,15 +150,15 @@ plugin:
         settings:
             form:
                 label:
-                    cron_custom: null
-                    submit: null
+                    cron_custom: 'CRON expression for the ingest job'
+                    submit: Submit
                 help_text:
-                    cron_custom: null
+                    cron_custom: 'This changes the Newscoop-wide Ingest cron. (<a href="http://en.wikipedia.org/wiki/Cron#CRON_expression" target="_blank">Read more</a> about CRON expressions.)'
             status:
-                success: null
+                success: 'The settings are saved.'
         permissions:
-            label: null
-            settings: null
+            label: 'Ingest Plugin'
+            settings: Settings
         btn:
             add: 'Add feed'
             delete: Delete
