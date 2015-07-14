@@ -8,7 +8,7 @@ plugin:
             entries: Poster
             feeds: Feeds
             parsers: Parsere
-            settings: null
+            settings: Indstillinger
             readme: null
         dialog:
             delete: Slet
@@ -69,15 +69,15 @@ plugin:
                 name: 'Udgivelses indstilling'
                 auto: Automatisk
                 manual: Manuel
-            language: null
+            language: Sprog
             language_autodetect: null
             publication: Publikation
-            issue: null
+            issue: Udgivelse
             issue_latest: null
-            sections: null
+            sections: Sektion(er)
             section_placeholder: null
-            topics: null
-            topic_placeholder: null
+            topics: Emner
+            topic_placeholder: 'Søg efter emner'
             updated: 'Sidst opdateret'
             notupdated: 'Endnu ikke opdateret'
             parser: Parser
@@ -121,7 +121,7 @@ plugin:
             domain: Domæne
             requiresurl: null
             sectionhandling: null
-            sectionhandling_0: null
+            sectionhandling_0: Ingen
             sectionhandling_0_help: null
             sectionhandling_1: null
             sectionhandling_1_help: null
@@ -151,14 +151,14 @@ plugin:
             form:
                 label:
                     cron_custom: null
-                    submit: null
+                    submit: Send
                 help_text:
                     cron_custom: null
             status:
-                success: null
+                success: 'Indstillingerne blev gemt.'
         permissions:
             label: null
-            settings: null
+            settings: Indstillinger
         btn:
             add: 'Tilføj feed'
             delete: Slet
