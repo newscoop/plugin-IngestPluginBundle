@@ -9,7 +9,7 @@ plugin:
             feeds: Feeds
             parsers: Parsere
             settings: Indstillinger
-            readme: null
+            readme: 'Se plugin readme'
         dialog:
             delete: Slet
             cancel: Annullér
@@ -58,8 +58,8 @@ plugin:
             edit: 'Rediger feed'
             quick_edit_auto: 'Skift til automatisk udgivelse'
             quick_edit_manual: 'Skift til manuel udgivelse'
-            quick_edit_enabled_true: null
-            quick_edit_enabled_false: null
+            quick_edit_enabled_true: 'Skift status til aktiveret'
+            quick_edit_enabled_false: 'Skift status til deaktiveret'
             delete: 'Slet feed'
             update: 'Opdater feed'
             update_all: 'Opdater alle feeds'
@@ -73,15 +73,15 @@ plugin:
             language_autodetect: null
             publication: Publikation
             issue: Udgivelse
-            issue_latest: null
+            issue_latest: 'Brug seneste udgivelse'
             sections: Sektion(er)
-            section_placeholder: null
+            section_placeholder: 'Søg efter sektioner'
             topics: Emner
             topic_placeholder: 'Søg efter emner'
             updated: 'Sidst opdateret'
             notupdated: 'Endnu ikke opdateret'
             parser: Parser
-            choose_parser: null
+            choose_parser: 'Vælg en parser'
             nosections: 'Ingen sektioner'
             choose_publication: 'Vælg en publikation'
             enabled: 'Slået til'
@@ -94,7 +94,7 @@ plugin:
             updatedinvalidmethod: 'Kald til ugyldig metode.'
             feedupdatedcount: 'Antal opdaterede feeds: %count%'
             feedupdated: '%feed% blev opdateret.'
-            feedupdateerror: null
+            feedupdateerror: 'Der skete en fejl med %feed%: %error%'
             dialog:
                 title: 'Bekræft fjernelse af feed'
                 body: 'Vil du slette denne feed?'
@@ -115,27 +115,27 @@ plugin:
                     cancel: Annullér
         parsers:
             none: 'Ingen parsere fundet'
-            activated: null
+            activated: Aktiveret
             name: Navn
             description: Beskrivelse
             domain: Domæne
-            requiresurl: null
-            sectionhandling: null
+            requiresurl: 'Kræver url'
+            sectionhandling: 'Sektions håndtering'
             sectionhandling_0: Ingen
             sectionhandling_0_help: null
-            sectionhandling_1: null
+            sectionhandling_1: Blandet
             sectionhandling_1_help: null
-            sectionhandling_2: null
+            sectionhandling_2: Fuld
             sectionhandling_2_help: null
-            yes: null
-            no: null
+            yes: ja
+            no: nej
             feeds: 'I brug'
-            update: null
+            update: 'Opdater parsere'
             add: 'Tilføj parser'
             delete: 'Slet parser'
-            updatedsuccess: null
-            activationsuccess: null
-            activationfailed: null
+            updatedsuccess: 'Tilgængelige parsere blev opdateret.'
+            activationsuccess: 'Parseren %parser% blev aktiveret.'
+            activationfailed: 'Parseren %parser% kunne ikke aktiveres. (Fejl: %error%)'
             form:
                 label:
                     namespace: 'Vælg en eller flere parsere at installere'
@@ -150,14 +150,14 @@ plugin:
         settings:
             form:
                 label:
-                    cron_custom: null
+                    cron_custom: 'CRON kommando for indbakke job'
                     submit: Send
                 help_text:
                     cron_custom: null
             status:
                 success: 'Indstillingerne blev gemt.'
         permissions:
-            label: null
+            label: 'Indbakke plugin'
             settings: Indstillinger
         btn:
             add: 'Tilføj feed'
