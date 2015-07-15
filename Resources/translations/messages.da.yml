@@ -70,7 +70,7 @@ plugin:
                 auto: Automatisk
                 manual: Manuel
             language: Sprog
-            language_autodetect: null
+            language_autodetect: 'Vælg sprog automatisk/flere sprog'
             publication: Publikation
             issue: Udgivelse
             issue_latest: 'Brug seneste udgivelse'
@@ -122,11 +122,11 @@ plugin:
             requiresurl: 'Kræver url'
             sectionhandling: 'Sektions håndtering'
             sectionhandling_0: Ingen
-            sectionhandling_0_help: null
+            sectionhandling_0_help: 'Brugeren kan vælge sektioner.'
             sectionhandling_1: Blandet
-            sectionhandling_1_help: null
+            sectionhandling_1_help: 'Parseren vil forsøge at vælge sektion automatisk. Alternativt kan brugeren selv vælge sektioner.'
             sectionhandling_2: Fuld
-            sectionhandling_2_help: null
+            sectionhandling_2_help: 'Parseren vælger sektion automatisk.'
             yes: ja
             no: nej
             feeds: 'I brug'
@@ -153,7 +153,7 @@ plugin:
                     cron_custom: 'CRON kommando for indbakke job'
                     submit: Send
                 help_text:
-                    cron_custom: null
+                    cron_custom: 'Dette ændrer Indbakke CRON for hele Newscoop (<a href="http://en.wikipedia.org/wiki/Cron#CRON_expression" target="_blank">læs mere</a> om CRON kommandoer).'
             status:
                 success: 'Indstillingerne blev gemt.'
         permissions:
