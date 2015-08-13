@@ -207,6 +207,7 @@ class PublisherService
             $entry->getSection()->getNumber()
         );
 
+        $article->setCreatorId(1);
         $article->setWorkflowStatus('N');
         $article->setKeywords(implode(',', $entry->getKeywords()));
         $article->setCommentsEnabled(1);
