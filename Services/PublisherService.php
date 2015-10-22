@@ -14,6 +14,7 @@ use Newscoop\IngestPluginBundle\Entity\Ingest\Feed\Entry;
 use Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Newscoop\WebcodeFacade;
 
 /**
  * Ingest publisher service
@@ -26,10 +27,14 @@ class PublisherService
      * @param EntityManager                   $em                     Entity manager
      * @param ArticleTypeConfigurationService $articleTypeConfService Articletype helper
      */
-    public function __construct(EntityManager $em, ArticleTypeConfigurationService $articleTypeConfService)
-    {
+    public function __construct(
+        EntityManager $em,
+        ArticleTypeConfigurationService $articleTypeConfService,
+        WebcodeFacade $webcodeFacade
+    ) {
         $this->em = $em;
         $this->atcf = $articleTypeConfService;
+        $this->webcode = $webcodeFacade;
     }
 
     /**
@@ -211,6 +216,7 @@ class PublisherService
         $article->setWorkflowStatus('N');
         $article->setKeywords(implode(',', $entry->getKeywords()));
         $article->setCommentsEnabled(1);
+        $article->setIsLocked(false);
 
         // ArticleType data
         $this->setArticleDataLegacy($article, $entry);
@@ -234,6 +240,12 @@ class PublisherService
 
         // Topics
         $this->setArticleTopics($article->getArticleNumber(), $entry->getFeed()->getTopics());
+
+        // Webcode
+        $articleEntity = $this->em->getRepository('Newscoop\Entity\Article')->findOneByNumber($article->getArticleNumber());
+        if (!is_null($articleEntity)) {
+            $this->webcode->setArticleWebcode($articleEntity);
+        }
 
         return $article;
     }

@@ -52,6 +52,7 @@ services:
         arguments:
             - "@em"
             - "@newscoop_ingest_plugin.articletypeconfigurator"
+            - "@webcode"
 
     newscoop_ingest_plugin.articletypeconfigurator:
         class:      Newscoop\IngestPluginBundle\Services\ArticleTypeConfigurationService
