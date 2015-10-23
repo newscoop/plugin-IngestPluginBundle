@@ -72,7 +72,7 @@ abstract class AbstractParser
     /**
      * Initialize variables
      */
-    private function __construct()
+    public function __construct()
     {
         $this->_attributes = array();
     }
