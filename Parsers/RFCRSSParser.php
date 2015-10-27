@@ -56,6 +56,7 @@ class RFCRSSParser extends AbstractParser
     {
         $feed = new SimplePie();
         $feed->set_feed_url($feedEntity->getUrl());
+        $feed->set_cache_location(sprintf('%s/../../../../cache', __DIR__));
 
         $feedInitialized = $feed->init();
 

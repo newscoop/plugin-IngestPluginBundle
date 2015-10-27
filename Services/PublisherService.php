@@ -537,8 +537,6 @@ class PublisherService
                 $image = \Image::OnImageUpload($info, $attributes, null, null, true);
                 \ArticleImage::AddImageToArticle($image->getImageId(), $article->getArticleNumber(), null);
             } catch (\Exception $e) {
-                var_dump($e);
-                exit;
             }
         }
     }
