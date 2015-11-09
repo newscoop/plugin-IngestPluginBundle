@@ -38,6 +38,7 @@
                 <th>{{ 'plugin.ingest.entries.section'|trans }}</th>
                 <th>{{ 'plugin.ingest.entries.created'|trans }}</th>
                 <th>{{ 'plugin.ingest.entries.published'|trans }}</th>
+                <th>{{ 'plugin.ingest.entries.status'|trans }}</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -57,6 +58,16 @@
                         {% endspaceless %}</td>
                         <td>{{ entry.created|date('Y-m-d H:i:s') }}</td>
                         <td>{{ entry.published ? entry.published|date('Y-m-d H:i:s') : 'plugin.ingest.entries.notpublished'|trans }}</td>
+                        <td>{% spaceless %}
+                            {% if entry.status == 'usable' %}
+                                {% set statusClass = 'success' %}
+                            {% elseif entry.status == 'canceled' %}
+                                {% set statusClass = 'danger' %}
+                            {% else %}
+                                {% set statusClass = 'default' %}
+                            {% endif %}
+                            <span class="label label-{{ statusClass }}">{{ entry.status }}</span>
+                        {% endspaceless %}</td>
                         <td>
                             {% if entry.status == 'usable' %}
                                 {% if entry.published is empty and entry.articleId is empty %}
@@ -73,6 +84,10 @@
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                     </a>
                                 {% endif %}
+                            {% elseif entry.articleId is not empty %}
+                                <a href="{{ path('newscoop_ingestplugin_entry_redirecttoarticle', {'languageId' : entry.language.id, 'articleNumber': entry.articleId}) }}" class="btn btn-default btn-xs" title="{{ 'plugin.ingest.entries.view'|trans|e }}" target="_blank">
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
                             {% endif %}
                             <a href="{{ path('newscoop_ingestplugin_entry_delete', {'id': entry.id}) }}" class="btn btn-default btn-xs confirm-delete" title="{{ 'plugin.ingest.entries.delete'|trans|e }}">
                                 <span class="glyphicon glyphicon-trash"></span>

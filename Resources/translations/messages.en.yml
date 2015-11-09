@@ -26,6 +26,7 @@ plugin:
       language: "Language"
       body: "Body"
       section: "Section"
+      status: "Status"
       created: "Created"
       published: "Published"
       notpublished: "Not published"
