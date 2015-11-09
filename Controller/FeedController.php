@@ -72,7 +72,7 @@ class FeedController extends Controller
             return new JsonResponse(array(
                 'html' => htmlentities($this-> renderView('NewscoopIngestPluginBundle:Form:ajaxform.html.twig', array(
                     'form'   => $form->createView(),
-                ))),
+                )), ENT_NOQUOTES, 'UTF-8'),
             ));
         }
 
