@@ -26,6 +26,7 @@ plugin:
             language: اللغة
             body: 'محتوى النص.'
             section: القسم
+            status: null
             created: 'تم الانشاء'
             published: 'تم النشر'
             notpublished: 'لم تتم عملية النشر.'

@@ -26,6 +26,7 @@ plugin:
             language: Jazyk
             body: 'Hlavní část'
             section: Rubrika
+            status: null
             created: Vytvořeno
             published: Zveřejněno
             notpublished: Nezveřejněno

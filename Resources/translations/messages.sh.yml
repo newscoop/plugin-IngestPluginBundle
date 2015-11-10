@@ -26,6 +26,7 @@ plugin:
             language: Jezik
             body: null
             section: Rubrika
+            status: null
             created: Napravljeno
             published: Objavljen
             notpublished: Neobjavljen

@@ -26,6 +26,7 @@ plugin:
             language: Taal
             body: null
             section: Rubriek
+            status: null
             created: Aangemaakt
             published: Gepubliceerd
             notpublished: 'Niet gepubliceerd'

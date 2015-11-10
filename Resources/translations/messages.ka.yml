@@ -26,6 +26,7 @@ plugin:
             language: null
             body: null
             section: null
+            status: null
             created: null
             published: null
             notpublished: null

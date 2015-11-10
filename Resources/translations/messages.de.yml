@@ -26,6 +26,7 @@ plugin:
             language: Sprache
             body: Body
             section: Rubrik
+            status: null
             created: Erstellt
             published: Veröffentlicht
             notpublished: 'Nicht veröffentlicht'

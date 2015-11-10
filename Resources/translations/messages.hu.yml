@@ -26,6 +26,7 @@ plugin:
             language: Nyelv
             body: Szövegtörzs
             section: Rovat
+            status: null
             created: Létrehozva
             published: Közzétéve
             notpublished: 'Nincs közzétéve'

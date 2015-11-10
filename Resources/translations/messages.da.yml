@@ -26,6 +26,7 @@ plugin:
             language: Sprog
             body: Brødtekst
             section: Sektion
+            status: null
             created: Oprettet
             published: Udgivet
             notpublished: 'Ikke udgivet'

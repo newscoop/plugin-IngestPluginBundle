@@ -26,6 +26,7 @@ plugin:
             language: Dil
             body: Gövdə
             section: Bölmə
+            status: null
             created: Yaradıldı
             published: 'Nümayiş edildi'
             notpublished: 'Nümayiş edilmədi'
