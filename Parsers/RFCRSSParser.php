@@ -43,7 +43,7 @@ class RFCRSSParser extends AbstractParser
      *
      * @var \Simplepie_item
      */
-    private $entry;
+    protected $entry;
 
     /**
      * Get all feed entries as a parser instance
