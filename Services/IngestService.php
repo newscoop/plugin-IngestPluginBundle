@@ -128,7 +128,12 @@ class IngestService
 
         $parser  = $feed->getParser();
         $namespace = $parser->getNamespace();
-        $unparsedEntries = $namespace::getStories($feed);
+        try {
+            $unparsedEntries = $namespace::getStories($feed);
+        } catch (\Exception $e) {
+            $this->logger->error($feed->getName());
+            $this->logger->error('Could not parse stories. ('.$e->getMessage().')');
+        }
 
         $repository = $this->em
             ->getRepository('Newscoop\IngestPluginBundle\Entity\Feed\Entry');
