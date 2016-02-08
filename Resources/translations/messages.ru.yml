@@ -1,4 +1,4 @@
-Plugins: null
+Plugins: Плагины
 plugin:
     ingest:
         title: null
@@ -8,54 +8,54 @@ plugin:
             entries: null
             feeds: null
             parsers: null
-            settings: null
+            settings: Настройки
             readme: null
         dialog:
-            delete: null
-            cancel: null
+            delete: Удалить
+            cancel: Отменить
         entries:
             none: null
             publish: null
             edit: null
-            delete: null
-            view: null
+            delete: 'Удалить запись'
+            view: 'Просмотр статьи'
             nosection: null
-            enabled: null
+            enabled: Разрешено
             feed: null
-            title: null
-            language: null
+            title: Заголовок
+            language: Язык
             body: null
-            section: null
+            section: Рубрика
             status: null
-            created: null
-            published: null
-            notpublished: null
+            created: Создана
+            published: Опубликовано
+            notpublished: 'Не опубликовано'
             nocontent: null
-            content: null
+            content: Содержимое
             summary: null
-            link: null
+            link: Ссылка
             articlenotfound: null
             removedsuccess: null
             publishedsuccess: null
             filter:
                 feeds: null
                 all_feeds: null
-                published: null
+                published: Опубликовано
                 yes: null
                 no: null
                 all: null
-                filter: null
-                view: null
+                filter: Фильтр
+                view: Вид
                 slim: null
                 expanded: null
             dialog:
                 title: null
                 body: null
-                delete: null
-                cancel: null
+                delete: 'Удалить запись'
+                cancel: Отменить
         feeds:
             none: null
-            add: null
+            add: 'Добавить источник'
             edit: null
             quick_edit_auto: null
             quick_edit_manual: null
@@ -64,29 +64,29 @@ plugin:
             delete: null
             update: null
             update_all: null
-            name: null
-            url: null
+            name: Заголовок
+            url: URL
             mode:
                 name: null
                 auto: null
                 manual: null
-            language: null
+            language: Язык
             language_autodetect: null
-            publication: null
-            issue: null
+            publication: Издание
+            issue: Выпуск
             issue_latest: null
             sections: null
             section_placeholder: null
-            topics: null
-            topic_placeholder: null
+            topics: Темы
+            topic_placeholder: 'Искать темы'
             updated: null
             notupdated: null
             parser: null
             choose_parser: null
-            nosections: null
+            nosections: 'Нет рубрик'
             choose_publication: null
-            enabled: null
-            disabled: null
+            enabled: Разрешено
+            disabled: Запрещено
             addedsuccess: null
             updatedsuccess: null
             deletedsuccess: null
@@ -101,7 +101,7 @@ plugin:
                 body: null
                 delete: null
                 delete_all: null
-                cancel: null
+                cancel: Отменить
             form:
                 help:
                     url: null
@@ -111,18 +111,18 @@ plugin:
                     section: null
                     topic: null
                 button:
-                    add: null
-                    save: null
-                    cancel: null
+                    add: Добавить
+                    save: Сохранить
+                    cancel: Отменить
         parsers:
             none: null
             activated: null
-            name: null
-            description: null
+            name: Заголовок
+            description: Описание
             domain: null
             requiresurl: null
             sectionhandling: null
-            sectionhandling_0: null
+            sectionhandling_0: 'Ни один'
             sectionhandling_0_help: null
             sectionhandling_1: null
             sectionhandling_1_help: null
@@ -130,7 +130,7 @@ plugin:
             sectionhandling_2_help: null
             yes: null
             no: null
-            feeds: null
+            feeds: Использовано
             update: null
             add: null
             delete: null
@@ -141,29 +141,29 @@ plugin:
                 label:
                     namespace: null
                 button:
-                    install: null
-                    cancel: null
+                    install: Установить
+                    cancel: Отменить
             dialog:
                 title: null
                 body: null
                 delete: null
-                cancel: null
+                cancel: Отменить
         settings:
             form:
                 label:
                     cron_custom: null
-                    submit: null
+                    submit: Отправить
                 help_text:
                     cron_custom: null
             status:
                 success: null
         permissions:
             label: null
-            settings: null
+            settings: Настройки
         btn:
-            add: null
-            delete: null
-            cancel: null
+            add: 'Добавить источник'
+            delete: Удалить
+            cancel: Отменить
             deleteall: null
-            remove: null
-            save: null
+            remove: Удалить
+            save: Сохранить
