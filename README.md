@@ -42,17 +42,17 @@ one can also specify to delete an entry.
 #### Installation
 
 ```
-    php application/console plugins:install "m038/ingest-plugin-bundle" --env=prod
+    php application/console plugins:install "newscoop/ingest-plugin-bundle" --env=prod
 ```
 
 #### Update
 
 ```
-    php application/console plugins:update "m038/ingest-plugin-bundle" --env=prod
+    php application/console plugins:update "newscoop/ingest-plugin-bundle" --env=prod
 ```
 
 #### Removal
 
 ```
-    php application/console plugins:remove "m038/ingest-plugin-bundle" --env=prod
+    php application/console plugins:remove "newscoop/ingest-plugin-bundle" --env=prod
 ```
