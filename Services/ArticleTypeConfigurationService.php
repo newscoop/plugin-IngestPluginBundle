@@ -22,7 +22,15 @@ class ArticleTypeConfigurationService
      *
      * @var string
      */
-    private $name = 'Newswire';
+    private $name = 'newswire';
+
+    /**
+     * Boolean determines if existing Xnewswire data 
+     * will be migrated to the new table
+     *
+     * @var boolean
+     */
+    private $migrate = false;
 
     /**
      * Configuration array for articleTypeField
@@ -144,6 +152,9 @@ class ArticleTypeConfigurationService
         $this->populateArticleTypeMetadata();
         $this->createArticleTypeTable();
         $this->extendArticleTypeTable();
+        if ($this->migrate) {
+            $this->migrateArticleTypeTable();
+        }
     }
 
     /**
@@ -171,6 +182,14 @@ class ArticleTypeConfigurationService
     {
         // Create article type
         $tableName = $this->getTableName();
+
+        // check if it exists already
+        $schemaManager = $this->connection()->getSchemaManager();
+        if ($schemaManager->tablesExist(array($tableName)) == true) {
+            // and if so, back it up
+            $this->connection->exec('RENAME TABLE `'.$tableName.'` TO `'.$tableName.'_baackup`');
+            $this->migrate = true;
+        }
 
         $this->connection->exec('DROP TABLE IF EXISTS `'.$tableName.'`');
         $this->connection->exec(
@@ -201,6 +220,29 @@ class ArticleTypeConfigurationService
         }
 
         $this->connection->exec($query);
+    }
+
+    /**
+     * Migrates data the existed in Xnewswire before plgin install
+     * NOTE: This ia a hack, no doubt about that, sorry, but it 
+     * wasn't the first hack here, and its needed to fix the other
+     * hacks in this class
+     */
+    private function migrateArticleTypeTable()
+    {
+        $tableName = $this->getTableName();
+        $this->connection->exec(
+              "INSERT INTO `" . $tableName . "` (\n"
+            . "`NrArticle`, `IdLanguage`, `FNewsItemId`, `FNewsProduct`, "
+            . "`FStatus`, `FUrgency`, `FHeadLine`, `FNewsLineText`, `FDataLink`, "
+            . "`FDataLead`, `FDataContent`, `FAuthorNames`) \n"
+            . "SELECT "
+            . "`NrArticle`, `IdLanguage`, `FNewsItemIdentifier`, "
+            . "`FNewsProduct`, `FStatus`, `FUrgency`, `FHeadLine`, `FNewsLineText`, "
+            . "`FDataLink`, `FDataLead`, `FDataContent`, `FAuthorNames` "
+            . "FROM `" . $tableName . "_backup`"
+        );
+        $this->connection->exec('DROP TABLE IF EXISTS `'.$tableName.'_backup`');
     }
 
     /**
