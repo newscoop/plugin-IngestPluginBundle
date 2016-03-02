@@ -22,7 +22,7 @@ class ArticleTypeConfigurationService
      *
      * @var string
      */
-    private $name = 'Newswire';
+    private $name = 'newswire';
 
     /**
      * Configuration array for articleTypeField
