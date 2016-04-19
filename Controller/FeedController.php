@@ -182,15 +182,24 @@ class FeedController extends Controller
     public function updateAllAction(Request $request)
     {
         $ingestService = $this->container->get('newscoop_ingest_plugin.ingester');
-        $updatedFeedCount = $ingestService->ingestAllFeeds();
-
-        $this->get('session')->getFlashBag()->add(
-            'notice',
-            $this->container->get('translator')->trans(
-                'plugin.ingest.feeds.feedupdatedcount',
-                array('%count%' => $updatedFeedCount)
-            )
-        );
+        try {
+            $updatedFeedCount = $ingestService->ingestAllFeeds();
+            $this->get('session')->getFlashBag()->add(
+                'notice',
+                $this->container->get('translator')->trans(
+                    'plugin.ingest.feeds.feedupdatedcount',
+                    array('%count%' => $updatedFeedCount)
+                )
+            );
+        } catch(\Exception $e) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                $this->container->get('translator')->trans(
+                    'plugin.ingest.feeds.feedupdateerror',
+                    array('%feed%' => '', '%error%' => $e->getMessage())
+                )
+            );
+        }
 
         return $this->redirect($this->generateUrl('newscoop_ingestplugin_feed_list'));
     }

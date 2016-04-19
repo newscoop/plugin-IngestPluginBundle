@@ -444,4 +444,26 @@ abstract class AbstractParser
     {
         return html_entity_decode($string, ENT_QUOTES, 'UTF-8');
     }
+
+    /**
+     * Gets XML file content.
+     *
+     * @param string $filePath XML file path
+     *
+     * @return \SimpleXMLElement
+     */
+    public static function getXmlContent($filePath)
+    {
+        $useErrors = libxml_use_internal_errors(true);
+        $content = simplexml_load_file($filePath);
+        if (false === $content) {
+            $error = libxml_get_last_error();
+            throw new \Exception(sprintf("%s in %s", $error->message, $error->file));
+        }
+
+        libxml_clear_errors();
+        libxml_use_internal_errors($useErrors);
+
+        return $content;
+    }
 }
