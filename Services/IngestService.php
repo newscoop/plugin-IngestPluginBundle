@@ -133,6 +133,8 @@ class IngestService
         } catch (\Exception $e) {
             $this->logger->error($feed->getName());
             $this->logger->error('Could not parse stories. ('.$e->getMessage().')');
+
+            throw $e;
         }
 
         $repository = $this->em
@@ -146,7 +148,7 @@ class IngestService
             $this->allowedLanguages[] = $section->getLanguage();
         }
 
-        foreach ($unparsedEntries as $unparsedEntry) {
+        foreach ((array) $unparsedEntries as $unparsedEntry) {
 
             try {
                 if ($unparsedEntry->getNewsItemId() === '' || $unparsedEntry->getNewsItemId() === null) {
