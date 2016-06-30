@@ -41,7 +41,7 @@ plugin:
                 feeds: null
                 all_feeds: null
                 published: Zveřejněno
-                yes: 'Zveřejněno: Ano'
+                yes: null
                 no: 'Zveřejněno: Ne'
                 all: 'Zveřejněno: Jakýkoli'
                 filter: Filtrovat
