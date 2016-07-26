@@ -235,7 +235,7 @@ class PublisherService
             $this->em->persist($entry);
             $this->em->flush();
         } catch (\Exception $e) {
-            throw new Exception('Could not publish article.');
+            throw new \Exception('Could not publish article.');
         }
 
         // Topics
