@@ -255,7 +255,6 @@ class IngestService
                         if ($entry->isPublished()) {
                             $this->publisher->update($entry);
                         } elseif ($feed->isAutoMode()) {
-                            // in automode it published in wrong order
                             $this->publisher->publish($entry);
                         }
                     } catch (Exception $e) {
