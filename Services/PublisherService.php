@@ -130,8 +130,8 @@ class PublisherService
         $article->setWorkflowStatus('Y');
         $entry->setPublished(new \DateTime());
 
-        $article->commit();
-        $this->em->persist($entry);
+        //$article->commit();
+        $this->em->persist($article);
         $this->em->flush();
 
         return $article;
@@ -231,8 +231,7 @@ class PublisherService
 
         try {
             $entry->setArticleId($article->getArticleNumber());
-            $articleAdded = $article->commit();
-            $this->em->persist($entry);
+            $article->commit();
             $this->em->flush();
         } catch (\Exception $e) {
             throw new Exception('Could not publish article.');

@@ -122,6 +122,8 @@ class IngestService
      */
     public function updateFeed(\Newscoop\IngestPluginBundle\Entity\Feed $feed, $liftEmbargo = true)
     {
+        $start = microtime(true);
+
         if (!$feed->isEnabled()) {
             throw new Exception('The feed '.$feed->getName().' is not enabled and will not be updated.', 1);
         }
@@ -253,15 +255,13 @@ class IngestService
                         if ($entry->isPublished()) {
                             $this->publisher->update($entry);
                         } elseif ($feed->isAutoMode()) {
+                            // in automode it published in wrong order
                             $this->publisher->publish($entry);
                         }
                     } catch (Exception $e) {
                         throw new NewscoopException('Could not publish or update entry '.$unparsedEntry->getNewsItemId().'.');
                     }
                 }
-
-                // Flush each time to prevent inconsistencies
-                $this->em->flush();
             } catch(Exception $e) {
                 $this->logger->error(__METHOD__ .': '.$e->getMessage());
             }
@@ -275,6 +275,10 @@ class IngestService
         if ($liftEmbargo) {
             $this->liftEmbargo();
         }
+
+        $executionTime = microtime(true) - $start;
+
+        $this->logger->info(sprintf('Total execution time of "%s" feed took: %s second(s). Memory peak: %s Mb.', $feed->getName(), round($executionTime, 2), round(memory_get_peak_usage(false)/1024/1024, 2)));
     }
 
     /**
