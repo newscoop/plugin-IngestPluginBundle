@@ -130,7 +130,6 @@ class PublisherService
         $article->setWorkflowStatus('Y');
         $entry->setPublished(new \DateTime());
 
-        $article->commit();
         $this->em->persist($entry);
         $this->em->flush();
 
