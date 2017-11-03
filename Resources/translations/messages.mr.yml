@@ -1,0 +1,169 @@
+Plugins: null
+plugin:
+    ingest:
+        title: null
+        header: null
+        menu: null
+        tabs:
+            entries: null
+            feeds: null
+            parsers: null
+            settings: null
+            readme: null
+        dialog:
+            delete: null
+            cancel: null
+        entries:
+            none: null
+            publish: null
+            edit: null
+            delete: null
+            view: null
+            nosection: null
+            enabled: null
+            feed: null
+            title: null
+            language: null
+            body: null
+            section: null
+            status: null
+            created: null
+            published: null
+            notpublished: null
+            nocontent: null
+            content: null
+            summary: null
+            link: null
+            articlenotfound: null
+            removedsuccess: null
+            publishedsuccess: null
+            filter:
+                feeds: null
+                all_feeds: null
+                published: null
+                yes: null
+                no: null
+                all: null
+                filter: null
+                view: null
+                slim: null
+                expanded: null
+            dialog:
+                title: null
+                body: null
+                delete: null
+                cancel: null
+        feeds:
+            none: null
+            add: null
+            edit: null
+            quick_edit_auto: null
+            quick_edit_manual: null
+            quick_edit_enabled_true: null
+            quick_edit_enabled_false: null
+            delete: null
+            update: null
+            update_all: null
+            name: null
+            url: null
+            mode:
+                name: null
+                auto: null
+                manual: null
+            language: null
+            language_autodetect: null
+            publication: null
+            issue: null
+            issue_latest: null
+            sections: null
+            section_placeholder: null
+            topics: null
+            topic_placeholder: null
+            updated: null
+            notupdated: null
+            parser: null
+            choose_parser: null
+            nosections: null
+            choose_publication: null
+            enabled: null
+            disabled: null
+            addedsuccess: null
+            updatedsuccess: null
+            deletedsuccess: null
+            updatedpropertysucces: null
+            updatedpropertyfailure: null
+            updatedinvalidmethod: null
+            feedupdatedcount: null
+            feedupdated: null
+            feedupdateerror: null
+            dialog:
+                title: null
+                body: null
+                delete: null
+                delete_all: null
+                cancel: null
+            form:
+                help:
+                    url: null
+                    mode: null
+                    publication: null
+                    issue: null
+                    section: null
+                    topic: null
+                button:
+                    add: null
+                    save: null
+                    cancel: null
+        parsers:
+            none: null
+            activated: null
+            name: null
+            description: null
+            domain: null
+            requiresurl: null
+            sectionhandling: null
+            sectionhandling_0: null
+            sectionhandling_0_help: null
+            sectionhandling_1: null
+            sectionhandling_1_help: null
+            sectionhandling_2: null
+            sectionhandling_2_help: null
+            yes: null
+            no: null
+            feeds: null
+            update: null
+            add: null
+            delete: null
+            updatedsuccess: null
+            activationsuccess: null
+            activationfailed: null
+            form:
+                label:
+                    namespace: null
+                button:
+                    install: null
+                    cancel: null
+            dialog:
+                title: null
+                body: null
+                delete: null
+                cancel: null
+        settings:
+            form:
+                label:
+                    cron_custom: null
+                    submit: null
+                help_text:
+                    cron_custom: null
+            status:
+                success: null
+        permissions:
+            label: null
+            settings: null
+        btn:
+            add: null
+            delete: null
+            cancel: null
+            deleteall: null
+            remove: null
+            save: null
